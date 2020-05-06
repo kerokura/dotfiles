@@ -1,0 +1,71 @@
+! -----------------------------------------------------------------------------
+! File: gruvbox-dark.xresources
+! Description: Retro groove colorscheme generalized
+! Author: morhetz <morhetz@gmail.com>
+! Source: https://github.com/morhetz/gruvbox-generalized
+! Last Modified: 6 Sep 2014
+! -----------------------------------------------------------------------------
+
+! hard contrast: *background: #1d2021
+! *background: #282828
+! soft contrast: *background: #32302f
+XTerm*background : #262228
+! *foreground: #ebdbb2
+XTerm*foreground: #bdae93
+
+! Black + DarkGrey
+! *color0:  #282828
+XTerm*color0:  #262228
+XTerm*color8:  #928374
+! DarkRed + Red
+XTerm*color1:  #cc241d
+XTerm*color9:  #fb4934
+! DarkGreen + Green
+XTerm*color2:  #98971a
+XTerm*color10: #b8bb26
+! DarkYellow + Yellow
+XTerm*color3:  #d79921
+XTerm*color11: #fabd2f
+! DarkBlue + Blue
+XTerm*color4:  #458588
+XTerm*color12: #83a598
+! DarkMagenta + Magenta
+XTerm*color5:  #b16286
+XTerm*color13: #d3869b
+! DarkCyan + Cyan
+XTerm*color6:  #689d6a
+XTerm*color14: #8ec07c
+! LightGrey + White
+XTerm*color7: #a89984
+XTerm*color15: #ebdbb2
+
+! -----------------------------------------------------------------------------
+! My Pref
+! -----------------------------------------------------------------------------
+
+! Font settings
+xterm*allowBoldFonts     : false
+xterm*font               : fixed
+xterm*boldFont           : fixed
+xterm*boldMode           : false
+xterm*xftAntialias       : true
+xterm*cjkWidth           : true
+xterm*faceName           : Consolas
+xterm*faceSize           : 12
+xterm*faceNameDoublesize : M+ 1m:pixelsize=14
+XTerm*scaleHeight        : 1.1
+
+! Misc
+! XTerm*pointerColor: white
+! XTerm*pointerColorBackground: black
+! XTerm*cursorColor: yellow
+XTerm*cursorBlink: true
+
+! xterm*faceNameDoublesize:WenQuanYi Micro Hei Mono:pixelsize=13:antialias=true */
+
+xterm*VT100.Translations: #override \
+                 Ctrl Shift <Key>V:    insert-selection(CLIPBOARD) \n\
+                 Ctrl Shift <Key>C:    copy-selection(CLIPBOARD)
+
+! you should always consult:
+! https://wiki.archlinux.org/index.php/Xterm
