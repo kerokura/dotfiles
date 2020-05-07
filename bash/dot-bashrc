@@ -1,0 +1,155 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+# don't put duplicate lines in the history. See bash(1) for more options
+export HISTCONTROL=ignoredups
+# ... and ignore same sucessive entries.
+export HISTCONTROL=ignoreboth
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+      color_prompt=yes
+    else
+      color_prompt=
+    fi
+fi
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;10m\]\u@\h:\W\$\[\033[00m\] '
+#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+    ;;
+*)
+    ;;
+esac
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+#if [ -f ~/.bash_aliases ]; then
+#    . ~/.bash_aliases
+#fi
+# enable color support of ls and also add handy aliases
+if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
+    eval "`dircolors -b`"
+    alias ls='ls --color=auto'
+    #alias dir='ls --color=auto --format=vertical'
+    #alias vdir='ls --color=auto --format=long'
+    #alias grep='grep --color=auto'
+    #alias fgrep='fgrep --color=auto'
+    #alias egrep='egrep --color=auto'
+fi
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+#alias l='ls -CF'
+#alias la='ls -A'
+alias ll='ls -alF'
+# some more ls aliases
+#alias ll='ls -l'
+#alias la='ls -A'
+#alias l='ls -CF'
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+################################################################################
+# Added by me
+################################################################################
+stty -ixon
+shopt -s globstar
+shopt -s histappend
+# keybindings
+bind '"\e\C-r": revert-line'
+bind '"\e\C-t": capitalize-word'
+lib='~/bin/bash_funcs'
+if [ -r "$lib" ]
+then
+	source "$lib"
+fi
+PATH=$PATH:~/bin:~/bin/bash:~/bin/powershell:~/bin/perl:~/bin/python:~/.local/bin
+export G_NUM=0
+export HTTP_HOME='http://www.google.com/ncr'
+export BROWSER='/usr/bin/firefox'
+export UA='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:19.0) Gecko/20100101 Firefox/19.0'
+export EDITOR=vim
+export VISUAL=$EDITOR
+export HISTSIZE=10000
+export TRASH=~/.local/share/Trash/files
+export HISTCONTROL=ignoredups:erasedups:ignorespace
+alias mv='mv -i'
+alias cp='cp -i'
+fehcmd='feh -q ' 
+fehcmd+='-A ";cp %F cp_%N && echo %F has been copied to cp_%N" ' 
+fehcmd+='--action5 ";animate %F" '
+fehcmd+='--action8 ";feh -Fy %F" '
+fehcmd+='--action9 "xterm -e \"img_mv %F\"" -S filename -e "Consolas/10" -M "Consolas/10" --info "echo info:\ \ \ \ \ \ \ %t, %w x %h, %p pixels, %S"'
+alias feh=$fehcmd
+alias la='ls -la'
+alias cps='cp $(ls feh_* | sed -n "s/^feh_......_......_//p")'
+alias mvs='mv $(ls feh_* | sed -n "s/^feh_......_......_//p")'
+alias rf='rm feh_*'
+alias x='xclip && xclip -o'
+alias mplayer='mplayer -vf screenshot'
+alias mp='mplayer -vf screenshot -fs -screen 0'
+alias mp1='mplayer -vf screenshot -fs -screen 1'
+alias mpn='mplayer -vf screenshot -fs -nosound -screen 0'
+alias mpn1='mplayer -vf screenshot -fs -nosound -screen 1'
+alias Mp='mplayer -loop 0 -vf screenshot -fs -screen 0'
+alias Mp1='mplayer -loop 0 -vf screenshot -fs -screen 1'
+alias Mpn='mplayer -loop 0 -vf screenshot -fs -nosound -screen 0'
+alias Mpn1='mplayer -loop 0 -vf screenshot -fs -nosound -screen 1'
+alias xml='xmlstarlet'
+# coloring man page
+export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+export LESS_TERMCAP_me=$'\E[0m'           # end mode
+export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode
+export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+# gruvbox
+source ~/.vim/bundle/gruvbox/gruvbox_256palette.sh
+# tmux
+if [ $TERM != 'screen' ]
+then
+  tmux -2 new-session -s main
+# else
+#   export TERM=xterm-256color
+fi
+# fzf
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_DEFAULT_OPTS='-e -m'
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
