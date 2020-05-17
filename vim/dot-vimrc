@@ -322,7 +322,7 @@ set showcmd
 set path+=**
 set wildmenu
 set wildmode=full
-set clipboard=unnamedplus
+set clipboard=unnamed
 set backspace=indent,eol,start
 set autowrite
 set nrformats=
@@ -1334,6 +1334,7 @@ if has('win32')
     " gvim
     if has('gui_running')
         set guifont=Consolas:h13
+        " set guifont=Inconsolata\ NF:h13
         set guifontwide=Migu\ 2M:h13
         set mouse=
         set guioptions-=a
