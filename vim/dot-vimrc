@@ -63,8 +63,8 @@ Plugin 'leafgarland/typescript-vim'
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'vim-pandoc/vim-pandoc-syntax' 
 " Plugin 'vim-pandoc/vim-pandoc'
-" Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-airline/vim-airline'
 " Plugin 'tpope/vim-fugitive'
 " Plugin 'sjl/gundo.vim'
 " Plugin 'scrooloose/nerdtree'
@@ -155,12 +155,12 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " vim-airline"{{{
 "-------------------------------------------------------------------------------
 
-" if has('unix') || has('gui_running')
-"   set t_Co=256
-"   set laststatus=2
-"   let g:airline_powerline_fonts = 1
-"   let g:airline#extensions#tabline#enabled = 1
-" endif
+if has('unix') || has('gui_running')
+  set t_Co=256
+  set laststatus=2
+  " let g:airline_powerline_fonts = 1
+  let g:airline#extensions#tabline#enabled = 1
+endif
 
 "}}}
 " Syntastic"{{{
