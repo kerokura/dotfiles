@@ -50,11 +50,10 @@ XTerm*boldFont           : fixed
 XTerm*boldMode           : false
 XTerm*xftAntialias       : true
 XTerm*cjkWidth           : true
-! XTerm*faceName: Inconsolata Nerd Font Mono
-XTerm*faceName           : Consolas
+XTerm*faceName           : Consolas NF
 XTerm*faceSize           : 12
 XTerm*faceNameDoublesize : M+ 1m:pixelsize=14
-XTerm*scaleHeight        : 1.1
+XTerm*scaleHeight        : 1
 
 ! Others
 XTerm*cursorBlink: true
@@ -96,11 +95,13 @@ URxvt*perl-ext-common:
 URxvt*perl-ext:
 URxvt*cursorBlink: true
 ! refer to https://github.com/ryanoasis/nerd-fonts/issues/150
-URxvt*letterSpace:-1
+URxvt*letterSpace:0
 ! URxvt*font: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
 ! URxvt*boldfont: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
-URxvt*font: xft:Inconsolata Nerd Font Mono:size=14, xft:DejaVu Sans:size=12
-URxvt*boldfont: xft:Inconsolata Nerd Font Mono:size=14, xft:DejaVu Sans:size=12
+! URxvt*font: xft:Inconsolata Nerd Font Mono:Regular:size=14, xft:DejaVu Sans:size=12
+! URxvt*boldfont: xft:Inconsolata Nerd Font Mono:Regular:size=14, xft:DejaVu Sans:size=12
+URxvt*font: xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
+URxvt*boldfont: xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
 
 ! https://www.askapache.com/linux/rxvt-xresources/
 ! URxvt*termName:                       string
