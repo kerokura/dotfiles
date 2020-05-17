@@ -9,12 +9,12 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 if has('win32')
-  let &rtp .= "," . expand($USERPROFILE) . "/vimfiles/bundle/Vundle.vim/"
-  let g:vundle#bundle_dir = "$USERPROFILE/vimfiles/bundle/"
-  call vundle#begin("$USERPROFILE/vimfiles/bundle/")
+    let &rtp .= "," . expand($USERPROFILE) . "/vimfiles/bundle/Vundle.vim/"
+    let g:vundle#bundle_dir = "$USERPROFILE/vimfiles/bundle/"
+    call vundle#begin("$USERPROFILE/vimfiles/bundle/")
 else
-  set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#begin()
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
 endif
 
 " let Vundle manage Vundle, required
@@ -59,6 +59,12 @@ Plugin 'PProvost/vim-ps1'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'leafgarland/typescript-vim'
 
+" React related
+Plugin 'Quramy/tsuquyomi'
+Plugin 'othree/yajs.vim'
+Plugin 'maxmellon/vim-jsx-pretty'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'othree/es.next.syntax.vim'
 " Plugin 'cd01/poshcomplete-vim'
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'vim-pandoc/vim-pandoc-syntax' 
@@ -125,24 +131,24 @@ let g:limelight_conceal_guifg = '#504945'
 let g:goyo_active = 0
 
 function! s:goyo_enter()
-  let g:goyo_active = 1
-  set showmode
-  set showcmd
-  " set number
-  " set relativenumber
-  " set cursorline
+    let g:goyo_active = 1
+    set showmode
+    set showcmd
+    " set number
+    " set relativenumber
+    " set cursorline
 endfunction
 
 function! s:goyo_leave()
-  let g:goyo_active = 0
+    let g:goyo_active = 0
 endfunction
 
 function! ToggleGoyo()
-  if g:goyo_active
-    execute "normal :Goyo!\<CR>"
-  else
-    execute "normal :Goyo\<CR>"
-  endif
+    if g:goyo_active
+        execute "normal :Goyo!\<CR>"
+    else
+        execute "normal :Goyo\<CR>"
+    endif
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
@@ -156,10 +162,10 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 "-------------------------------------------------------------------------------
 
 if has('unix') || has('gui_running')
-  set t_Co=256
-  set laststatus=2
-  " let g:airline_powerline_fonts = 1
-  let g:airline#extensions#tabline#enabled = 1
+    set t_Co=256
+    set laststatus=2
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#enabled = 1
 endif
 
 "}}}
@@ -179,6 +185,14 @@ endif
 "-------------------------------------------------------------------------------
 
 silent! call repeat#set("\<Plug>MyWonderfulMap", v : count)
+
+"}}}
+" previm"{{{
+"-------------------------------------------------------------------------------
+
+" let g:previm_open_cmd = 'firefox'
+" let g:previm_show_header = 0
+" let g:previm_custom_css_path = '/home/kero/git/PrivateRepo/work/github.sp.css'
 
 "}}}
 " vim-titlecase {{{
@@ -208,6 +222,9 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 " let g:auto_save_postsave_hook = 'TagsGenerate'  " this will run :TagsGenerate after each save
 
 " }}}
+" vim-markdown-folding {{{
+let g:markdown_fold_style = 'nested'
+" }}}
 " Misc {{{
 "-------------------------------------------------------------------------------
 
@@ -230,7 +247,7 @@ let g:my_ftmode = 'default'
 "-------------------------------------------------------------------------------
 
 if has("syntax")
-  syntax on
+    syntax on
 endif
 
 " 2 spaces for indent
@@ -244,8 +261,8 @@ set autoindent
 set formatoptions+=B
 set formatoptions+=j
 augroup myft
-  autocmd!
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
+    autocmd!
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
 augroup END
 
 " search
@@ -332,7 +349,7 @@ nnoremap <Leader>d "_d
 nnoremap <Leader>< :set operatorfunc=ClearIndent<CR>g@
 vnoremap <Leader>< :left<CR>
 function! ClearIndent(type)
-  silent execute "normal! '[V']:left\r"
+    silent execute "normal! '[V']:left\r"
 endfunction
 
 " yank to another buffer in the right
@@ -340,35 +357,35 @@ nnoremap <Leader>y :set operatorfunc=YankToMemo<CR>g@
 vnoremap <Leader>y :call YankToMemo(visualmode(), 1)<CR>
 nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 function! YankToMemo(type, ...) range
-  let sel_save = &selection
-  let &selection = 'inclusive'
-  let append_line = 0
+    let sel_save = &selection
+    let &selection = 'inclusive'
+    let append_line = 0
 
-  if a:type ==# 'line'
-    normal! '[y']
-  elseif a:type ==# 'char'
-    let append_line = 1
-    normal! `[v`]y
-  elseif a:type ==# 'V'
-    normal! gvy
-  elseif a:type ==# 'v'
-    let append_line = 1
-    normal! gvy
-  endif
+    if a:type ==# 'line'
+        normal! '[y']
+    elseif a:type ==# 'char'
+        let append_line = 1
+        normal! `[v`]y
+    elseif a:type ==# 'V'
+        normal! gvy
+    elseif a:type ==# 'v'
+        let append_line = 1
+        normal! gvy
+    endif
 
-  let win_to_return = winnr()
-  wincmd l
-  wincmd k
-  normal! G
+    let win_to_return = winnr()
+    wincmd l
+    wincmd k
+    normal! G
 
-  if append_line
-    call append('.', '')
-    normal! j
-  endif
+    if append_line
+        call append('.', '')
+        normal! j
+    endif
 
-  normal! p
-  execute win_to_return . 'wincmd w'
-  let &selection = sel_save
+    normal! p
+    execute win_to_return . 'wincmd w'
+    let &selection = sel_save
 endfunction
 
 " join lines with delimiters
@@ -376,28 +393,28 @@ nmap <silent> <Plug>(JoinLines) :set operatorfunc=JoinLines<CR>g@
 nmap <silent> <Leader>j <Plug>(JoinLines)
 vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
 function! JoinLines(type) range
-  let reg_save = @@
-  normal! '[d']
-  let text = @@
+    let reg_save = @@
+    normal! '[d']
+    let text = @@
 
-  let lines = split(text, '\n')
-  let char1 = nr2char(getchar())
+    let lines = split(text, '\n')
+    let char1 = nr2char(getchar())
 
-  if char1 ==# '"' || char1 ==# "'"
-    let i = 0
-    while i < len(lines)
-      let lines[i] = char1 . lines[i] . char1
-      let i = i + 1
-    endwhile
-    let delim = nr2char(getchar()) . ' '
-  else
-    let delim = char1 . ' '
-  endif
+    if char1 ==# '"' || char1 ==# "'"
+        let i = 0
+        while i < len(lines)
+            let lines[i] = char1 . lines[i] . char1
+            let i = i + 1
+        endwhile
+        let delim = nr2char(getchar()) . ' '
+    else
+        let delim = char1 . ' '
+    endif
 
-  let new_line = join(lines, delim)
-  call setline('.', new_line)
-  call append('.', '')
-  let @@ = reg_save
+    let new_line = join(lines, delim)
+    call setline('.', new_line)
+    call append('.', '')
+    let @@ = reg_save
 endfunction
 
 " mark lines as list
@@ -405,56 +422,56 @@ nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 nmap <silent> <Leader>L :set operatorfunc=MarkListItems<CR>g@
 vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 function! MarkListItems(type) range
-  let reg_save = @@
+    let reg_save = @@
 
-  if a:type ==# 'V'
-    normal! '<y'>
-  elseif a:type ==# 'line'
-    normal! '[V']y
-  else
-    finish
-  endif
-
-  let lines = split(@@, '\n')
-  let indent = substitute(lines[0], '\v^(\s*)(\S.*)$', '\1', '')
-  let order_style = 'stardash'
-  let nr = getchar()
-  let c = nr2char(nr)
-
-  if c =~ '\v\d'
-    let order_style = 'number'
-    let n = c - 1
-  elseif c =~# '[a-z]'
-    let order_style = 'salpha'
-    let n = nr - 1
-  elseif c =~# '[A-Z]'
-    let order_style = 'lalpha'
-    let n = nr - 1
-  elseif c ==# ' '
-    let mark = ''
-  else
-    let mark = c . ' '
-  endif
-
-  let i = 0
-
-  while i < len(lines)
-    if lines[i] =~ '\v^' . indent . '\S' && lines[i] !~ '\v^\s*$'
-      if order_style ==# 'number'
-        let n = n + 1
-        let mark = n . '. '
-      elseif order_style =~# '\v^.alpha$'
-        let n = n + 1
-        let mark = nr2char(n) . '. '
-      endif
-      let lines[i] = substitute(lines[i], '\v^(\s*)(\d+\.\s|[a-zA-Z]\.\s|[*-]\s)?(\S.*)', '\=submatch(1) . mark . submatch(3)', '')
+    if a:type ==# 'V'
+        normal! '<y'>
+    elseif a:type ==# 'line'
+        normal! '[V']y
+    else
+        finish
     endif
-    let i = i + 1
-  endwhile
 
-  let @@ = join(lines, "\n")
-  silent! normal! gv"0p
-  let @@ = reg_save
+    let lines = split(@@, '\n')
+    let indent = substitute(lines[0], '\v^(\s*)(\S.*)$', '\1', '')
+    let order_style = 'stardash'
+    let nr = getchar()
+    let c = nr2char(nr)
+
+    if c =~ '\v\d'
+        let order_style = 'number'
+        let n = c - 1
+    elseif c =~# '[a-z]'
+        let order_style = 'salpha'
+        let n = nr - 1
+    elseif c =~# '[A-Z]'
+        let order_style = 'lalpha'
+        let n = nr - 1
+    elseif c ==# ' '
+        let mark = ''
+    else
+        let mark = c . ' '
+    endif
+
+    let i = 0
+
+    while i < len(lines)
+        if lines[i] =~ '\v^' . indent . '\S' && lines[i] !~ '\v^\s*$'
+            if order_style ==# 'number'
+                let n = n + 1
+                let mark = n . '. '
+            elseif order_style =~# '\v^.alpha$'
+                let n = n + 1
+                let mark = nr2char(n) . '. '
+            endif
+            let lines[i] = substitute(lines[i], '\v^(\s*)(\d+\.\s|[a-zA-Z]\.\s|[*-]\s)?(\S.*)', '\=submatch(1) . mark . submatch(3)', '')
+        endif
+        let i = i + 1
+    endwhile
+
+    let @@ = join(lines, "\n")
+    silent! normal! gv"0p
+    let @@ = reg_save
 endfunction
 
 " using plugin
@@ -467,6 +484,8 @@ nmap <Leader>a <Plug>(EasyAlign)
 " map <Tab> %
 nnoremap n nzzzv
 nnoremap N Nzzzv
+" for motion repeat
+nnoremap <Leader>m :normal<Space>
 
 " }}}
 " Text Object {{{
@@ -474,10 +493,10 @@ nnoremap N Nzzzv
 " custom pairs
 let surroundings = ['<Bar>', '<Bslash>', ':', ',', '.', '/', ';', '_']
 for s in surroundings
-  execute printf("vnoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
-  execute printf("onoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
-  execute printf("vnoremap a%s :<C-U>execute 'normal! F%svf%s'<CR>", s, s, s)
-  execute printf("onoremap a%s :<C-U>execute 'normal! F%svf%s'<CR>", s, s, s)
+    execute printf("vnoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
+    execute printf("onoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
+    execute printf("vnoremap a%s :<C-U>execute 'normal! F%svf%s'<CR>", s, s, s)
+    execute printf("onoremap a%s :<C-U>execute 'normal! F%svf%s'<CR>", s, s, s)
 endfor
 
 " }}}
@@ -510,8 +529,9 @@ vnoremap <Leader>/v :v//d<LEFT><LEFT>
 vnoremap <Leader>/V :v/^/d<LEFT><LEFT>
 
 nnoremap <Leader>/u /\v\chttps?:\/\/[^\s/$.?#].\s*[a-z0-9.~:/?#[\]@!$&'()*+,;=`._%-]+/<CR>
-nnoremap <Leader>/l :silent execute 'vimgrep /' . @/ . '/gj %' <CR>:copen<CR>
-nnoremap <Leader>/L :cexpr []<CR>:silent execute 'argdo vimgrepadd! /' . @/ . '/gj %' <CR>:copen<CR>
+" nnoremap <Leader>/l :silent! execute 'vimgrep /' . @/ . '/gj %' <CR>:copen<CR>
+nnoremap <Leader>/l :cexpr []<CR>:silent! execute 'bufdo vimgrepadd /' . @/ . '/gj %' <CR>:copen<CR>
+nnoremap <Leader>/L :cexpr []<CR>:silent! execute 'argdo vimgrepadd /' . @/ . '/gj %' <CR>:copen<CR>
 
 " }}}
 " Editing (Not Operator) {{{
@@ -543,20 +563,31 @@ nmap <Leader>,' <Plug>(JoinLines)ip',
 nmap <Leader>," <Plug>(JoinLines)ip",
 
 " easier align
-nmap <Leader>= <Plug>(EasyAlign)ip*=<CR>
-nmap <Leader>: <Plug>(EasyAlign)ip<RIGHT>:<CR>
+nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
+nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
 
 " table
-nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ip*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
-nmap <Leader>T <Plug>(EasyAlign)ip*<Bar><CR>:nohlsearch<CR>
+nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
+nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>:nohlsearch<CR>
 
 " calculation
 nmap <Leader>+ A<Space>=<Space><C-R>=eval(substitute(substitute(getline('.'), '\v\D+', '+', 'g'), '\v(^\++<BAR>\++$)', '', 'g'))<CR><ESC>
 
 " my snippets
+nnoremap <silent> <Leader>'c :-1read $VIMRUNTIME/skelton/React_Component.txt<CR>/class<CR>:nohlsearch<CR>ela
+nnoremap <silent> <Leader>'C :-1read $VIMRUNTIME/skelton/React_Component_State.txt<CR>/class<CR>:nohlsearch<CR>ela
+nnoremap <silent> <Leader>'n :-1read $VIMRUNTIME/skelton/React_Component_Constructor.txt<CR>/state<CR>:nohlsearch<CR>o
+nnoremap <silent> <Leader>'i :-1read $VIMRUNTIME/skelton/TS_Interface.txt<CR>/{<CR>:nohlsearch<CR>hi
 nnoremap <silent> <Leader>'h :-1read $VIMRUNTIME/skelton/html5.txt<CR>/title<CR>:nohlsearch<CR>cit
+nnoremap <silent> <Leader>'r :-1read $VIMRUNTIME/skelton/html5_React.txt<CR>/title<CR>:nohlsearch<CR>cit
+nnoremap <silent> <Leader>'R :-1read $VIMRUNTIME/skelton/html5_React_Babel.txt<CR>/title<CR>:nohlsearch<CR>cit
 nnoremap <silent> <Leader>'x :-1read $VIMRUNTIME/skelton/xhtml.txt<CR>/title<CR>:nohlsearch<CR>cit
 nnoremap <silent> <Leader>'l :-1read $VIMRUNTIME/skelton/lorem.txt<CR>
+
+" tmp
+nnoremap <silent> <Leader>'p :-1read $VIMRUNTIME/skelton/TMP_GetPPCode.txt<CR>
+nnoremap <silent> <Leader>'v :-1read $VIMRUNTIME/skelton/TMP_UPV_Constructor.txt<CR>
+nnoremap <silent> <Leader>'m :-1read $VIMRUNTIME/skelton/TMP_TS_IMPORT.txt<CR>/{<CR>:nohlsearch<CR>la
 
 " }}}
 " Window {{{
@@ -676,7 +707,7 @@ cnoremap <ESC>i :set iminsert=0<CR>
 "}}}
 " Command {{{
 
-command! -nargs=1 Rename file <args> | write | call delete(expand('#'))
+command! -nargs=1 -complete=file Rename file <args> | write | call delete(expand('#'))
 command! -nargs=0 Cd lcd $HOME/Desktop
 command! -nargs=+ -complete=command DeleteMatchedLines call DeleteMatchedLines(<f-args>)
 
@@ -687,143 +718,147 @@ command! -nargs=+ -complete=command DeleteMatchedLines call DeleteMatchedLines(<
 " All Types {{{
 
 augroup all_type
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
-  autocmd VimResized * execute "normal! \<C-W>="
-" autocmd BufWritePost .vimrc source $MYVIMRC
+    autocmd!
+    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
+    autocmd VimResized * execute "normal! \<C-W>="
+    " autocmd BufWritePost .vimrc source $MYVIMRC
 augroup END
 
 " }}}
 " Bash {{{
 
 augroup ft_sh
-  autocmd!
-  autocmd FileType sh let maplocalleader = "\<Space>"
-  autocmd FileType sh nnoremap <buffer> <LocalLeader>,s :-1read $HOME/.vim/skelton/bash_script.txt<CR>G3
+    autocmd!
+    autocmd FileType sh let maplocalleader = "\<Space>"
+    autocmd FileType sh nnoremap <buffer> <LocalLeader>,s :-1read $HOME/.vim/skelton/bash_script.txt<CR>G3
 augroup END
 
 " }}}
 " Markdown {{{
 augroup ft_markdown
-  autocmd!
-  autocmd FileType markdown let maplocalleader = "\<Space>"
-  autocmd FileType markdown nnoremap <buffer> ]] :call search('\v^```', 'W')<CR>
-  autocmd FileType markdown nnoremap <buffer> [[ :call search('\v^```', 'bW')<CR>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
-  autocmd FileType markdown vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>cc :call RunPandoc(1, 1)<CR>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>ch :call RunPandoc(1, 0)<CR>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>wh :call RunPandoc(0, 0)<CR>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 I### <C-[>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 I#### <C-[>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 I##### <C-[>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 I###### <C-[>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
-  autocmd FileType markdown nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
+    autocmd!
+    autocmd FileType markdown let maplocalleader = "\<Space>"
+    autocmd FileType markdown nnoremap <buffer> ]] :call search('\v^```', 'W')<CR>
+    autocmd FileType markdown nnoremap <buffer> [[ :call search('\v^```', 'bW')<CR>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
+    autocmd FileType markdown vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>cc :call RunPandoc(1, 1)<CR>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>ch :call RunPandoc(1, 0)<CR>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>wh :call RunPandoc(0, 0)<CR>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 I### <C-[>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 I#### <C-[>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 I##### <C-[>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 I###### <C-[>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
+    autocmd FileType markdown nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
 augroup END
 " }}}
 " PowerShell {{{
 
 augroup ft_ps1
-  autocmd!
-  autocmd FileType ps1 let maplocalleader = "\<Space>"
-  autocmd FileType ps1 setlocal fileformat=dos
-  autocmd FileType ps1 setlocal omnifunc=poshcomplete#CompleteCommand
-  autocmd FileType ps1 setlocal foldmethod=syntax
-  autocmd FileType ps1 setlocal iskeyword+=$
-  autocmd FileType ps1 nnoremap <buffer> ]] :call search('\v\c^\s*function\s+\w', 'W')<CR>
-  autocmd FileType ps1 nnoremap <buffer> [[ :call search('\v\c^\s*function\s+\w', 'bW')<CR>
-  autocmd FileType ps1 nnoremap <buffer> ]p :call search('\v\c^\s*\[Parameter\(', 'W')<CR>
-  autocmd FileType ps1 nnoremap <buffer> [p :call search('\v\c^\s*\[Parameter\(', 'bW')<CR>
-  autocmd FileType ps1 nnoremap <buffer> <LocalLeader>'f :-read $VIMRUNTIME/skelton/ps/function.txt<CR>t{i
-  autocmd FileType ps1 nnoremap <buffer> <LocalLeader>'F :-read $VIMRUNTIME/skelton/ps/advanced_function.txt<CR>t{i
-  autocmd FileType ps1 nnoremap <buffer> <LocalLeader>'p :-read $VIMRUNTIME/skelton/ps/parameter.txt<CR>11jA
-  autocmd FileType ps1 iabbrev <buffer> al [Alias('')]
-  autocmd FileType ps1 iabbrev <buffer> aec [AllowEmptyCollection()]
-  autocmd FileType ps1 iabbrev <buffer> aes [AllowEmptyString()]
-  autocmd FileType ps1 iabbrev <buffer> an [AllowNull()]
-  autocmd FileType ps1 iabbrev <buffer> po [PSCustomObject]
-  autocmd FileType ps1 iabbrev <buffer> vc [ValidateCount()]<LEFT><LEFT>
-  autocmd FileType ps1 iabbrev <buffer> vl [ValidateLength()]<LEFT><LEFT>
-  autocmd FileType ps1 iabbrev <buffer> vn [ValidateNotNull()]
-  autocmd FileType ps1 iabbrev <buffer> vne [ValidateNotNullOrEmpty()]
-  autocmd FileType ps1 iabbrev <buffer> vp [ValidatePattern('')]<LEFT><LEFT><LEFT>
-  autocmd FileType ps1 iabbrev <buffer> vr [ValidateRange()]<LEFT><LEFT>
-  autocmd FileType ps1 iabbrev <buffer> vs [ValidateSet()]<LEFT><LEFT>
-  autocmd FileType ps1 iabbrev <buffer> vsc [ValidateScript({})]<LEFT><LEFT><LEFT>
+    autocmd!
+    autocmd FileType ps1 let maplocalleader = "\<Space>"
+    autocmd FileType ps1 setlocal fileformat=dos
+    autocmd FileType ps1 setlocal omnifunc=poshcomplete#CompleteCommand
+    autocmd FileType ps1 setlocal foldmethod=syntax
+    autocmd FileType ps1 setlocal iskeyword+=$
+    autocmd FileType ps1 nnoremap <buffer> ]] :call search('\v\c^\s*function\s+\w', 'W')<CR>
+    autocmd FileType ps1 nnoremap <buffer> [[ :call search('\v\c^\s*function\s+\w', 'bW')<CR>
+    autocmd FileType ps1 nnoremap <buffer> ]p :call search('\v\c^\s*\[Parameter\(', 'W')<CR>
+    autocmd FileType ps1 nnoremap <buffer> [p :call search('\v\c^\s*\[Parameter\(', 'bW')<CR>
+    autocmd FileType ps1 nnoremap <buffer> <LocalLeader>'f :-read $VIMRUNTIME/skelton/ps/function.txt<CR>A<Space>
+    autocmd FileType ps1 nnoremap <buffer> <LocalLeader>'F :-read $VIMRUNTIME/skelton/ps/advanced_function.txt<CR>A<Space>
+    autocmd FileType ps1 nnoremap <buffer> <LocalLeader>'p :-read $VIMRUNTIME/skelton/ps/parameter.txt<CR>9jA
+    autocmd FileType ps1 iabbrev <buffer> al [Alias('')]
+    autocmd FileType ps1 iabbrev <buffer> aec [AllowEmptyCollection()]
+    autocmd FileType ps1 iabbrev <buffer> aes [AllowEmptyString()]
+    autocmd FileType ps1 iabbrev <buffer> an [AllowNull()]
+    autocmd FileType ps1 iabbrev <buffer> po [PSCustomObject]
+    autocmd FileType ps1 iabbrev <buffer> vc [ValidateCount()]<LEFT><LEFT>
+    autocmd FileType ps1 iabbrev <buffer> vl [ValidateLength()]<LEFT><LEFT>
+    autocmd FileType ps1 iabbrev <buffer> vn [ValidateNotNull()]
+    autocmd FileType ps1 iabbrev <buffer> vne [ValidateNotNullOrEmpty()]
+    autocmd FileType ps1 iabbrev <buffer> vp [ValidatePattern('')]<LEFT><LEFT><LEFT>
+    autocmd FileType ps1 iabbrev <buffer> vr [ValidateRange()]<LEFT><LEFT>
+    autocmd FileType ps1 iabbrev <buffer> vs [ValidateSet()]<LEFT><LEFT>
+    autocmd FileType ps1 iabbrev <buffer> vsc [ValidateScript({})]<LEFT><LEFT><LEFT>
+    autocmd FileType ps1 syntax match ParamStart '\v^\s*\[[a-zA-Z]+\('
+    autocmd FileType ps1 highlight link ParamStart PreProc
+    autocmd FileType ps1 syntax match ParamEnd '\v\)\]'
+    autocmd FileType ps1 highlight link ParamEnd PreProc
 augroup END
 
 function! PoshFolds()
-  let thisline = getline(v:lnum)
-  if thisline =~? '\v^\s*function\s+\w'
-    return '>1'
-  elseif thisline =~? '\v^\s*}'
-    let lnum_with_pair = searchpair('{', '', '}', 'bnW', 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string"')
-    if getline(lnum_with_pair) =~? '\v^\s*function\s+\w'
-      return '<1'
+    let thisline = getline(v:lnum)
+    if thisline =~? '\v^\s*function\s+\w'
+        return '>1'
+    elseif thisline =~? '\v^\s*}'
+        let lnum_with_pair = searchpair('{', '', '}', 'bnW', 'synIDattr(synID(line("."), col("."), 0), "name") =~? "string"')
+        if getline(lnum_with_pair) =~? '\v^\s*function\s+\w'
+            return '<1'
+        endif
+    else
+        return '='
     endif
-  else
-    return '='
-  endif
 endfunction
 
 " }}}
 " PowerShell Help {{{
 
 augroup ft_ps1help
-  autocmd!
-  autocmd FileType ps1help let maplocalleader = "\<Space>"
-  autocmd FileType ps1help setlocal buftype=nofile
-  autocmd FileType ps1help setlocal fileformat=dos
-  autocmd FileType ps1help setlocal foldmethod=expr
-  autocmd FileType ps1help setlocal foldexpr=PoshHelpFolds()
-  autocmd FileType ps1help setlocal iskeyword+=$
-  autocmd FileType ps1help syntax match PSHLevel1FoldHeading '\v^(NAME|SYNOPSIS|SYNTAX|PARAMETERS|INPUTS|OUTPUTS|ALIASES|REMARKS|NOTES|DESCRIPTION|LINK|RELATED\sLINKS)$'
-  autocmd FileType ps1help highlight link PSHLevel1FoldHeading Directory
-  autocmd FileType ps1help syntax match PSHLevel2FoldHeading '\v^\s{4}(-[a-zA-Z].+\s\[?\<[a-zA-Z0-9]+\>\]?|\<CommonParameters\>)$'
-  autocmd FileType ps1help highlight link PSHLevel2FoldHeading MoreMsg
-  autocmd FileType ps1help syntax match PSHExample '\v^\s+-+\sEXAMPLE\s\d+\s-+$'
-  autocmd FileType ps1help highlight link PSHExample Question
-  autocmd FileType ps1help syntax match PSHExamplePrompt '\v^\s{4}PS\sC:\\\>'
-  autocmd FileType ps1help highlight link PSHExamplePrompt MoreMsg
-  autocmd FileType ps1help syntax match PSHOptionalParam '\v\[?\[-[a-zA-Z]\w+\]?(\s\<[a-zA-Z0-9]+\>|\s\{[^}]+\})?\]'
-  autocmd FileType ps1help syntax match PSHOptionalParam '\v\[-[a-zA-Z]\w+\s*$'
-  autocmd FileType ps1help syntax match PSHOptionalParam '\v\<[a-zA-Z0-9]+(\[\])?\>\]'
-  autocmd FileType ps1help syntax match PSHOptionalParam '\v\[\<CommonParameters\>\]'
-  autocmd FileType ps1help highlight link PSHOptionalParam Comment
-  autocmd FileType ps1help syntax match PSHHighlighted '\v^\s{8}Default\svalue\s+\zs.+$'
-  autocmd FileType ps1help syntax match PSHHighlighted '\v^\s{8}Accept\spipeline\sinput\?\s+\zstrue$'
-  autocmd FileType ps1help highlight link PSHHighlighted Statement
-  autocmd FileType ps1help execute "normal \<F11>"
-  autocmd FileType ps1help execute "normal zR"
+    autocmd!
+    autocmd FileType ps1help let maplocalleader = "\<Space>"
+    autocmd FileType ps1help setlocal buftype=nofile
+    autocmd FileType ps1help setlocal fileformat=dos
+    autocmd FileType ps1help setlocal foldmethod=expr
+    autocmd FileType ps1help setlocal foldexpr=PoshHelpFolds()
+    autocmd FileType ps1help setlocal iskeyword+=$
+    autocmd FileType ps1help syntax match PSHLevel1FoldHeading '\v^(NAME|SYNOPSIS|SYNTAX|PARAMETERS|INPUTS|OUTPUTS|ALIASES|REMARKS|NOTES|DESCRIPTION|LINK|RELATED\sLINKS)$'
+    autocmd FileType ps1help highlight link PSHLevel1FoldHeading Directory
+    autocmd FileType ps1help syntax match PSHLevel2FoldHeading '\v^\s{4}(-[a-zA-Z].+\s\[?\<[a-zA-Z0-9]+\>\]?|\<CommonParameters\>)$'
+    autocmd FileType ps1help highlight link PSHLevel2FoldHeading MoreMsg
+    autocmd FileType ps1help syntax match PSHExample '\v^\s+-+\sEXAMPLE\s\d+\s-+$'
+    autocmd FileType ps1help highlight link PSHExample Question
+    autocmd FileType ps1help syntax match PSHExamplePrompt '\v^\s{4}PS\sC:\\\>'
+    autocmd FileType ps1help highlight link PSHExamplePrompt MoreMsg
+    autocmd FileType ps1help syntax match PSHOptionalParam '\v\[?\[-[a-zA-Z]\w+\]?(\s\<[a-zA-Z0-9]+\>|\s\{[^}]+\})?\]'
+    autocmd FileType ps1help syntax match PSHOptionalParam '\v\[-[a-zA-Z]\w+\s*$'
+    autocmd FileType ps1help syntax match PSHOptionalParam '\v\<[a-zA-Z0-9]+(\[\])?\>\]'
+    autocmd FileType ps1help syntax match PSHOptionalParam '\v\[\<CommonParameters\>\]'
+    autocmd FileType ps1help highlight link PSHOptionalParam Comment
+    autocmd FileType ps1help syntax match PSHHighlighted '\v^\s{8}Default\svalue\s+\zs.+$'
+    autocmd FileType ps1help syntax match PSHHighlighted '\v^\s{8}Accept\spipeline\sinput\?\s+\zstrue$'
+    autocmd FileType ps1help highlight link PSHHighlighted Statement
+    autocmd FileType ps1help execute "normal \<F11>"
+    autocmd FileType ps1help execute "normal zR"
 augroup END
 
 function! PoshHelpFolds()
-  let thisline = getline(v:lnum)
-  if thisline =~? '\v^(NAME|SYNOPSIS|SYNTAX|PARAMETERS|INPUTS|OUTPUTS|ALIASES|REMARKS|NOTES|DESCRIPTION|LINK|RELATED\sLINKS)$'
-    return '>1'
-  elseif thisline =~? '\v^\s+-+\sEXAMPLE\s\d+\s-+$'
-    return '>1'
-  elseif thisline =~? '\v^\s{4}(-[a-zA-Z].+\s\[?\<[a-zA-Z0-9]+\>\]?|\<CommonParameters\>)$'
-    return '>2'
-  else
-    return '='
-  endif
+    let thisline = getline(v:lnum)
+    if thisline =~? '\v^(NAME|SYNOPSIS|SYNTAX|PARAMETERS|INPUTS|OUTPUTS|ALIASES|REMARKS|NOTES|DESCRIPTION|LINK|RELATED\sLINKS)$'
+        return '>1'
+    elseif thisline =~? '\v^\s+-+\sEXAMPLE\s\d+\s-+$'
+        return '>1'
+    elseif thisline =~? '\v^\s{4}(-[a-zA-Z].+\s\[?\<[a-zA-Z0-9]+\>\]?|\<CommonParameters\>)$'
+        return '>2'
+    else
+        return '='
+    endif
 endfunction
 
 " }}}
 " Python {{{
 
 augroup ft_py
-  autocmd FileType ps1 let maplocalleader = "\<Space>"
-  autocmd!
+    autocmd FileType ps1 let maplocalleader = "\<Space>"
+    autocmd!
 augroup END
 
 " }}}
 " Transcript {{{
 
-"autocmd BufRead,BufNewFile *.ts		set filetype=transcript
+" autocmd BufRead,BufNewFile *.ts		set filetype=transcript
 "
 "augroup ft_transcript
 "  autocmd!
@@ -861,6 +896,18 @@ augroup END
 "  silent! execute "normal \<Plug>(EasyAlign)ie\<Right>:"
 "  silent! execute ':%s/\v([^:]+\w)(\s*)\s:/\2\1 :/'
 "endfunction
+"
+" " http://vim.wikia.com/wiki/Improved_hex_editing
+" augroup Binary
+"   au!
+"   au BufReadPre  *.bin let &bin=1
+"   au BufReadPost *.bin if &bin | %!xxd
+"   au BufReadPost *.bin set ft=xxd | endif
+"   au BufWritePre *.bin if &bin | %!xxd -r
+"   au BufWritePre *.bin endif
+"   au BufWritePost *.bin if &bin | %!xxd
+"   au BufWritePost *.bin set nomod | endif
+" augroup END
 
 " }}}
 
@@ -883,89 +930,89 @@ augroup END
 " Editing {{{
 
 function! DeleteMatchedLines(invert, pattern)
-  let lnum = line('.')
+    let lnum = line('.')
 
-  if a:invert
-    execute 'v/' . a:pattern . '/d'
-  else
-    execute 'g/' . a:pattern . '/d'
-  endif
+    if a:invert
+        execute 'v/' . a:pattern . '/d'
+    else
+        execute 'g/' . a:pattern . '/d'
+    endif
 
-  let last_line = line('$')
+    let last_line = line('$')
 
-  if lnum > last_line
-    let lnum = last_line
-  endif
+    if lnum > last_line
+        let lnum = last_line
+    endif
 
-  silent! execute lnum
+    silent! execute lnum
 endfunction
 
 function! SetHorizontalRule(lnum, level, len)
-  let hr_chars  = [ '', '=', '-' ]
+    let hr_chars  = [ '', '=', '-' ]
 
-  if a:level < 1 || a:level > 2
-    echoerr 'level must be a number between 1 and 2' 
-    return
-  endif
+    if a:level < 1 || a:level > 2
+        echoerr 'level must be a number between 1 and 2' 
+        return
+    endif
 
-  if a:lnum > 0
-    let hd_lnum = a:lnum
-  else
-    let hd_lnum = line('.')
-  endif
+    if a:lnum > 0
+        let hd_lnum = a:lnum
+    else
+        let hd_lnum = line('.')
+    endif
 
-  if a:len
-    let hr_len  = a:len
-  else
-    let hd_line = getline(hd_lnum)
-    let hr_len  = strwidth(hd_line)
-  endif
+    if a:len
+        let hr_len  = a:len
+    else
+        let hd_line = getline(hd_lnum)
+        let hr_len  = strwidth(hd_line)
+    endif
 
-  let hrule     = repeat(hr_chars[a:level], hr_len)
-  let next_line = getline(hd_lnum + 1)
+    let hrule     = repeat(hr_chars[a:level], hr_len)
+    let next_line = getline(hd_lnum + 1)
 
-  if match(next_line, '\v^[-=]+$') >= 0
-    call setline(hd_lnum + 1, hrule)
-  else
-    call append(hd_lnum, hrule)
-  endif
+    if match(next_line, '\v^[-=]+$') >= 0
+        call setline(hd_lnum + 1, hrule)
+    else
+        call append(hd_lnum, hrule)
+    endif
 endfunction
 
 " }}}
 " Toggling Stuff {{{
 
 function! ToggleBackground()
-  if &background ==# 'dark'
-    set background=light
-  else
-    set background=dark
-  endif
+    if &background ==# 'dark'
+        set background=light
+    else
+        set background=dark
+    endif
 endfunction
 
 function! ToggleColorColumn()
-  if &colorcolumn == 80
-    set colorcolumn=
-  else
-    set colorcolumn=80
-  endif
+    if &colorcolumn == 80
+        set colorcolumn=
+    else
+        set colorcolumn=80
+    endif
 endfunction
 
 function! ToggleFTMode()
-  if g:my_ftmode ==# 'kana'
-    map f f
-    map F F
-    map t t
-    map T T
-    let g:my_ftmode = 'default'
-    highlight! link CursorLine CursorColumn
-  else
-    noremap f f<C-K>
-    noremap F F<C-K>
-    noremap t t<C-K>
-    noremap T T<C-K>
-    let g:my_ftmode = 'kana'
-    highlight! link CursorLine Error
-  endif
+    if g:my_ftmode ==# 'kana'
+        map f f
+        map F F
+        map t t
+        map T T
+        let g:my_ftmode = 'default'
+        highlight! link CursorLine CursorColumn
+    else
+        noremap f f<C-K>
+        noremap F F<C-K>
+        noremap t t<C-K>
+        noremap T T<C-K>
+        let g:my_ftmode = 'kana'
+        highlight! link CursorLine Error
+    endif
 endfunction
 
 function! ToggleDiff()
@@ -977,32 +1024,32 @@ endfunction
 " Pandoc {{{
 
 function! RunPandoc(clip, gfm)
-  let mdpath = expand("%")
-  if mdpath =~? '\.md$'
-    if a:clip
-      if has('win32')
-        if a:gfm
-          let cmd = '!chcp 65001 && pandoc "%" -f markdown_github -t html | clip' 
+    let mdpath = expand("%")
+    if mdpath =~? '\.md$'
+        if a:clip
+            if has('win32')
+                if a:gfm
+                    let cmd = '!chcp 65001 && pandoc "%" -f markdown_github -t html | clip' 
+                else
+                    let cmd = '!chcp 65001 && pandoc "%" -f markdown -t html | clip' 
+                endif
+                silent execute cmd
+            else
+                silent execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown_github -t html | xclip -selection clipboard' | execute ':redraw!'
+                echo 'generated html has been copied to clipboard.'
+            endif
         else
-          let cmd = '!chcp 65001 && pandoc "%" -f markdown -t html | clip' 
+            let htpath = substitute(mdpath, '\.md$', '.html', '')
+            let csspath = "../Assets/github.sp.css"
+            if a:gfm
+                execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown_github -t html -c' . ' "' . csspath '" ' . '-o' . ' ' . escape(shellescape(htpath), '%') . '' | execute ':redraw!'
+            else
+                execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown -t html -c' . ' "' . csspath '" ' . '-o' . ' ' . escape(shellescape(htpath), '%') . '' | execute ':redraw!'
+            endif
         endif
-        silent execute cmd
-      else
-        silent execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown_github -t html | xclip -selection clipboard' | execute ':redraw!'
-        echo 'generated html has been copied to clipboard.'
-      endif
     else
-      let htpath = substitute(mdpath, '\.md$', '.html', '')
-      let csspath = "../Assets/github.sp.css"
-      if a:gfm
-        execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown_github -t html -c' . ' "' . csspath '" ' . '-o' . ' ' . escape(shellescape(htpath), '%') . '' | execute ':redraw!'
-      else
-        execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown -t html -c' . ' "' . csspath '" ' . '-o' . ' ' . escape(shellescape(htpath), '%') . '' | execute ':redraw!'
-      endif
+        echo 'not a markdown. skipped.'
     endif
-  else
-    echo 'not a markdown. skipped.'
-  endif
 endfunction
 
 " }}}
@@ -1011,23 +1058,23 @@ endfunction
 " https://gist.github.com/tpope/287147
 inoremap <silent> <Bar> <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
+    let p = '^\s*|\s.*\s|\s*$'
+    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+    endif
 endfunction
 
 " vimcasts.org
 " show highlight group for the cword
 function! <SID>SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
 " }}}
@@ -1037,90 +1084,90 @@ endfunc
 "-------------------------------------------------------------------------------
 
 function! ShowWordDef(vertical)
-  let cword       = expand('<cword>')
-  let back_to_cmd = 0
+    let cword       = expand('<cword>')
+    let back_to_cmd = 0
 
-  if has('win32')
-    if &shell =~# 'cmd'
-      let back_to_cmd = 1
-      SwitchToPosh
-    endif
-    let dict_cmd = 'Get-WordDefinition'
-  else
-    let dict_cmd = 'sdcv'
-  endif
-
-  let winnr = bufwinnr('__WordDef__')
-  if winnr > 0
-    execute winnr . 'wincmd w'
-  else
-    if a:vertical
-      vsplit __WordDef__
+    if has('win32')
+        if &shell =~# 'cmd'
+            let back_to_cmd = 1
+            SwitchToPosh
+        endif
+        let dict_cmd = 'Get-WordDefinition'
     else
-      20split __WordDef__
+        let dict_cmd = 'sdcv'
     endif
-  endif
 
-  setlocal filetype=wdef
-  setlocal buftype=nofile
+    let winnr = bufwinnr('__WordDef__')
+    if winnr > 0
+        execute winnr . 'wincmd w'
+    else
+        if a:vertical
+            vsplit __WordDef__
+        else
+            20split __WordDef__
+        endif
+    endif
 
-  normal! ggdG
-  silent! execute '-1read !' . dict_cmd . ' ' . cword
+    setlocal filetype=wdef
+    setlocal buftype=nofile
 
-  " maybe this formatting should be externally done by using tools like sed
-  if dict_cmd ==# 'sdcv'
-    let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
-    " see also + more at: prefix with >, put line breaks before & after
-    silent! execute '%s/\v^(see\salso\s.*|more\sat\s.*)$/\r  > \1\r/'
-    " split examples, that start with star
-    silent! execute '%s/\v\s\*\s/\r/g'
-    "example lines: prefix with -, indent
-    silent! execute '%s/\v^([a-zA-Z0-9[(].*[^:])\s*$/  - \1'
-    " word class: prefix with =, separate definition part, put line breaks before & after
-    silent! execute '%s/\v\c^\s{4}(' . wordclass . ')\s*(.*)$/\r[\U\1]\E\r\r\2\r/'
-    " category line: prefix with #, put line breaks before & after
-    silent! execute '%s/\v^\s{2}([a-zA-Z].*[^:])\s*$/\r# \1\r/'
-    " definition line: decorate number in the beginning
-    silent! execute '%s/\v^\s*(\d+)\s*(.*\s+.*:)\s*$/\1. \2/'
-    " definition line: putline breaks before & after, clear indent
-    silent! execute '%s/\v^\s*(.*\s+.*:)\s*$/\r\1\r/'
-    " sub section heading: enclose with bar, put line breaks before & after, clear indent
-    silent! execute '%s/\v^\s{1}([A-Z].*[A-Z])\s*$/\r|\1|\r/'
-    " remove unwanted beginning lines
-    silent! execute '1,5d'
-    " join multiple blank lines into one
-    silent! execute 'normal! :g/\v^\s*$/,/\S/-j' . "\r" . ':nohlsearch' . "\r"
-  endif
+    normal! ggdG
+    silent! execute '-1read !' . dict_cmd . ' ' . cword
 
-  normal! gg
+    " maybe this formatting should be externally done by using tools like sed
+    if dict_cmd ==# 'sdcv'
+        let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
+        " see also + more at: prefix with >, put line breaks before & after
+        silent! execute '%s/\v^(see\salso\s.*|more\sat\s.*)$/\r  > \1\r/'
+        " split examples, that start with star
+        silent! execute '%s/\v\s\*\s/\r/g'
+        "example lines: prefix with -, indent
+        silent! execute '%s/\v^([a-zA-Z0-9[(].*[^:])\s*$/  - \1'
+        " word class: prefix with =, separate definition part, put line breaks before & after
+        silent! execute '%s/\v\c^\s{4}(' . wordclass . ')\s*(.*)$/\r[\U\1]\E\r\r\2\r/'
+        " category line: prefix with #, put line breaks before & after
+        silent! execute '%s/\v^\s{2}([a-zA-Z].*[^:])\s*$/\r# \1\r/'
+        " definition line: decorate number in the beginning
+        silent! execute '%s/\v^\s*(\d+)\s*(.*\s+.*:)\s*$/\1. \2/'
+        " definition line: putline breaks before & after, clear indent
+        silent! execute '%s/\v^\s*(.*\s+.*:)\s*$/\r\1\r/'
+        " sub section heading: enclose with bar, put line breaks before & after, clear indent
+        silent! execute '%s/\v^\s{1}([A-Z].*[A-Z])\s*$/\r|\1|\r/'
+        " remove unwanted beginning lines
+        silent! execute '1,5d'
+        " join multiple blank lines into one
+        silent! execute 'normal! :g/\v^\s*$/,/\S/-j' . "\r" . ':nohlsearch' . "\r"
+    endif
 
-  if back_to_cmd
-    SwitchToCmd
-  endif
+    normal! gg
+
+    if back_to_cmd
+        SwitchToCmd
+    endif
 endfunction
 
 if has('win32')
-  augroup ft_wdef
-    autocmd!
-    autocmd FileType wdef syntax match WDefWord '\v^\w.*$'
-    autocmd FileType wdef highlight link WDefWord Title
-    autocmd FileType wdef syntax match WDefDef '\v^\s\s\[\d+\].*$'
-    autocmd FileType wdef highlight link WDefDef MoreMsg
-  augroup END
+    augroup ft_wdef
+        autocmd!
+        autocmd FileType wdef syntax match WDefWord '\v^\w.*$'
+        autocmd FileType wdef highlight link WDefWord Title
+        autocmd FileType wdef syntax match WDefDef '\v^\s\s\[\d+\].*$'
+        autocmd FileType wdef highlight link WDefDef MoreMsg
+    augroup END
 else
-  augroup ft_wdef
-    autocmd!
-    autocmd FileType wdef syntax match WDefGroup '\v^#\s.*'
-    autocmd FileType wdef highlight link WDefGroup Title
-    autocmd FileType wdef syntax match WDefDef '\v^.*:\s*$'
-    autocmd FileType wdef highlight link WDefDef MoreMsg
-    autocmd FileType wdef syntax match WDefSubsect '\v^\|.*$'
-    autocmd FileType wdef highlight link WDefSubsect Conceal
-    autocmd FileType wdef syntax match WDefClass '\v^\[.*\s*$'
-    autocmd FileType wdef highlight link WDefClass Macro
-    autocmd FileType wdef syntax match WDefAdditional '\v^\s*\>.*$'
-    autocmd FileType wdef highlight link WDefAdditional Comment
-  augroup END
+    augroup ft_wdef
+        autocmd!
+        autocmd FileType wdef syntax match WDefGroup '\v^#\s.*'
+        autocmd FileType wdef highlight link WDefGroup Title
+        autocmd FileType wdef syntax match WDefDef '\v^.*:\s*$'
+        autocmd FileType wdef highlight link WDefDef MoreMsg
+        autocmd FileType wdef syntax match WDefSubsect '\v^\|.*$'
+        autocmd FileType wdef highlight link WDefSubsect Conceal
+        autocmd FileType wdef syntax match WDefClass '\v^\[.*\s*$'
+        autocmd FileType wdef highlight link WDefClass Macro
+        autocmd FileType wdef syntax match WDefAdditional '\v^\s*\>.*$'
+        autocmd FileType wdef highlight link WDefAdditional Comment
+    augroup END
 endif
 
 " man
@@ -1183,22 +1230,25 @@ let g:gruvbox_underline = 0
 " let g:gruvbox_contrast_dark = 'hard'
 
 if has('gui_running')
-  colorscheme gruvbox
-  set background=dark
+    colorscheme gruvbox
+    set background=dark
 elseif has('unix')
-  set term=screen
-  set t_Co=256
-  colorscheme gruvbox
-  set background=dark
-else
-  " settings for win console including cmder
-  if !empty($CONEMUBUILD)
+    set term=screen
     set t_Co=256
-    " let &t_AB="\e[48;5;%dm"
-    " let &t_AF="\e[38;5;%dm"
-  endif
-  colorscheme monochrome
-  set background=dark
+    colorscheme gruvbox
+    set background=dark
+else
+    " settings for win console including cmder
+    " if !empty($CONEMUBUILD)
+    "   set t_Co=256
+    "   " let &t_AB="\e[48;5;%dm"
+    "   " let &t_AF="\e[38;5;%dm"
+    " endif
+    " colorscheme monochrome
+    set background=dark
+    syntax off
+    set nohlsearch
+    set t_Co=0
 endif
 
 " i don't like the plugin's default.
@@ -1209,90 +1259,141 @@ highlight! link TagListFileName MoreMsg
 "-------------------------------------------------------------------------------  
 
 iabbrev qbf The quick brown fox jumps over the lazy dog
-cabbrev aga silent! argdo vimgrepadd
+cabbrev aga silent! argdo vimgrepadd /\v/ %<LEFT><LEFT><LEFT>
 cabbrev bga silent! bufdo vimgrepadd
 
 " }}}
 " MS Windows {{{
 
 if has('win32')
+    " options
+    set fileformat=unix
+    set fileformats=unix,dos
+    set fencs=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
+    set encoding=utf-8  " The encoding displayed.
+    set fileencoding=utf-8  " The encoding written to file.
+    set ambiwidth=double
 
-  " options
-  set fileformat=unix
-  set fileformats=unix,dos
-  set fencs=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
-  set encoding=utf-8  " The encoding displayed.
-  set fileencoding=utf-8  " The encoding written to file.
-  set ambiwidth=double
+    " mappings
+    nnoremap <Leader>cm :SwitchToCmd<CR>
+    nnoremap <Leader>ps :SwitchToPosh<CR>
+    nnoremap <Leader>pm :OpenPSMod<Space>
 
-  " mappings
-  nnoremap <Leader>cm :SwitchToCmd<CR>
-  nnoremap <Leader>ps :SwitchToPosh<CR>
+    " commands
+    command! SwitchToCmd call SetWinShell('cmd')
+    command! SwitchToPosh call SetWinShell('posh')
+    command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
 
-  " gvim
-  if has('gui_running')
-    set guifont=Consolas:h11
-    set guifontwide=Migu\ 2M:h11
-    " wanna use gvim with cui look & feel
-    set mouse=
-    set guioptions-=a
-    set guioptions-=i
-    set guioptions-=m
-    set guioptions-=t
-    set guioptions-=T
-    set guioptions-=r
-    set guioptions-=R
-    set guioptions-=l
-    set guioptions-=L
-    set guioptions-=b
-    set guioptions-=h
-    set guioptions-=v
-    set guioptions-=p
-    set guioptions-=F
-    set guioptions-=e    " don't show gui tabline!
-    nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
-    imap <F11> <ESC>:call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>a
-    nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
-    nmap <C-W>N :$tabnew<CR><F11><F11>
-    nmap <C-W>% :$tabnew %<CR><F11><F11>
-    nmap <C-W>V :$tabnew $MYVIMRC<CR><F11><F11>
-    nmap <C-W>P :$tabnew $HOME/Documents/WindowsPowerShell/profile.ps1<CR><F11><F11>
-    nmap <C-W>C :tabclose<CR><F11><F11>
-    nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
-    nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
-  else
-    " workaround for conemu's bug
-    inoremap <C-H> <BS>
-    inoremap <Char-0x07F> <BS>
-    nnoremap <Char-0x07F> <BS>
-  endif
+    " functions
+    function! ListMyPSModules(A, L, P)
+        let my_ps_mod_dir = "$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules"
+        let prefix = a:A . '*'
+        let mod_full_paths = split(globpath(my_ps_mod_dir, prefix), '\n')
+        let mod_names = []
+        for p in mod_full_paths
+            let segments = split(p, '\')
+            let basename = segments[-1]
+            let mod_names += [ basename ]
+        endfor
+        return mod_names
+    endfunction
 
-  command SwitchToCmd call SetWinShell('cmd')
-  command SwitchToPosh call SetWinShell('posh')
+    function! SetWinShell(shell)
+        if a:shell ==# 'posh'
+            set shell=powershell
+            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
+        elseif a:shell ==# 'cmd'
+            set shell=C:\\WINDOWS\\system32\\cmd.exe
+            set shellcmdflag=/c
+        endif
+    endfunction
 
-  function! SetWinShell(shell)
-    if a:shell ==# 'posh'
-      set shell=powershell
-      set shellcmdflag=-ExecutionPolicy\ RemoteSigned
-    elseif a:shell ==# 'cmd'
-      set shell=C:\\WINDOWS\\system32\\cmd.exe
-      set shellcmdflag=/c
-    endif
-  endfunction
+    function! ChangeGUIFontSize(decrease)
+        let parts    = split(&guifont, ':')
+        let facename = parts[0]
+        let fontsize = substitute(parts[1], 'h', '', '')
+        if a:decrease
+            let fontsize -= 1
+        else
+            let fontsize += 1
+        endif
+        let &guifont = printf('%s:h%d', facename, fontsize)
+    endfunction
 
-  function! ChangeGUIFontSize(decrease)
-    let parts    = split(&guifont, ':')
-    let facename = parts[0]
-    let fontsize = substitute(parts[1], 'h', '', '')
+    function! OpenPSModule(ps_module)
+        let dir = '$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules\\' . a:ps_module
+        let ps1s = split(globpath(dir, '**/*.ps1'), '\n')
+        for p in ps1s
+            silent! execute 'argadd ' . p
+        endfor
+        silent! execute 'lcd ' . dir
+        silent! execute '!ctags -R'
+        silent! execute 'e ' . a:ps_module . '.psd1'
+    endfunction
 
-    if a:decrease
-      let fontsize -= 1
+    " gvim
+    if has('gui_running')
+        set guifont=Consolas:h13
+        set guifontwide=Migu\ 2M:h13
+        set mouse=
+        set guioptions-=a
+        set guioptions-=i
+        set guioptions-=m
+        set guioptions-=t
+        set guioptions-=T
+        set guioptions-=r
+        set guioptions-=R
+        set guioptions-=l
+        set guioptions-=L
+        set guioptions-=b
+        set guioptions-=h
+        set guioptions-=v
+        set guioptions-=p
+        set guioptions-=F
+        set guioptions-=e    " don't show gui tabline!
+        nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
+        imap <F11> <ESC>:call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>a
+        nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
+        nmap <C-W>N :$tabnew<CR><F11><F11>
+        nmap <C-W>% :$tabnew %<CR><F11><F11>
+        nmap <C-W>V :$tabnew $MYVIMRC<CR><F11><F11>
+        nmap <C-W>P :$tabnew $HOME/Documents/WindowsPowerShell/profile.ps1<CR><F11><F11>
+        nmap <C-W>C :tabclose<CR><F11><F11>
+        nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
+        nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
     else
-      let fontsize += 1
+        " workaround for conemu's bug
+        inoremap <C-H> <BS>
+        inoremap <Char-0x07F> <BS>
+        nnoremap <Char-0x07F> <BS>
     endif
 
-    let &guifont = printf('%s:h%d', facename, fontsize)
-  endfunction
+    command SwitchToCmd call SetWinShell('cmd')
+    command SwitchToPosh call SetWinShell('posh')
+
+    function! SetWinShell(shell)
+        if a:shell ==# 'posh'
+            set shell=powershell
+            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
+        elseif a:shell ==# 'cmd'
+            set shell=C:\\WINDOWS\\system32\\cmd.exe
+            set shellcmdflag=/c
+        endif
+    endfunction
+
+    function! ChangeGUIFontSize(decrease)
+        let parts    = split(&guifont, ':')
+        let facename = parts[0]
+        let fontsize = substitute(parts[1], 'h', '', '')
+
+        if a:decrease
+            let fontsize -= 1
+        else
+            let fontsize += 1
+        endif
+
+        let &guifont = printf('%s:h%d', facename, fontsize)
+    endfunction
 endif
 
 " }}}
@@ -1330,8 +1431,8 @@ vnoremap <C-J> :m '>+1<CR>gv=gv
 vnoremap <C-K> :m '<-2<CR>gv=gv
 
 if has('multi_byte_ime')
-	" highlight Cursor guifg=NONE guibg=Green
-	highlight link CursorIM Error
+    " highlight Cursor guifg=NONE guibg=Green
+    highlight link CursorIM Error
 endif
 
 " }}}
