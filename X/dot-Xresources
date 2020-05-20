@@ -65,43 +65,46 @@ xterm*VT100.Translations: #override \
 ! URxvt
 ! -----------------------------------------------------------------------------
 
-URxvt*termName: screen-256color
-URxvt*loginShell: true
-URxvt*scrollColor: #777777
-URxvt*scrollstyle: plain
-URxvt*scrollTtyKeypress: true
-URxvt*scrollTtyOutput: false
-URxvt*scrollWithBuffer: false
-URxvt*secondaryScreen: true
-URxvt*secondaryScroll: true
-URxvt*skipScroll: true
-URxvt*scrollBar: false
-URxvt*scrollBar_right: false
-URxvt*scrollBar_floating: false
-URxvt*fading: 30
-URxvt*utmpInhibit: false
-URxvt*urgentOnBell: false
-URxvt*visualBell: true
-URxvt*mapAlert: true
-URxvt*mouseWheelScrollPage: false
-URxvt*colorUL: yellow
-URxvt*underlineColor: yellow
-URxvt*saveLines: 0
-URxvt*buffered: true
-URxvt*hold: false
-URxvt*internalBorder:
-URxvt*print-pipe: cat > $HOME/$(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
-URxvt*perl-ext-common:
-URxvt*perl-ext:
-URxvt*cursorBlink: true
+URxvt*termName             : screen-256color
+URxvt*loginShell           : true
+URxvt*scrollColor          : #777777
+URxvt*scrollstyle          : plain
+URxvt*scrollTtyKeypress    : true
+URxvt*scrollTtyOutput      : false
+URxvt*scrollWithBuffer     : false
+URxvt*secondaryScreen      : true
+URxvt*secondaryScroll      : true
+URxvt*skipScroll           : true
+URxvt*scrollBar            : false
+URxvt*scrollBar_right      : false
+URxvt*scrollBar_floating   : false
+URxvt*fading               : 30
+URxvt*utmpInhibit          : false
+URxvt*urgentOnBell         : false
+URxvt*visualBell           : true
+URxvt*mapAlert             : true
+URxvt*mouseWheelScrollPage : false
+URxvt*colorUL              : yellow
+URxvt*underlineColor       : yellow
+URxvt*saveLines            : 0
+URxvt*buffered             : true
+URxvt*hold                 : false
+URxvt*internalBorder       :
+URxvt*print-pipe           : cat > $HOME/$(echo urxvt.dump.$(date +'%Y%M%d%H%m%S'))
+URxvt*perl-ext-common      :
+URxvt*perl-ext             :
+URxvt*cursorBlink          : true
+
 ! refer to https://github.com/ryanoasis/nerd-fonts/issues/150
-URxvt*letterSpace:0
-! URxvt*font: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
-! URxvt*boldfont: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
-! URxvt*font: xft:Inconsolata Nerd Font Mono:Regular:size=14, xft:DejaVu Sans:size=12
-! URxvt*boldfont: xft:Inconsolata Nerd Font Mono:Regular:size=14, xft:DejaVu Sans:size=12
+URxvt*letterSpace          : 0
+! URxvt*font                 : xft:Inconsolata Nerd Font Mono:Regular:size=13.5, xft:DejaVu Sans:size=12
+! URxvt*boldfont             : xft:Inconsolata Nerd Font Mono:Regular:size=13.5, xft:DejaVu Sans:size=12
+! URxvt*lineSpace            : 1.1
+
 URxvt*font: xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
 URxvt*boldfont: xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
+! URxvt*font: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
+! URxvt*boldfont: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
 
 ! https://www.askapache.com/linux/rxvt-xresources/
 ! URxvt*termName:                       string
