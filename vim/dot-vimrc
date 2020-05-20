@@ -65,6 +65,7 @@ Plugin 'othree/yajs.vim'
 Plugin 'maxmellon/vim-jsx-pretty'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'othree/es.next.syntax.vim'
+
 " Plugin 'cd01/poshcomplete-vim'
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'vim-pandoc/vim-pandoc-syntax' 
@@ -175,18 +176,6 @@ if !exists('g:airline_symbols')
 endif
 
 "}}}
-" Syntastic"{{{
-"-------------------------------------------------------------------------------
-
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-"}}}
 " repeat.vim"{{{
 "-------------------------------------------------------------------------------
 
@@ -256,7 +245,7 @@ if has("syntax")
     syntax on
 endif
 
-" 2 spaces for indent
+" 4 spaces for indent
 set expandtab
 set tabstop=4
 set softtabstop=4
@@ -1237,7 +1226,7 @@ let g:gruvbox_underline = 0
 
 if has('gui_running')
     colorscheme gruvbox
-    set background=dark
+    set background=light
 elseif has('unix')
     set term=screen
     set t_Co=256
@@ -1370,10 +1359,6 @@ if has('win32')
         set guifont=Inconsolata\ NF:h14
         set guifontwide=mplus\ NF:h13
 
-        " set linespace=2
-        " set guifont=Consolas:h13
-        " set guifontwide=Migu\ 2M:h13
-
         let g:airline#extensions#tabline#enabled = 1
         let g:airline#extensions#tabline#buffer_idx_mode = 1
         let g:airline#extensions#whitespace#mixed_indent_algo = 1
@@ -1411,6 +1396,26 @@ if has('win32')
             set shell=C:\\WINDOWS\\system32\\cmd.exe
             set shellcmdflag=/c
         endif
+    endfunction
+
+    function! SwitchGUIFont()
+        let parts    = split(&guifont, ':')
+        let facename = parts[0]
+        let fontsize = substitute(parts[1], 'h', '', '')
+
+        if facename ==# 'Consolas'
+            let guifont = 'Inconsolata NF:h14'
+            let guifontwide = 'mplus NF:h13'
+            let linespace = -2
+        else
+            let guifont = 'Consolas:h13'
+            let guifontwide = 'Migu 2M:h13'
+            let linespace = 2
+        endif
+
+        let &guifont = guifont
+        let &guifontwide = guifontwide
+        let &linespace = linespace
     endfunction
 
     function! ChangeGUIFontSize(decrease)
