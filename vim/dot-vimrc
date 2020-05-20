@@ -90,6 +90,7 @@ Plugin 'scrooloose/nerdtree'
 " Plugin 'Valloric/YouCompleteMe'
 
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'vimwiki/vimwiki'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -220,6 +221,20 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 " vim-markdown-folding {{{
 let g:markdown_fold_style = 'nested'
 " }}}
+
+" NERDTree {{{
+
+nnoremap <Leader>N :NERDTreeToggle<CR>
+
+"}}}
+
+" vimwiki {{{
+
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
+" let g:vimwiki_folding = 'custom'
+" expr, list, syntax, custom
+"}}}
+
 " Misc {{{
 "-------------------------------------------------------------------------------
 
@@ -689,9 +704,9 @@ nnoremap Q @q
 nnoremap <Leader>ch :call <SID>SynStack()<CR>
 
 " quickfix list
-nnoremap <Leader>C :cexpr []<CR>
-nnoremap <C-N> :cnext<CR>
-nnoremap <C-P> :cprevious<CR>
+" nnoremap <Leader>C :cexpr []<CR>
+" nnoremap <C-N> :cnext<CR>
+" nnoremap <C-P> :cprevious<CR>
 
 " ime
 nnoremap <ESC>i :set iminsert=0<CR>
