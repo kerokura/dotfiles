@@ -96,13 +96,13 @@ URxvt*perl-ext             :
 URxvt*cursorBlink          : true
 
 ! refer to https://github.com/ryanoasis/nerd-fonts/issues/150
-URxvt*letterSpace          : 0
 ! URxvt*font                 : xft:Inconsolata Nerd Font Mono:Regular:size=13.5, xft:DejaVu Sans:size=12
 ! URxvt*boldfont             : xft:Inconsolata Nerd Font Mono:Regular:size=13.5, xft:DejaVu Sans:size=12
 ! URxvt*lineSpace            : 1.1
 
-URxvt*font: xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
-URxvt*boldfont: xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
+URxvt*letterSpace : -0.5
+URxvt*font        : xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
+URxvt*boldfont    : xft:Consolas NF:Regular:size=12, xft:DejaVu Sans:size=12
 ! URxvt*font: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
 ! URxvt*boldfont: xft:DroidSansMono Nerd Font Mono:size=12, xft:DejaVu Sans:size=12
 
