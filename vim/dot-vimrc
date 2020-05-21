@@ -209,6 +209,7 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " }}}
 " vim-auto-save {{{
+
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 
@@ -218,8 +219,16 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 
 " }}}
 " vim-markdown-folding {{{
+
 let g:markdown_fold_style = 'nested'
+
 " }}}
+" NERDTree {{{
+
+nnoremap <Leader>N :NERDTreeToggle<CR>
+
+" }}}
+
 " Misc {{{
 "-------------------------------------------------------------------------------
 
@@ -1355,8 +1364,8 @@ if has('win32')
         nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
         nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
 
-        set linespace=-2
-        set guifont=Inconsolata\ NF:h14
+        set linespace=2
+        set guifont=Consolas\ NF:h13
         set guifontwide=mplus\ NF:h13
 
         let g:airline#extensions#tabline#enabled = 1
@@ -1403,13 +1412,13 @@ if has('win32')
         let facename = parts[0]
         let fontsize = substitute(parts[1], 'h', '', '')
 
-        if facename ==# 'Consolas'
+        if facename ==# 'Consolas NF' 
             let guifont = 'Inconsolata NF:h14'
             let guifontwide = 'mplus NF:h13'
             let linespace = -2
         else
-            let guifont = 'Consolas:h13'
-            let guifontwide = 'Migu 2M:h13'
+            let guifont = 'Consolas NF:h13'
+            let guifontwide = 'mplus NF:h13'
             let linespace = 2
         endif
 
@@ -1471,5 +1480,7 @@ if has('multi_byte_ime')
     " highlight Cursor guifg=NONE guibg=Green
     highlight link CursorIM Error
 endif
+
+set conceallevel=3
 
 " }}}
