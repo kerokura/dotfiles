@@ -224,17 +224,11 @@ let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 let g:markdown_fold_style = 'nested'
 
 " }}}
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a599e146146600342f2e01abee9c06b4e262291
 " NERDTree {{{
 
 nnoremap <Leader>N :NERDTreeToggle<CR>
 
-<<<<<<< HEAD
 " }}}
-=======
 "}}}
 
 " vimwiki {{{
