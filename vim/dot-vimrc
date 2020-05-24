@@ -359,13 +359,9 @@ function! ToggleFTMode()
 endfunction
 
 function! ChangeGruvboxContrast(val)
-    if &background ==# 'dark'
-        let g:gruvbox_contrast_dark = a:val
-    else
-        let g:gruvbox_contrast_light = a:val
-    endif
-    silent! execute "source $MYVIMRC"
-    silent! execute "normal \<CR>"
+    let g:gruvbox_contrast_dark = a:val
+    let g:gruvbox_contrast_light = a:val
+    colorscheme gruvbox
 endfunction
 
 " vimcasts.org - show highlight group for the cword
@@ -792,18 +788,16 @@ digraph OO 12457
 
 " COLORS {{{
 
+colorscheme gruvbox
+set background=dark
 let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
 let g:gruvbox_underline = 0
 
 if has('gui_running')
-    colorscheme gruvbox
-    set background=light
 else
     set term=screen
     set t_Co=256
-    colorscheme gruvbox
-    set background=dark
 endif
 
 " }}}
@@ -1137,7 +1131,7 @@ let g:instant_markdown_autostart = 0
 " let g:instant_markdown_allow_unsafe_content = 1
 " let g:instant_markdown_allow_external_content = 0
 " let g:instant_markdown_mathjax = 1
-let g:instant_markdown_logfile = '~/.instant_markdown.log'
+" let g:instant_markdown_logfile = '~/.instant_markdown.log'
 " let g:instant_markdown_autoscroll = 0
 let g:instant_markdown_port = 8890
 " let g:instant_markdown_python = 1
