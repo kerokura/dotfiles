@@ -1,11 +1,7 @@
-" Plugins {{{
-"===============================================================================
-
 " Vundle {{{
-"-------------------------------------------------------------------------------
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible  " be iMproved, required
+filetype off      " required
 
 " set the runtime path to include Vundle and initialize
 if has('win32')
@@ -20,12 +16,51 @@ endif
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'lifepillar/vim-cheat40'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'fxn/vim-monochrome'
-Plugin 'voithos/vim-python-matchit'
+" text object {{{
+
+Plugin 'kana/vim-textobj-user'      " kana's objs depend on it
+Plugin 'kana/vim-textobj-entire'    " ie
+Plugin 'kana/vim-textobj-indent'    " ii
+Plugin 'kana/vim-textobj-line'      " il
+Plugin 'kana/vim-textobj-syntax'    " iy
+Plugin 'vim-scripts/argtextobj.vim' " ia
+
+" }}}
+" text editing {{{
+
+Plugin 'junegunn/vim-easy-align'
+Plugin 'AndrewRadev/splitjoin.vim'
+
+" }}}
+" aesthetic {{{
+
+Plugin 'ap/vim-css-color'
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+" }}}
+" IDE like {{{
+
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-fugitive'
 Plugin 'vim-scripts/taglist.vim'
-Plugin 'vim-scripts/argtextobj.vim'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+" }}}
+" language support {{{
+
+Plugin 'nelstrom/vim-markdown-folding'
+
+" }}}
+" misc {{{
+
 Plugin 'vim-scripts/vim-auto-save'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-surround'
@@ -33,231 +68,38 @@ Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-abolish'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'thinca/vim-textobj-comment'
-Plugin 'nelstrom/vim-markdown-folding'
-Plugin 'morhetz/gruvbox'
-Plugin 'mattn/webapi-vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-syntax'
-Plugin 'kana/vim-textobj-line'
-Plugin 'kana/vim-textobj-indent'
-Plugin 'kana/vim-textobj-entire'
-Plugin 'kana/vim-textobj-datetime'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'junegunn/limelight.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf'
-Plugin 'godlygeek/tabular'
-Plugin 'flazz/vim-colorschemes'
 Plugin 'deton/jasentence.vim'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'ap/vim-css-color'
-Plugin 'PProvost/vim-ps1'
-Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'leafgarland/typescript-vim'
-
-" React related
-Plugin 'Quramy/tsuquyomi'
-Plugin 'othree/yajs.vim'
-Plugin 'maxmellon/vim-jsx-pretty'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'othree/es.next.syntax.vim'
+Plugin 'vimwiki/vimwiki'
+Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+ 
+" }}}
+" disabled {{{
 
 " Plugin 'cd01/poshcomplete-vim'
-" Plugin 'vim-syntastic/syntastic'
-" Plugin 'vim-pandoc/vim-pandoc-syntax' 
-" Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-airline/vim-airline'
-Plugin 'tpope/vim-fugitive'
 " Plugin 'sjl/gundo.vim'
-Plugin 'scrooloose/nerdtree'
-" Plugin 'plasticboy/vim-markdown'
-" Plugin 'nelstrom/vim-visual-star-search'
 " Plugin 'kannokanno/previm'
 " Plugin 'kana/vim-textobj-fold'
 " Plugin 'jiangmiao/auto-pairs'
 " Plugin 'guns/vim-sexp'
-" Plugin 'glts/vim-textobj-comment'
-" Plugin 'danro/rename.vim'
 " Plugin 'christoomey/vim-titlecase'
 " Plugin 'christoomey/vim-sort-motion'
 " Plugin 'beloglazov/vim-online-thesaurus'
 " Plugin 'Yggdroot/indentLine'
-" Plugin 'Valloric/YouCompleteMe'
 
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'vimwiki/vimwiki'
+" }}}
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-"}}}
-" Taglist {{{
-
-let Tlist_Use_Right_Window = 1
-let Tlist_WinWidth = 40
-
-"}}}
-" CtrlP {{{
-"-------------------------------------------------------------------------------
-
-let g:ctrlp_map = '<F1>'
-let g:ctrlp_match_window = 'min:10,max:30'
-let g:ctrlp_working_path_mode = 'c'
-
-"}}}
-" splitjoin {{{
-"-------------------------------------------------------------------------------
-
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-nmap <Leader>J :SplitjoinJoin<cr>
-nmap <Leader>S :SplitjoinSplit<cr>
-
-"}}}
-" Limelight {{{
-"-------------------------------------------------------------------------------
-
-let g:limelight_default_coefficient = 0.8
-" let g:limelight_conceal_ctermfg = 237
-" let g:limelight_conceal_guifg = '#3c3836'
-let g:limelight_conceal_ctermfg = 239
-let g:limelight_conceal_guifg = '#504945'
-
-"}}}
-" Goyo {{{
-"-------------------------------------------------------------------------------
-
-let g:goyo_active = 0
-
-function! s:goyo_enter()
-    let g:goyo_active = 1
-    set showmode
-    set showcmd
-    " set number
-    " set relativenumber
-    " set cursorline
-endfunction
-
-function! s:goyo_leave()
-    let g:goyo_active = 0
-endfunction
-
-function! ToggleGoyo()
-    if g:goyo_active
-        execute "normal :Goyo!\<CR>"
-    else
-        execute "normal :Goyo\<CR>"
-    endif
-endfunction
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
 " }}}
-" fzf.vim"{{{
-"-------------------------------------------------------------------------------
 
-"}}}
-" vim-airline"{{{
-"-------------------------------------------------------------------------------
-
-if has('unix') || has('gui_running')
-    set t_Co=256
-    set laststatus=2
-    let g:airline_powerline_fonts = 1
-    let g:airline#extensions#tabline#enabled = 1
-endif
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-"}}}
-" repeat.vim"{{{
-"-------------------------------------------------------------------------------
-
-silent! call repeat#set("\<Plug>MyWonderfulMap", v : count)
-
-"}}}
-" previm"{{{
-"-------------------------------------------------------------------------------
-
-" let g:previm_open_cmd = 'firefox'
-" let g:previm_show_header = 0
-" let g:previm_custom_css_path = '/home/kero/git/PrivateRepo/work/github.sp.css'
-
-"}}}
-" vim-titlecase {{{
-"-------------------------------------------------------------------------------
-
-let g:titlecase_map_keys = 0
-
-" }}}
-" netrw {{{
-
-" command - new file: %   new dir: d
-let g:netrw_banner=1
-" let g:netrw_banner=0        " disable annoying banner
-let g:netrw_browse_split=4  " open in prior window
-let g:netrw_altv=1          " open splits to the right
-let g:netrw_liststyle=3     " tree view
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-
-" }}}
-" vim-auto-save {{{
-
-let g:auto_save = 1  " enable AutoSave on Vim startup
-let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-
-" let g:auto_save_no_updatetime = 1  " do not change the 'updatetime' option
-" let g:auto_save_silent = 1  " do not display the auto-save notification
-" let g:auto_save_postsave_hook = 'TagsGenerate'  " this will run :TagsGenerate after each save
-
-" }}}
-" vim-markdown-folding {{{
-
-let g:markdown_fold_style = 'nested'
-
-" }}}
-" NERDTree {{{
-
-nnoremap <Leader>N :NERDTreeToggle<CR>
-
-" }}}
-"}}}
-
-" vimwiki {{{
-
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
-" let g:vimwiki_folding = 'custom'
-" expr, list, syntax, custom
-"}}}
-
-" Misc {{{
-"-------------------------------------------------------------------------------
-
-" matchit
-runtime macros/matchit.vim
-
-"}}}
-
-" }}}
-" My Vars & Opts {{{
-"===============================================================================
-
-" Global Vars {{{
-"-------------------------------------------------------------------------------
+" VARIABLE {{{
 
 let g:my_ftmode = 'default'
 
 " }}}
-" Options {{{
-"-------------------------------------------------------------------------------
+
+" OPTION {{{
 
 if has("syntax")
     syntax on
@@ -289,33 +131,6 @@ set nolist  " list disables linebreak
 set textwidth=0
 set wrapmargin=0
 
-" status line
-" set statusline+=%h   "Help buffer flag, text is [help]
-" set statusline+=%q   "[Quickfix List], [Location List] or empty. 
-" set statusline+=\ 
-" set statusline=%<    "Where to truncate line if too long.  Default is at the start.
-" set statusline+=%f   "Path to the file in the buffer, as typed or relative to current
-" set statusline+=\ 
-" set statusline+=%m   "Modified flag, text is [+]; [-] if 'modifiable' is off.
-" set statusline+=\ 
-" set statusline+=%w   "Preview window flag, text is [Preview].
-" set statusline+=\ 
-" set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}
-" set statusline+=%r   "Readonly flag, text is [RO].
-" set statusline+=%y   "Type of file in the buffer, e.g., [vim].  See 'filetype'.
-" set statusline+=%{(g:my_ftmode==#'kana'?'[FT-KANA]':'')}
-" set statusline+=%=
-" set statusline+=\ C\ 
-" set statusline+=%v   "Virtual column number.
-" set statusline+=\ \ L\ 
-" set statusline+=%l   "Line number.
-" set statusline+=\ /\ 
-" set statusline+=%L   "Number of lines in buffer.
-" set statusline+=%6P  "Percentage through file of displayed window.
-" set statusline+=\ \ 
-
-set laststatus=2
-
 " split
 set diffopt+=vertical
 set splitright
@@ -335,40 +150,22 @@ set showcmd
 set path+=**
 set wildmenu
 set wildmode=full
-set clipboard=unnamed
+set clipboard=unnamedplus
 set backspace=indent,eol,start
 set autowrite
 set nrformats=
 set pastetoggle=<C-V>v
-" set autosave=60
-
-"}}}
-" Mapping"{{{
-"-------------------------------------------------------------------------------
-
-" Basic {{{
-
-nnoremap <Space> <nop>
-let mapleader = "\<Space>"
-nnoremap <Del> <nop>
+set laststatus=2
+set noswapfile
 
 " }}}
-" Operator {{{
 
-" delete into the blackhole register
-nnoremap <Leader>d "_d
+" FUNCTION {{{
 
-" clear indentation
-nnoremap <Leader>< :set operatorfunc=ClearIndent<CR>g@
-vnoremap <Leader>< :left<CR>
 function! ClearIndent(type)
     silent execute "normal! '[V']:left\r"
 endfunction
 
-" yank to another buffer in the right
-nnoremap <Leader>y :set operatorfunc=YankToMemo<CR>g@
-vnoremap <Leader>y :call YankToMemo(visualmode(), 1)<CR>
-nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 function! YankToMemo(type, ...) range
     let sel_save = &selection
     let &selection = 'inclusive'
@@ -401,10 +198,6 @@ function! YankToMemo(type, ...) range
     let &selection = sel_save
 endfunction
 
-" join lines with delimiters
-nmap <silent> <Plug>(JoinLines) :set operatorfunc=JoinLines<CR>g@
-nmap <silent> <Leader>j <Plug>(JoinLines)
-vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
 function! JoinLines(type) range
     let reg_save = @@
     normal! '[d']
@@ -430,10 +223,6 @@ function! JoinLines(type) range
     let @@ = reg_save
 endfunction
 
-" mark lines as list
-nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
-nmap <silent> <Leader>L :set operatorfunc=MarkListItems<CR>g@
-vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 function! MarkListItems(type) range
     let reg_save = @@
 
@@ -487,9 +276,139 @@ function! MarkListItems(type) range
     let @@ = reg_save
 endfunction
 
-" using plugin
-xmap <Leader>a <Plug>(EasyAlign)
-nmap <Leader>a <Plug>(EasyAlign)
+function! DeleteMatchedLines(invert, pattern)
+    let lnum = line('.')
+
+    if a:invert
+        execute 'v/' . a:pattern . '/d'
+    else
+        execute 'g/' . a:pattern . '/d'
+    endif
+
+    let last_line = line('$')
+
+    if lnum > last_line
+        let lnum = last_line
+    endif
+
+    silent! execute lnum
+endfunction
+
+function! SetHorizontalRule(lnum, level, len)
+    let hr_chars  = [ '', '=', '-' ]
+
+    if a:level < 1 || a:level > 2
+        echoerr 'level must be a number between 1 and 2' 
+        return
+    endif
+
+    if a:lnum > 0
+        let hd_lnum = a:lnum
+    else
+        let hd_lnum = line('.')
+    endif
+
+    if a:len
+        let hr_len  = a:len
+    else
+        let hd_line = getline(hd_lnum)
+        let hr_len  = strwidth(hd_line)
+    endif
+
+    let hrule     = repeat(hr_chars[a:level], hr_len)
+    let next_line = getline(hd_lnum + 1)
+
+    if match(next_line, '\v^[-=]+$') >= 0
+        call setline(hd_lnum + 1, hrule)
+    else
+        call append(hd_lnum, hrule)
+    endif
+endfunction
+
+function! ToggleBackground()
+    if &background ==# 'dark'
+        set background=light
+    else
+        set background=dark
+    endif
+endfunction
+
+function! ToggleColorColumn()
+    if &colorcolumn == 80
+        set colorcolumn=
+    else
+        set colorcolumn=80
+    endif
+endfunction
+
+function! ToggleFTMode()
+    if g:my_ftmode ==# 'kana'
+        map f f
+        map F F
+        map t t
+        map T T
+        let g:my_ftmode = 'default'
+        highlight! link CursorLine CursorColumn
+    else
+        noremap f f<C-K>
+        noremap F F<C-K>
+        noremap t t<C-K>
+        noremap T T<C-K>
+        let g:my_ftmode = 'kana'
+        highlight! link CursorLine Error
+    endif
+endfunction
+
+" vimcasts.org - show highlight group for the cword
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
+" }}}
+
+" COMMAND {{{
+
+command! -nargs=1 -complete=file Rename file <args> | write | call delete(expand('#'))
+command! -nargs=0 Cd lcd $HOME/Desktop
+command! -nargs=+ -complete=command DeleteMatchedLines call DeleteMatchedLines(<f-args>)
+
+" }}}
+
+" MAPPING {{{
+
+" Basic {{{
+
+nnoremap <Space> <nop>
+let mapleader = "\<Space>"
+nnoremap <Del> <nop>
+
+" }}}
+" Operator {{{
+
+" delete into the blackhole register
+nnoremap <Leader>d "_d
+
+" clear indentation
+nnoremap <Leader>< :set operatorfunc=ClearIndent<CR>g@
+vnoremap <Leader>< :left<CR>
+
+" yank to another buffer in the right
+nnoremap <Leader>y :set operatorfunc=YankToMemo<CR>g@
+vnoremap <Leader>y :call YankToMemo(visualmode(), 1)<CR>
+nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
+
+" join lines with delimiters
+nmap <silent> <Plug>(JoinLines) :set operatorfunc=JoinLines<CR>g@
+nmap <silent> <Leader>j <Plug>(JoinLines)
+vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
+
+" mark lines as list
+nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
+nmap <silent> <Leader>L :set operatorfunc=MarkListItems<CR>g@
+vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 
 " }}}
 " Motion {{{
@@ -497,7 +416,8 @@ nmap <Leader>a <Plug>(EasyAlign)
 " map <Tab> %
 nnoremap n nzzzv
 nnoremap N Nzzzv
-" for motion repeat
+
+" for motion repeat with <Leader>.
 nnoremap <Leader>m :normal<Space>
 
 " }}}
@@ -529,7 +449,6 @@ nnoremap <Leader>h :nohlsearch<CR>
 " substitution
 nnoremap <Leader>/s :%s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/S :%s/\v^//g<LEFT><LEFT><LEFT>
-nnoremap <Leader>/a :%Subvert/{}/{}/g<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
 
 " delete matched lines
 nnoremap <Leader>/d :DeleteMatchedLines<SPACE>0<SPACE>
@@ -549,6 +468,7 @@ nnoremap <Leader>/L :cexpr []<CR>:silent! execute 'argdo vimgrepadd /' . @/ . '/
 " }}}
 " Editing (Not Operator) {{{
 
+" to avoid entering insert mode
 nnoremap <Leader><CR> mzi<CR><Esc>`z
 nnoremap <Leader><Space> i<Space><Esc>
 
@@ -558,13 +478,9 @@ nmap <Leader>s <Plug>CorrectNextSpellError
 nmap <Plug>CorrectPrevSpellError [s1z=:call repeat#set("\<Plug>CorrectPrevSpellError")<CR>
 nmap <Leader>S <Plug>CorrectPrevSpellError
 
-" empty lines
+" remove empty lines
 nnoremap <silent> <Leader>e :silent! execute "%s/\u00a0//g"<CR>:silent! execute "normal! zR\r:g/^\\s*$/,/./-j\r:nohlsearch\r"<CR>
 nnoremap <silent> <Leader>E :silent! execute "%s/\u00a0//g"<CR>:silent! execute "normal! :g/^\\s*$/d\r:nohlsearch\r"<CR>
-
-" toggle boolean
-nnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
-vnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
 
 " decorating
 nnoremap <Leader>1 :call SetHorizontalRule(0, 1, 0)<CR>
@@ -574,14 +490,6 @@ nnoremap <Leader>2 :call SetHorizontalRule(0, 2, 0)<CR>
 nmap <Leader>,, <Plug>(JoinLines)ip,
 nmap <Leader>,' <Plug>(JoinLines)ip',
 nmap <Leader>," <Plug>(JoinLines)ip",
-
-" easier align
-nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
-nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
-
-" table
-nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
-nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>:nohlsearch<CR>
 
 " calculation
 nmap <Leader>+ A<Space>=<Space><C-R>=eval(substitute(substitute(getline('.'), '\v\D+', '+', 'g'), '\v(^\++<BAR>\++$)', '', 'g'))<CR><ESC>
@@ -622,6 +530,7 @@ nnoremap <Leader>W :wq<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :q!<CR>
 nnoremap <Leader><C-Q> :qa!<CR>
+nnoremap <Leader><C-X> :qa!<CR>
 nnoremap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR>
 
 " }}}
@@ -632,11 +541,15 @@ nnoremap <Esc>c :call ToggleColorColumn()<CR>
 nnoremap <Esc>l :set list!<CR>
 nnoremap <Esc>r :set relativenumber!<CR>
 nnoremap <Esc>s :set spell!<CR>
-nnoremap <Esc>G :call ToggleGoyo()<CR>
-nnoremap <Esc>L :Limelight!!<CR>
 nnoremap <Esc>f :call ToggleFTMode()<CR>
 nnoremap <Esc>d :windo diffthis<CR>
 nnoremap <Esc>D :windo diffoff<CR>
+
+" }}}
+" repeat command {{{
+
+nnoremap <Leader>. @:
+nnoremap <Leader>v :execute 'vertical ' . @:<CR>
 
 " }}}
 " Insert Mode {{{
@@ -664,10 +577,6 @@ inoremap <C-C> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
 " }}}
 " Command-Line Mode {{{
 
-nnoremap <Leader>. @:
-nnoremap <Leader>v :execute 'vertical ' . @:<CR>
-nnoremap <Leader>; q:
-
 " make command-line mode more like bash default binding
 cnoremap <C-A> <HOME>
 cnoremap <C-B> <LEFT>
@@ -677,22 +586,6 @@ cnoremap <C-H> <BS>
 cnoremap <C-Y> <C-R>"
 cnoremap <ESC><C-F> <C-F>
 cnoremap <ESC><C-D> <C-D>
-
-" }}}
-" Plugin Launcher {{{
-
-" taglist
-nnoremap <Leader><C-T> :TlistToggle<CR>
-
-" CtrlP
-nnoremap <Leader><C-P> :CtrlPLine<CR>
-
-" fzf.vim
-nnoremap <Leader><C-F> :Files<CR>
-nnoremap <Leader><C-L> :Lines<CR>
-nnoremap <Leader><C-B> :Buffers<CR>
-nnoremap <Leader><C-A> :Ag<CR>
-nnoremap <Leader><C-H> :History<CR>
 
 " }}}
 " Misc {{{
@@ -706,27 +599,15 @@ nnoremap Q @q
 " check highlight group of current word
 nnoremap <Leader>ch :call <SID>SynStack()<CR>
 
-" quickfix list
-" nnoremap <Leader>C :cexpr []<CR>
-" nnoremap <C-N> :cnext<CR>
-" nnoremap <C-P> :cprevious<CR>
-
-" ime
+" IME
 nnoremap <ESC>i :set iminsert=0<CR>
 cnoremap <ESC>i :set iminsert=0<CR>
 
 " }}}
 
-"}}}
-" Command {{{
-
-command! -nargs=1 -complete=file Rename file <args> | write | call delete(expand('#'))
-command! -nargs=0 Cd lcd $HOME/Desktop
-command! -nargs=+ -complete=command DeleteMatchedLines call DeleteMatchedLines(<f-args>)
-
 " }}}
-" Autocmd"{{{
-"-------------------------------------------------------------------------------
+
+" AUTOCMD {{{
 
 " All Types {{{
 
@@ -746,26 +627,6 @@ augroup ft_sh
     autocmd FileType sh nnoremap <buffer> <LocalLeader>,s :-1read $HOME/.vim/skelton/bash_script.txt<CR>G3
 augroup END
 
-" }}}
-" Markdown {{{
-augroup ft_markdown
-    autocmd!
-    autocmd FileType markdown let maplocalleader = "\<Space>"
-    autocmd FileType markdown nnoremap <buffer> ]] :call search('\v^```', 'W')<CR>
-    autocmd FileType markdown nnoremap <buffer> [[ :call search('\v^```', 'bW')<CR>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
-    autocmd FileType markdown vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>cc :call RunPandoc(1, 1)<CR>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>ch :call RunPandoc(1, 0)<CR>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>wh :call RunPandoc(0, 0)<CR>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>3 I### <C-[>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>4 I#### <C-[>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>5 I##### <C-[>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>6 I###### <C-[>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
-    autocmd FileType markdown nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
-augroup END
 " }}}
 " PowerShell {{{
 
@@ -869,328 +730,10 @@ augroup ft_py
 augroup END
 
 " }}}
-" Transcript {{{
-
-" autocmd BufRead,BufNewFile *.ts		set filetype=transcript
-"
-"augroup ft_transcript
-"  autocmd!
-"  autocmd FileType transcript let maplocalleader = "\<Space>"
-"  autocmd FileType transcript syntax match MyKeyword '\v`[^`]+`'
-"  autocmd FileType transcript highlight link MyKeyword Title
-"  autocmd FileType transcript syntax match Nonspeech '\v\[[^\]]+]'
-"  autocmd FileType transcript highlight link Nonspeech Comment
-"  autocmd FileType transcript syntax match Character '\v^[^:]+:'
-"  autocmd FileType transcript highlight link Character Constant
-"  autocmd FileType transcript setlocal foldmethod=expr
-"  autocmd FileType transcript setlocal foldexpr=TranscriptFolds()
-"  autocmd FileType transcript nmap <buffer> <LocalLeader>k ysiw`
-"  autocmd FileType transcript vmap <buffer> <LocalLeader>k S`
-"  autocmd FileType transcript nnoremap <buffer> <C-N> :call search('\v`[^`]+`', 'W')<CR>
-"  autocmd FileType transcript nnoremap <buffer> <C-P> :call search('\v`[^`]+`', 'bW')<CR>
-"  autocmd FileType transcript nnoremap <buffer> j zj
-"  autocmd FileType transcript nnoremap <buffer> k zk
-"  autocmd FileType transcript execute "Limelight"
-"augroup END
-"
-"function! TranscriptFolds()
-"  let thisline = getline(v:lnum)
-"  if thisline =~? '\v^[^:]+:'
-"    return '>1'
-"  else
-"    return '='
-"  endif
-"endfunction
-"
-"function! FmtTSAT()
-"  silent! execute "normal! ggd/^TranscriptEdit/+\r"
-"  silent! execute "normal! gg/\\cepisode ends\rdG"
-"  silent! execute ':%s/\v^\s+//'
-"  silent! execute "normal \<Plug>(EasyAlign)ie\<Right>:"
-"  silent! execute ':%s/\v([^:]+\w)(\s*)\s:/\2\1 :/'
-"endfunction
-"
-" " http://vim.wikia.com/wiki/Improved_hex_editing
-" augroup Binary
-"   au!
-"   au BufReadPre  *.bin let &bin=1
-"   au BufReadPost *.bin if &bin | %!xxd
-"   au BufReadPost *.bin set ft=xxd | endif
-"   au BufWritePre *.bin if &bin | %!xxd -r
-"   au BufWritePre *.bin endif
-"   au BufWritePost *.bin if &bin | %!xxd
-"   au BufWritePost *.bin set nomod | endif
-" augroup END
 
 " }}}
 
-" Unsorted {{{
-
-" autocmd FileType pl :set dictionary+=/etc/vim/dict/perl_functions.dict
-" autocmd FileType python set omnifunc=pythoncomplete#Complete
-" autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-" autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-" autocmd FileType c set omnifunc=ccomplete#Complete
-
-" }}}
-" }}}
-" Global Function"{{{
-"===============================================================================
-
-" Editing {{{
-
-function! DeleteMatchedLines(invert, pattern)
-    let lnum = line('.')
-
-    if a:invert
-        execute 'v/' . a:pattern . '/d'
-    else
-        execute 'g/' . a:pattern . '/d'
-    endif
-
-    let last_line = line('$')
-
-    if lnum > last_line
-        let lnum = last_line
-    endif
-
-    silent! execute lnum
-endfunction
-
-function! SetHorizontalRule(lnum, level, len)
-    let hr_chars  = [ '', '=', '-' ]
-
-    if a:level < 1 || a:level > 2
-        echoerr 'level must be a number between 1 and 2' 
-        return
-    endif
-
-    if a:lnum > 0
-        let hd_lnum = a:lnum
-    else
-        let hd_lnum = line('.')
-    endif
-
-    if a:len
-        let hr_len  = a:len
-    else
-        let hd_line = getline(hd_lnum)
-        let hr_len  = strwidth(hd_line)
-    endif
-
-    let hrule     = repeat(hr_chars[a:level], hr_len)
-    let next_line = getline(hd_lnum + 1)
-
-    if match(next_line, '\v^[-=]+$') >= 0
-        call setline(hd_lnum + 1, hrule)
-    else
-        call append(hd_lnum, hrule)
-    endif
-endfunction
-
-" }}}
-" Toggling Stuff {{{
-
-function! ToggleBackground()
-    if &background ==# 'dark'
-        set background=light
-    else
-        set background=dark
-    endif
-endfunction
-
-function! ToggleColorColumn()
-    if &colorcolumn == 80
-        set colorcolumn=
-    else
-        set colorcolumn=80
-    endif
-endfunction
-
-function! ToggleFTMode()
-    if g:my_ftmode ==# 'kana'
-        map f f
-        map F F
-        map t t
-        map T T
-        let g:my_ftmode = 'default'
-        highlight! link CursorLine CursorColumn
-    else
-        noremap f f<C-K>
-        noremap F F<C-K>
-        noremap t t<C-K>
-        noremap T T<C-K>
-        let g:my_ftmode = 'kana'
-        highlight! link CursorLine Error
-    endif
-endfunction
-
-function! ToggleDiff()
-
-
-endfunction
-
-" }}}
-" Pandoc {{{
-
-function! RunPandoc(clip, gfm)
-    let mdpath = expand("%")
-    if mdpath =~? '\.md$'
-        if a:clip
-            if has('win32')
-                if a:gfm
-                    let cmd = '!chcp 65001 && pandoc "%" -f markdown_github -t html | clip' 
-                else
-                    let cmd = '!chcp 65001 && pandoc "%" -f markdown -t html | clip' 
-                endif
-                silent execute cmd
-            else
-                silent execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown_github -t html | xclip -selection clipboard' | execute ':redraw!'
-                echo 'generated html has been copied to clipboard.'
-            endif
-        else
-            let htpath = substitute(mdpath, '\.md$', '.html', '')
-            let csspath = "../Assets/github.sp.css"
-            if a:gfm
-                execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown_github -t html -c' . ' "' . csspath '" ' . '-o' . ' ' . escape(shellescape(htpath), '%') . '' | execute ':redraw!'
-            else
-                execute '!pandoc' . ' ' . escape(shellescape(mdpath), '%') . ' ' . '-f markdown -t html -c' . ' "' . csspath '" ' . '-o' . ' ' . escape(shellescape(htpath), '%') . '' | execute ':redraw!'
-            endif
-        endif
-    else
-        echo 'not a markdown. skipped.'
-    endif
-endfunction
-
-" }}}
-" Misc {{{
-
-" https://gist.github.com/tpope/287147
-inoremap <silent> <Bar> <Bar><Esc>:call <SID>align()<CR>a
-function! s:align()
-    let p = '^\s*|\s.*\s|\s*$'
-    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-        Tabularize/|/l1
-        normal! 0
-        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-    endif
-endfunction
-
-" vimcasts.org
-" show highlight group for the cword
-function! <SID>SynStack()
-    if !exists("*synstack")
-        return
-    endif
-    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
-" }}}
-
-"}}}
-" Dictionary"{{{
-"-------------------------------------------------------------------------------
-
-function! ShowWordDef(vertical)
-    let cword       = expand('<cword>')
-    let back_to_cmd = 0
-
-    if has('win32')
-        if &shell =~# 'cmd'
-            let back_to_cmd = 1
-            SwitchToPosh
-        endif
-        let dict_cmd = 'Get-WordDefinition'
-    else
-        let dict_cmd = 'sdcv'
-    endif
-
-    let winnr = bufwinnr('__WordDef__')
-    if winnr > 0
-        execute winnr . 'wincmd w'
-    else
-        if a:vertical
-            vsplit __WordDef__
-        else
-            20split __WordDef__
-        endif
-    endif
-
-    setlocal filetype=wdef
-    setlocal buftype=nofile
-
-    normal! ggdG
-    silent! execute '-1read !' . dict_cmd . ' ' . cword
-
-    " maybe this formatting should be externally done by using tools like sed
-    if dict_cmd ==# 'sdcv'
-        let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
-        " see also + more at: prefix with >, put line breaks before & after
-        silent! execute '%s/\v^(see\salso\s.*|more\sat\s.*)$/\r  > \1\r/'
-        " split examples, that start with star
-        silent! execute '%s/\v\s\*\s/\r/g'
-        "example lines: prefix with -, indent
-        silent! execute '%s/\v^([a-zA-Z0-9[(].*[^:])\s*$/  - \1'
-        " word class: prefix with =, separate definition part, put line breaks before & after
-        silent! execute '%s/\v\c^\s{4}(' . wordclass . ')\s*(.*)$/\r[\U\1]\E\r\r\2\r/'
-        " category line: prefix with #, put line breaks before & after
-        silent! execute '%s/\v^\s{2}([a-zA-Z].*[^:])\s*$/\r# \1\r/'
-        " definition line: decorate number in the beginning
-        silent! execute '%s/\v^\s*(\d+)\s*(.*\s+.*:)\s*$/\1. \2/'
-        " definition line: putline breaks before & after, clear indent
-        silent! execute '%s/\v^\s*(.*\s+.*:)\s*$/\r\1\r/'
-        " sub section heading: enclose with bar, put line breaks before & after, clear indent
-        silent! execute '%s/\v^\s{1}([A-Z].*[A-Z])\s*$/\r|\1|\r/'
-        " remove unwanted beginning lines
-        silent! execute '1,5d'
-        " join multiple blank lines into one
-        silent! execute 'normal! :g/\v^\s*$/,/\S/-j' . "\r" . ':nohlsearch' . "\r"
-    endif
-
-    normal! gg
-
-    if back_to_cmd
-        SwitchToCmd
-    endif
-endfunction
-
-if has('win32')
-    augroup ft_wdef
-        autocmd!
-        autocmd FileType wdef syntax match WDefWord '\v^\w.*$'
-        autocmd FileType wdef highlight link WDefWord Title
-        autocmd FileType wdef syntax match WDefDef '\v^\s\s\[\d+\].*$'
-        autocmd FileType wdef highlight link WDefDef MoreMsg
-    augroup END
-else
-    augroup ft_wdef
-        autocmd!
-        autocmd FileType wdef syntax match WDefGroup '\v^#\s.*'
-        autocmd FileType wdef highlight link WDefGroup Title
-        autocmd FileType wdef syntax match WDefDef '\v^.*:\s*$'
-        autocmd FileType wdef highlight link WDefDef MoreMsg
-        autocmd FileType wdef syntax match WDefSubsect '\v^\|.*$'
-        autocmd FileType wdef highlight link WDefSubsect Conceal
-        autocmd FileType wdef syntax match WDefClass '\v^\[.*\s*$'
-        autocmd FileType wdef highlight link WDefClass Macro
-        autocmd FileType wdef syntax match WDefAdditional '\v^\s*\>.*$'
-        autocmd FileType wdef highlight link WDefAdditional Comment
-    augroup END
-endif
-
-" man
-
-let $GROFF_NO_SGR=1
-source $VIMRUNTIME/ftplugin/man.vim
-
-"}}}
-" Japanese-Related"{{{
-"-------------------------------------------------------------------------------
+" DIGRAPH {{{
 
 " hiragana
 digraph aa 12354
@@ -1233,13 +776,13 @@ digraph UU 12453
 digraph EE 12455
 digraph OO 12457
 
-"}}}
-" Colors"{{{
-"-------------------------------------------------------------------------------
+" }}}
 
-let g:gruvbox_bold      = 0
+" COLORS {{{
+
+let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
-let g:gruvbox_underline = 0
+let g:gruvbox_underline = 1
 " let g:gruvbox_contrast_dark = 'hard'
 
 if has('gui_running')
@@ -1267,16 +810,17 @@ endif
 " i don't like the plugin's default.
 highlight! link TagListFileName MoreMsg
 
-"}}}
-" Abbreviation {{{
-"-------------------------------------------------------------------------------  
+" }}}
+
+" ABBREVIATION {{{
 
 iabbrev qbf The quick brown fox jumps over the lazy dog
 cabbrev aga silent! argdo vimgrepadd /\v/ %<LEFT><LEFT><LEFT>
 cabbrev bga silent! bufdo vimgrepadd
 
 " }}}
-" MS Windows {{{
+
+" MS WINDOWS {{{
 
 if has('win32')
     " options
@@ -1453,15 +997,287 @@ endif
 
 " }}}
 
+" PLUGIN {{{
+
+" Taglist {{{
+
+let Tlist_Use_Right_Window = 1
+let Tlist_WinWidth = 40
+nnoremap <Leader><C-T> :TlistToggle<CR>
+
 " }}}
-" Temp {{{
-"===============================================================================
+" EasyAlign {{{
+
+xmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
+nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
+nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
+nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>:nohlsearch<CR>
+
+" }}}
+" splitjoin {{{
+
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+nmap <Leader>J :SplitjoinJoin<cr>
+nmap <Leader>S :SplitjoinSplit<cr>
+
+" }}}
+" Abolish {{{
+
+nnoremap <Leader>/a :%Subvert/{}/{}/g<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
+vnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
+
+" }}}
+" repeat.vim"{{{
+
+silent! call repeat#set("\<Plug>MyWonderfulMap", v : count)
+
+" }}}
+" NERDTree {{{
+
+nnoremap <Leader>N :NERDTreeToggle<CR>
+
+" }}}
+" CtrlP {{{
+
+let g:ctrlp_map = '<F1>'
+let g:ctrlp_match_window = 'min:10,max:30'
+let g:ctrlp_working_path_mode = 'c'
+nnoremap <Leader><C-P> :CtrlPLine<CR>
+
+" }}}
+" fzf.vim {{{
+
+nnoremap <Leader><C-F> :Files<CR>
+nnoremap <Leader><C-L> :Lines<CR>
+nnoremap <Leader><C-B> :Buffers<CR>
+nnoremap <Leader><C-A> :Ag<CR>
+nnoremap <Leader><C-H> :History<CR>
+
+" }}}
+" Limelight {{{
+
+let g:limelight_default_coefficient = 0.8
+let g:limelight_conceal_ctermfg = 239
+let g:limelight_conceal_guifg = '#504945'
+nnoremap <Esc>L :Limelight!!<CR>
+
+" }}}
+" Goyo {{{
+
+let g:goyo_active = 0
+
+function! s:goyo_enter()
+    let g:goyo_active = 1
+    set showmode
+    set showcmd
+    " set number
+    " set relativenumber
+    " set cursorline
+endfunction
+
+function! s:goyo_leave()
+    let g:goyo_active = 0
+endfunction
+
+function! ToggleGoyo()
+    if g:goyo_active
+        execute "normal :Goyo!\<CR>"
+    else
+        execute "normal :Goyo\<CR>"
+    endif
+endfunction
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nnoremap <Esc>G :call ToggleGoyo()<CR>
+
+" }}}
+" vim-airline"{{{
+
+set t_Co=256
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" }}}
+" previm"{{{
+
+let g:previm_open_cmd = 'firefox'
+let g:previm_show_header = 0
+let g:previm_custom_css_path = '/home/kero/git/PrivateRepo/work/github.sp.css'
+
+" }}}
+" vim-auto-save {{{
+
+" let g:auto_save = 1                " enable AutoSave on Vim startup
+" let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
+
+" }}}
+" vim-markdown-folding {{{
+
+let g:markdown_fold_style = 'nested'
+
+" }}}
+" vimwiki {{{
+
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+" let g:vimwiki_folding = 'custom'
+" expr, list, syntax, custom
+
+" }}}
+" instant-markdown {{{
+
+" let g:instant_markdown_slow = 1
+let g:instant_markdown_autostart = 0
+" let g:instant_markdown_open_to_the_world = 1
+" let g:instant_markdown_allow_unsafe_content = 1
+" let g:instant_markdown_allow_external_content = 0
+" let g:instant_markdown_mathjax = 1
+let g:instant_markdown_logfile = '~/.instant_markdown.log'
+" let g:instant_markdown_autoscroll = 0
+let g:instant_markdown_port = 8890
+" let g:instant_markdown_python = 1
+
+" }}}
+" matchit {{{
+
+runtime macros/matchit.vim
+
+" }}}
+
+" }}} 
+
+" DICTIONARY {{{
+
+function! ShowWordDef(vertical)
+    let cword       = expand('<cword>')
+    let back_to_cmd = 0
+    let dict_cmd    = 'sdcv'
+
+    let winnr = bufwinnr('__WordDef__')
+    if winnr > 0
+        execute winnr . 'wincmd w'
+    else
+        if a:vertical
+            vsplit __WordDef__
+        else
+            20split __WordDef__
+        endif
+    endif
+
+    setlocal filetype=wdef
+    setlocal buftype=nofile
+
+    normal! ggdG
+    silent! execute '-1read !' . dict_cmd . ' ' . cword
+
+    let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
+    " see also + more at: prefix with >, put line breaks before & after
+    silent! execute '%s/\v^(see\salso\s.*|more\sat\s.*)$/\r  > \1\r/'
+    " split examples, that start with star
+    silent! execute '%s/\v\s\*\s/\r/g'
+    "example lines: prefix with -, indent
+    silent! execute '%s/\v^([a-zA-Z0-9[(].*[^:])\s*$/  - \1'
+    " word class: prefix with =, separate definition part, put line breaks before & after
+    silent! execute '%s/\v\c^\s{4}(' . wordclass . ')\s*(.*)$/\r[\U\1]\E\r\r\2\r/'
+    " category line: prefix with #, put line breaks before & after
+    silent! execute '%s/\v^\s{2}([a-zA-Z].*[^:])\s*$/\r# \1\r/'
+    " definition line: decorate number in the beginning
+    silent! execute '%s/\v^\s*(\d+)\s*(.*\s+.*:)\s*$/\1. \2/'
+    " definition line: putline breaks before & after, clear indent
+    silent! execute '%s/\v^\s*(.*\s+.*:)\s*$/\r\1\r/'
+    " sub section heading: enclose with bar, put line breaks before & after, clear indent
+    silent! execute '%s/\v^\s{1}([A-Z].*[A-Z])\s*$/\r|\1|\r/'
+    " remove unwanted beginning lines
+    silent! execute '1,5d'
+    " join multiple blank lines into one
+    silent! execute 'normal! :g/\v^\s*$/,/\S/-j' . "\r" . ':nohlsearch' . "\r"
+
+    normal! gg
+
+endfunction
+
+augroup ft_wdef
+    autocmd!
+    autocmd FileType wdef syntax match WDefGroup '\v^#\s.*'
+    autocmd FileType wdef highlight link WDefGroup Title
+    autocmd FileType wdef syntax match WDefDef '\v^.*:\s*$'
+    autocmd FileType wdef highlight link WDefDef MoreMsg
+    autocmd FileType wdef syntax match WDefSubsect '\v^\|.*$'
+    autocmd FileType wdef highlight link WDefSubsect Conceal
+    autocmd FileType wdef syntax match WDefClass '\v^\[.*\s*$'
+    autocmd FileType wdef highlight link WDefClass Macro
+    autocmd FileType wdef syntax match WDefAdditional '\v^\s*\>.*$'
+    autocmd FileType wdef highlight link WDefAdditional Comment
+augroup END
+
+" man
+
+let $GROFF_NO_SGR=1
+source $VIMRUNTIME/ftplugin/man.vim
+
+" }}}
+
+" Markdown {{{
+
+augroup ft_markdown
+    autocmd!
+    autocmd FileType markdown,vimwiki let maplocalleader = "\<Space>"
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
+    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>1 I# <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>2 I## <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>3 I### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>4 I#### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>5 I##### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>6 I###### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bv {o```vim<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
+augroup END
+
+" }}}
+
+" TESTING {{{
+
+" status line
+" set statusline+=%h   "Help buffer flag, text is [help]
+" set statusline+=%q   "[Quickfix List], [Location List] or empty. 
+" set statusline+=\ 
+" set statusline=%<    "Where to truncate line if too long.  Default is at the start.
+" set statusline+=%f   "Path to the file in the buffer, as typed or relative to current
+" set statusline+=\ 
+" set statusline+=%m   "Modified flag, text is [+]; [-] if 'modifiable' is off.
+" set statusline+=\ 
+" set statusline+=%w   "Preview window flag, text is [Preview].
+" set statusline+=\ 
+" set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}
+" set statusline+=%r   "Readonly flag, text is [RO].
+" set statusline+=%y   "Type of file in the buffer, e.g., [vim].  See 'filetype'.
+" set statusline+=%{(g:my_ftmode==#'kana'?'[FT-KANA]':'')}
+" set statusline+=%=
+" set statusline+=\ C\ 
+" set statusline+=%v   "Virtual column number.
+" set statusline+=\ \ L\ 
+" set statusline+=%l   "Line number.
+" set statusline+=\ /\ 
+" set statusline+=%L   "Number of lines in buffer.
+" set statusline+=%6P  "Percentage through file of displayed window.
+" set statusline+=\ \ 
 
 " set undodir=~/.vim/tmp/undo//
 " set backupdir=~/.vim/tmp/backup//
 " set directory=~/.vim/tmp/swap//
 " set backup
-set noswapfile
 
 " nmap <Plug>TransposeCharacters xp:call repeat#set("\<Plug>TransposeCharacters")<CR>
 " nmap cp <Plug>TransposeCharacters
@@ -1490,6 +1306,16 @@ if has('multi_byte_ime')
     highlight link CursorIM Error
 endif
 
-set conceallevel=3
+" http://vim.wikia.com/wiki/Improved_hex_editing
+" augroup Binary
+"   au!
+"   au BufReadPre  *.bin let &bin=1
+"   au BufReadPost *.bin if &bin | %!xxd
+"   au BufReadPost *.bin set ft=xxd | endif
+"   au BufWritePre *.bin if &bin | %!xxd -r
+"   au BufWritePre *.bin endif
+"   au BufWritePost *.bin if &bin | %!xxd
+"   au BufWritePost *.bin set nomod | endif
+" augroup END
 
 " }}}
