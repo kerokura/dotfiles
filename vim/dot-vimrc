@@ -30,6 +30,12 @@ Plugin 'vim-scripts/argtextobj.vim' " ia
 
 Plugin 'junegunn/vim-easy-align'
 Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-repeat'
 
 " }}}
 " aesthetic {{{
@@ -49,9 +55,8 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-scripts/taglist.vim'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'tpope/vim-fugitive'
 
 " }}}
 " language support {{{
@@ -62,12 +67,6 @@ Plugin 'nelstrom/vim-markdown-folding'
 " misc {{{
 
 Plugin 'vim-scripts/vim-auto-save'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-abolish'
 Plugin 'deton/jasentence.vim'
 Plugin 'vimwiki/vimwiki'
 Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
@@ -782,33 +781,18 @@ digraph OO 12457
 
 let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
-let g:gruvbox_underline = 1
+let g:gruvbox_underline = 0
 " let g:gruvbox_contrast_dark = 'hard'
 
 if has('gui_running')
     colorscheme gruvbox
     set background=light
-elseif has('unix')
+else
     set term=screen
     set t_Co=256
     colorscheme gruvbox
     set background=dark
-else
-    " settings for win console including cmder
-    " if !empty($CONEMUBUILD)
-    "   set t_Co=256
-    "   " let &t_AB="\e[48;5;%dm"
-    "   " let &t_AF="\e[38;5;%dm"
-    " endif
-    " colorscheme monochrome
-    set background=dark
-    syntax off
-    set nohlsearch
-    set t_Co=0
 endif
-
-" i don't like the plugin's default.
-highlight! link TagListFileName MoreMsg
 
 " }}}
 
@@ -1128,7 +1112,7 @@ let g:markdown_fold_style = 'nested'
 " }}}
 " vimwiki {{{
 
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/vimwiki/vim', 'syntax': 'markdown', 'ext': '.md'}]
 " let g:vimwiki_folding = 'custom'
 " expr, list, syntax, custom
 

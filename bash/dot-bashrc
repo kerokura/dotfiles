@@ -87,9 +87,12 @@ fi
 ################################################################################
 # Added by me
 ################################################################################
+
 stty -ixon
 shopt -s globstar
 shopt -s histappend
+shopt -s direxpand
+
 # keybindings
 bind '"\e\C-r": revert-line'
 bind '"\e\C-t": capitalize-word'
@@ -98,6 +101,7 @@ if [ -r "$lib" ]
 then
     source "$lib"
 fi
+
 PATH=$PATH:~/bin:~/bin/bash:~/bin/powershell:~/bin/perl:~/bin/python:~/.local/bin
 export G_NUM=0
 export HTTP_HOME='http://www.google.com/ncr'
@@ -133,6 +137,7 @@ alias Mp1='mplayer -loop 0 -vf screenshot -fs -screen 1'
 alias Mpn='mplayer -loop 0 -vf screenshot -fs -nosound -screen 0'
 alias Mpn1='mplayer -loop 0 -vf screenshot -fs -nosound -screen 1'
 alias xml='xmlstarlet'
+
 # coloring man page
 export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
 export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
