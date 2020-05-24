@@ -358,6 +358,16 @@ function! ToggleFTMode()
     endif
 endfunction
 
+function! ChangeGruvboxContrast(val)
+    if &background ==# 'dark'
+        let g:gruvbox_contrast_dark = a:val
+    else
+        let g:gruvbox_contrast_light = a:val
+    endif
+    silent! execute "source $MYVIMRC"
+    silent! execute "normal \<CR>"
+endfunction
+
 " vimcasts.org - show highlight group for the cword
 function! <SID>SynStack()
     if !exists("*synstack")
@@ -533,7 +543,7 @@ nnoremap <Leader><C-X> :qa!<CR>
 nnoremap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR>
 
 " }}}
-" Toggle Options and Stuff {{{
+" Toggle/Change Options and Stuff {{{
 
 nnoremap <Esc>b :call ToggleBackground()<CR>
 nnoremap <Esc>c :call ToggleColorColumn()<CR>
@@ -543,6 +553,9 @@ nnoremap <Esc>s :set spell!<CR>
 nnoremap <Esc>f :call ToggleFTMode()<CR>
 nnoremap <Esc>d :windo diffthis<CR>
 nnoremap <Esc>D :windo diffoff<CR>
+nnoremap <Esc>gs :call ChangeGruvboxContrast('soft')<CR>
+nnoremap <Esc>gm :call ChangeGruvboxContrast('medium')<CR>
+nnoremap <Esc>gh :call ChangeGruvboxContrast('hard')<CR>
 
 " }}}
 " repeat command {{{
@@ -782,7 +795,6 @@ digraph OO 12457
 let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
 let g:gruvbox_underline = 0
-" let g:gruvbox_contrast_dark = 'hard'
 
 if has('gui_running')
     colorscheme gruvbox
