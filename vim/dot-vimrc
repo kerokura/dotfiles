@@ -820,6 +820,7 @@ if has('win32')
     set encoding=utf-8  " The encoding displayed.
     set fileencoding=utf-8  " The encoding written to file.
     set ambiwidth=double
+    set clipboard=unnamed
 
     " mappings
     nnoremap <Leader>cm :SwitchToCmd<CR>
