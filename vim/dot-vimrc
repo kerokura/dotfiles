@@ -55,7 +55,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tpope/vim-fugitive'
 
 " }}}
@@ -156,6 +156,7 @@ set nrformats=
 set pastetoggle=<C-V>v
 set laststatus=2
 set noswapfile
+set t_Co=256
 
 " }}}
 
@@ -642,7 +643,6 @@ augroup ft_ps1
     autocmd!
     autocmd FileType ps1 let maplocalleader = "\<Space>"
     autocmd FileType ps1 setlocal fileformat=dos
-    autocmd FileType ps1 setlocal omnifunc=poshcomplete#CompleteCommand
     autocmd FileType ps1 setlocal foldmethod=syntax
     autocmd FileType ps1 setlocal iskeyword+=$
     autocmd FileType ps1 nnoremap <buffer> ]] :call search('\v\c^\s*function\s+\w', 'W')<CR>
@@ -797,7 +797,6 @@ let g:gruvbox_underline = 0
 if has('gui_running')
 else
     set term=screen
-    set t_Co=256
 endif
 
 " }}}
@@ -821,6 +820,8 @@ if has('win32')
     set fileencoding=utf-8  " The encoding written to file.
     set ambiwidth=double
     set clipboard=unnamed
+    " set shell=powershell
+    " set shellcmdflag=-ExecutionPolicy\ RemoteSigned
 
     " mappings
     nnoremap <Leader>cm :SwitchToCmd<CR>
@@ -910,11 +911,8 @@ if has('win32')
 
         set linespace=2
         set guifont=Consolas\ NF:h13
-        set guifontwide=mplus\ NF:h13
+        set guifontwide=mplus\ NF:h12
 
-        let g:airline#extensions#tabline#enabled = 1
-        let g:airline#extensions#tabline#buffer_idx_mode = 1
-        let g:airline#extensions#whitespace#mixed_indent_algo = 1
         if !exists('g:airline_symbols')
             let g:airline_symbols = {}
         endif
@@ -1089,10 +1087,12 @@ nnoremap <Esc>G :call ToggleGoyo()<CR>
 " }}}
 " vim-airline"{{{
 
-set t_Co=256
-set laststatus=2
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#show_splits = 0
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -1122,6 +1122,10 @@ let g:markdown_fold_style = 'nested'
 let g:vimwiki_list = [{'path': '~/vimwiki/vim', 'syntax': 'markdown', 'ext': '.md'}]
 " let g:vimwiki_folding = 'custom'
 " expr, list, syntax, custom
+
+" NOTE:
+" comment out al/il lines in favor of textobj-line
+" bundle/vimwiki/ftplugin/vimwiki.vim
 
 " }}}
 " instant-markdown {{{
