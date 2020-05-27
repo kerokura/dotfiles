@@ -63,20 +63,6 @@ Plugin 'vimwiki/vimwiki'
 Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
  
 " }}}
-" disabled {{{
-
-" Plugin 'cd01/poshcomplete-vim'
-" Plugin 'sjl/gundo.vim'
-" Plugin 'kannokanno/previm'
-" Plugin 'kana/vim-textobj-fold'
-" Plugin 'jiangmiao/auto-pairs'
-" Plugin 'guns/vim-sexp'
-" Plugin 'christoomey/vim-titlecase'
-" Plugin 'christoomey/vim-sort-motion'
-" Plugin 'beloglazov/vim-online-thesaurus'
-" Plugin 'Yggdroot/indentLine'
-
-" }}}
 
 call vundle#end()            " required
 filetype plugin indent on    " required
