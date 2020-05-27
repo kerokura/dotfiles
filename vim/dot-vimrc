@@ -22,14 +22,11 @@ Plugin 'kana/vim-textobj-user'      " kana's objs depend on it
 Plugin 'kana/vim-textobj-entire'    " ie
 Plugin 'kana/vim-textobj-indent'    " ii
 Plugin 'kana/vim-textobj-line'      " il
-Plugin 'kana/vim-textobj-syntax'    " iy
-Plugin 'vim-scripts/argtextobj.vim' " ia
 
 " }}}
 " text editing {{{
 
 Plugin 'junegunn/vim-easy-align'
-Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-commentary'
@@ -47,7 +44,6 @@ Plugin 'morhetz/gruvbox'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'Lokaltog/vim-monotone'
 
 " }}}
 " IDE like {{{
@@ -56,7 +52,6 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tpope/vim-fugitive'
 
 " }}}
