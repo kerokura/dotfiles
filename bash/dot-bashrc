@@ -155,7 +155,11 @@ if [ $TERM != 'screen' ]
 then
     tmux -2 new-session -s main
 fi
-[[ $TERM == "screen" ]] && wmctrl -r :ACTIVE: -b add,fullscreen
+
+if [ $TERM == 'screen' ] && [ `which wmctrl` ]
+then
+    wmctrl -r :ACTIVE: -b add,fullscreen
+fi
 
 # fzf
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'

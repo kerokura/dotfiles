@@ -47,6 +47,7 @@ Plugin 'morhetz/gruvbox'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'Lokaltog/vim-monotone'
 
 " }}}
 " IDE like {{{
@@ -57,11 +58,6 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tpope/vim-fugitive'
-
-" }}}
-" language support {{{
-
-Plugin 'nelstrom/vim-markdown-folding'
 
 " }}}
 " misc {{{
@@ -156,7 +152,21 @@ set nrformats=
 set pastetoggle=<C-V>v
 set laststatus=2
 set noswapfile
+
+" }}}
+
+" COLORS {{{
+
+if !has('gui_running') && !has('win32')
+    set term=screen
+endif
 set t_Co=256
+
+colorscheme gruvbox
+set background=dark
+let g:gruvbox_bold      = 1
+let g:gruvbox_italic    = 0
+let g:gruvbox_underline = 0
 
 " }}}
 
@@ -251,6 +261,8 @@ function! MarkListItems(type) range
         let n = nr - 1
     elseif c ==# ' '
         let mark = ''
+    elseif c ==# '['
+        let mark = '- [ ] '
     else
         let mark = c . ' '
     endif
@@ -266,7 +278,7 @@ function! MarkListItems(type) range
                 let n = n + 1
                 let mark = nr2char(n) . '. '
             endif
-            let lines[i] = substitute(lines[i], '\v^(\s*)(\d+\.\s|[a-zA-Z]\.\s|[*-]\s)?(\S.*)', '\=submatch(1) . mark . submatch(3)', '')
+            let lines[i] = substitute(lines[i], '\v^(\s*)(\d+\.\s|[a-zA-Z]\.\s|[*-]\s\[[.OoXx ]\]\s|[*-]\s)?(\S.*)', '\=submatch(1) . mark . submatch(3)', '')
         endif
         let i = i + 1
     endwhile
@@ -786,203 +798,11 @@ digraph OO 12457
 
 " }}}
 
-" COLORS {{{
-
-colorscheme gruvbox
-set background=dark
-let g:gruvbox_bold      = 1
-let g:gruvbox_italic    = 0
-let g:gruvbox_underline = 0
-
-if has('gui_running')
-else
-    set term=screen
-endif
-
-" }}}
-
 " ABBREVIATION {{{
 
 iabbrev qbf The quick brown fox jumps over the lazy dog
 cabbrev aga silent! argdo vimgrepadd /\v/ %<LEFT><LEFT><LEFT>
 cabbrev bga silent! bufdo vimgrepadd
-
-" }}}
-
-" MS WINDOWS {{{
-
-if has('win32')
-    " options
-    set fileformat=unix
-    set fileformats=unix,dos
-    set fencs=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
-    set encoding=utf-8  " The encoding displayed.
-    set fileencoding=utf-8  " The encoding written to file.
-    set ambiwidth=double
-    set clipboard=unnamed
-    " set shell=powershell
-    " set shellcmdflag=-ExecutionPolicy\ RemoteSigned
-
-    " mappings
-    nnoremap <Leader>cm :SwitchToCmd<CR>
-    nnoremap <Leader>ps :SwitchToPosh<CR>
-    nnoremap <Leader>pm :OpenPSMod<Space>
-
-    " commands
-    command! SwitchToCmd call SetWinShell('cmd')
-    command! SwitchToPosh call SetWinShell('posh')
-    command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
-
-    " functions
-    function! ListMyPSModules(A, L, P)
-        let my_ps_mod_dir = "$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules"
-        let prefix = a:A . '*'
-        let mod_full_paths = split(globpath(my_ps_mod_dir, prefix), '\n')
-        let mod_names = []
-        for p in mod_full_paths
-            let segments = split(p, '\')
-            let basename = segments[-1]
-            let mod_names += [ basename ]
-        endfor
-        return mod_names
-    endfunction
-
-    function! SetWinShell(shell)
-        if a:shell ==# 'posh'
-            set shell=powershell
-            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
-        elseif a:shell ==# 'cmd'
-            set shell=C:\\WINDOWS\\system32\\cmd.exe
-            set shellcmdflag=/c
-        endif
-    endfunction
-
-    function! ChangeGUIFontSize(decrease)
-        let parts    = split(&guifont, ':')
-        let facename = parts[0]
-        let fontsize = substitute(parts[1], 'h', '', '')
-        if a:decrease
-            let fontsize -= 1
-        else
-            let fontsize += 1
-        endif
-        let &guifont = printf('%s:h%d', facename, fontsize)
-    endfunction
-
-    function! OpenPSModule(ps_module)
-        let dir = '$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules\\' . a:ps_module
-        let ps1s = split(globpath(dir, '**/*.ps1'), '\n')
-        for p in ps1s
-            silent! execute 'argadd ' . p
-        endfor
-        silent! execute 'lcd ' . dir
-        silent! execute '!ctags -R'
-        silent! execute 'e ' . a:ps_module . '.psd1'
-    endfunction
-
-    " gvim
-    if has('gui_running')
-        set mouse=
-        set guioptions-=a
-        set guioptions-=i
-        set guioptions-=m
-        set guioptions-=t
-        set guioptions-=T
-        set guioptions-=r
-        set guioptions-=R
-        set guioptions-=l
-        set guioptions-=L
-        set guioptions-=b
-        set guioptions-=h
-        set guioptions-=v
-        set guioptions-=p
-        set guioptions-=F
-        set guioptions-=e    " don't show gui tabline!
-        nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
-        imap <F11> <ESC>:call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>a
-        nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
-        nmap <C-W>N :$tabnew<CR><F11><F11>
-        nmap <C-W>% :$tabnew %<CR><F11><F11>
-        nmap <C-W>V :$tabnew $MYVIMRC<CR><F11><F11>
-        nmap <C-W>P :$tabnew $HOME/Documents/WindowsPowerShell/profile.ps1<CR><F11><F11>
-        nmap <C-W>C :tabclose<CR><F11><F11>
-        nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
-        nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
-
-        set linespace=2
-        set guifont=Consolas\ NF:h13
-        set guifontwide=mplus\ NF:h12
-
-        if !exists('g:airline_symbols')
-            let g:airline_symbols = {}
-        endif
-        let g:airline_symbols.crypt = '🔒'
-        let g:airline_symbols.linenr = '¶'
-        let g:airline_symbols.maxlinenr = '㏑'
-        let g:airline_symbols.paste = 'ρ'
-        let g:airline_symbols.paste = 'Þ'
-        let g:airline_symbols.paste = '∥'
-        let g:airline_symbols.spell = 'Ꞩ'
-        let g:airline_symbols.notexists = '∄'
-        let g:airline_symbols.whitespace = 'Ξ'
-        let g:airline_symbols.branch = ''
-        let g:airline_symbols.readonly = ''
-        let g:airline_symbols.maxlinenr = ''
-        let g:airline_left_sep = ''
-        let g:airline_left_alt_sep = ''
-        let g:airline_right_sep = ''
-        let g:airline_right_alt_sep = ''
-    else
-        " workaround for conemu's bug
-        inoremap <C-H> <BS>
-        inoremap <Char-0x07F> <BS>
-        nnoremap <Char-0x07F> <BS>
-    endif
-
-    function! SetWinShell(shell)
-        if a:shell ==# 'posh'
-            set shell=powershell
-            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
-        elseif a:shell ==# 'cmd'
-            set shell=C:\\WINDOWS\\system32\\cmd.exe
-            set shellcmdflag=/c
-        endif
-    endfunction
-
-    function! SwitchGUIFont()
-        let parts    = split(&guifont, ':')
-        let facename = parts[0]
-        let fontsize = substitute(parts[1], 'h', '', '')
-
-        if facename ==# 'Consolas NF' 
-            let guifont = 'Inconsolata NF:h14'
-            let guifontwide = 'mplus NF:h13'
-            let linespace = -2
-        else
-            let guifont = 'Consolas NF:h13'
-            let guifontwide = 'mplus NF:h13'
-            let linespace = 2
-        endif
-
-        let &guifont = guifont
-        let &guifontwide = guifontwide
-        let &linespace = linespace
-    endfunction
-
-    function! ChangeGUIFontSize(decrease)
-        let parts    = split(&guifont, ':')
-        let facename = parts[0]
-        let fontsize = substitute(parts[1], 'h', '', '')
-
-        if a:decrease
-            let fontsize -= 1
-        else
-            let fontsize += 1
-        endif
-
-        let &guifont = printf('%s:h%d', facename, fontsize)
-    endfunction
-endif
 
 " }}}
 
@@ -1090,6 +910,7 @@ nnoremap <Esc>G :call ToggleGoyo()<CR>
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_splits = 0
@@ -1108,20 +929,16 @@ let g:previm_custom_css_path = '/home/kero/git/PrivateRepo/work/github.sp.css'
 " }}}
 " vim-auto-save {{{
 
-" let g:auto_save = 1                " enable AutoSave on Vim startup
-" let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
-
-" }}}
-" vim-markdown-folding {{{
-
-let g:markdown_fold_style = 'nested'
+let g:auto_save = 1                " enable AutoSave on Vim startup
+let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
 
 " }}}
 " vimwiki {{{
 
 let g:vimwiki_list = [{'path': '~/vimwiki/vim', 'syntax': 'markdown', 'ext': '.md'}]
-" let g:vimwiki_folding = 'custom'
-" expr, list, syntax, custom
+let g:vimwiki_ext2syntax = {'.md': 'markdown'}
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_url_maxsave=0
 
 " NOTE:
 " comment out al/il lines in favor of textobj-line
@@ -1130,21 +947,19 @@ let g:vimwiki_list = [{'path': '~/vimwiki/vim', 'syntax': 'markdown', 'ext': '.m
 " }}}
 " instant-markdown {{{
 
-" let g:instant_markdown_slow = 1
 let g:instant_markdown_autostart = 0
-" let g:instant_markdown_open_to_the_world = 1
-" let g:instant_markdown_allow_unsafe_content = 1
-" let g:instant_markdown_allow_external_content = 0
-" let g:instant_markdown_mathjax = 1
-" let g:instant_markdown_logfile = '~/.instant_markdown.log'
-" let g:instant_markdown_autoscroll = 0
 let g:instant_markdown_port = 8890
-" let g:instant_markdown_python = 1
 
 " }}}
 " matchit {{{
 
 runtime macros/matchit.vim
+
+" }}}
+" MAN {{{
+
+let g:ft_man_open_mode = 'tab'
+let g:ft_man_folding_enable = 1
 
 " }}}
 
@@ -1226,8 +1041,10 @@ source $VIMRUNTIME/ftplugin/man.vim
 augroup ft_markdown
     autocmd!
     autocmd FileType markdown,vimwiki let maplocalleader = "\<Space>"
+    autocmd FileType markdown,vimwiki highlight def VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
     autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>0 :s/\v^#+\s*//<CR>
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>1 I# <C-[>
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>2 I## <C-[>
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>3 I### <C-[>
@@ -1239,6 +1056,173 @@ augroup ft_markdown
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
 augroup END
+
+" }}}
+
+" MS WINDOWS {{{
+
+if has('win32')
+    " options
+    set fileformat=unix
+    set fileformats=unix,dos
+    set fencs=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
+    set encoding=utf-8  " The encoding displayed.
+    set fileencoding=utf-8  " The encoding written to file.
+    set ambiwidth=double
+    set clipboard=unnamed
+
+    " mappings
+    nnoremap <Leader>cm :SwitchToCmd<CR>
+    nnoremap <Leader>ps :SwitchToPosh<CR>
+    nnoremap <Leader>pm :OpenPSMod<Space>
+
+    " commands
+    command! SwitchToCmd call SetWinShell('cmd')
+    command! SwitchToPosh call SetWinShell('posh')
+    command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
+
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+    let g:airline_symbols.crypt = '🔒'
+    " let g:airline_symbols.linenr = '¶'
+    " let g:airline_symbols.maxlinenr = '㏑'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.paste = 'Þ'
+    let g:airline_symbols.paste = '∥'
+    let g:airline_symbols.spell = 'Ꞩ'
+    let g:airline_symbols.notexists = '∄'
+    let g:airline_symbols.whitespace = 'Ξ'
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    " let g:airline_symbols.maxlinenr = ''
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+
+    " functions
+    function! ListMyPSModules(A, L, P)
+        let my_ps_mod_dir = "$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules"
+        let prefix = a:A . '*'
+        let mod_full_paths = split(globpath(my_ps_mod_dir, prefix), '\n')
+        let mod_names = []
+        for p in mod_full_paths
+            let segments = split(p, '\')
+            let basename = segments[-1]
+            let mod_names += [ basename ]
+        endfor
+        return mod_names
+    endfunction
+
+    function! SetWinShell(shell)
+        if a:shell ==# 'posh'
+            set shell=powershell
+            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
+        elseif a:shell ==# 'cmd'
+            set shell=C:\\WINDOWS\\system32\\cmd.exe
+            set shellcmdflag=/c
+        endif
+    endfunction
+
+    function! OpenPSModule(ps_module)
+        let dir = '$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules\\' . a:ps_module
+        let ps1s = split(globpath(dir, '**/*.ps1'), '\n')
+        for p in ps1s
+            silent! execute 'argadd ' . p
+        endfor
+        silent! execute 'lcd ' . dir
+        silent! execute '!ctags -R'
+        silent! execute 'e ' . a:ps_module . '.psd1'
+    endfunction
+
+    function! SetWinShell(shell)
+        if a:shell ==# 'posh'
+            set shell=powershell
+            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
+        elseif a:shell ==# 'cmd'
+            set shell=C:\\WINDOWS\\system32\\cmd.exe
+            set shellcmdflag=/c
+        endif
+    endfunction
+
+    if has('gui_running')
+        set mouse=
+        set guioptions-=a
+        set guioptions-=i
+        set guioptions-=m
+        set guioptions-=t
+        set guioptions-=T
+        set guioptions-=r
+        set guioptions-=R
+        set guioptions-=l
+        set guioptions-=L
+        set guioptions-=b
+        set guioptions-=h
+        set guioptions-=v
+        set guioptions-=p
+        set guioptions-=F
+        set guioptions-=e    " don't show gui tabline!
+        nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
+        imap <F11> <ESC>:call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>a
+        nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
+        nmap <C-W>N :$tabnew<CR><F11><F11>
+        nmap <C-W>% :$tabnew %<CR><F11><F11>
+        nmap <C-W>V :$tabnew $MYVIMRC<CR><F11><F11>
+        nmap <C-W>P :$tabnew $HOME/Documents/WindowsPowerShell/profile.ps1<CR><F11><F11>
+        nmap <C-W>C :tabclose<CR><F11><F11>
+        nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
+        nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
+
+        set linespace=2
+        set guifont=Consolas\ NF:h13
+        set guifontwide=mplus\ NF:h12
+
+        function! SwitchGUIFont()
+            let parts    = split(&guifont, ':')
+            let facename = parts[0]
+            let fontsize = substitute(parts[1], 'h', '', '')
+
+            if facename ==# 'Consolas NF' 
+                let guifont = 'Inconsolata NF:h14'
+                let guifontwide = 'mplus NF:h13'
+                let linespace = -2
+            else
+                let guifont = 'Consolas NF:h13'
+                let guifontwide = 'mplus NF:h13'
+                let linespace = 2
+            endif
+
+            let &guifont = guifont
+            let &guifontwide = guifontwide
+            let &linespace = linespace
+        endfunction
+
+        function! ChangeGUIFontSize(decrease)
+            let parts    = split(&guifont, ':')
+            let facename = parts[0]
+            let fontsize = substitute(parts[1], 'h', '', '')
+
+            if a:decrease
+                let fontsize -= 1
+            else
+                let fontsize += 1
+            endif
+
+            let &guifont = printf('%s:h%d', facename, fontsize)
+        endfunction
+    else
+        " syntax off
+        syntax off
+        set t_Co=256
+        set term=xterm
+
+        " workaround for conemu's bug
+        inoremap <C-H> <BS>
+        inoremap <Char-0x07F> <BS>
+        nnoremap <Char-0x07F> <BS>
+    endif
+endif
 
 " }}}
 
