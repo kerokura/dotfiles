@@ -820,13 +820,6 @@ cabbrev bga silent! bufdo vimgrepadd
 
 " PLUGIN {{{
 
-" Taglist {{{
-
-let Tlist_Use_Right_Window = 1
-let Tlist_WinWidth = 40
-nnoremap <Leader><C-T> :TlistToggle<CR>
-
-" }}}
 " EasyAlign {{{
 
 xmap <Leader>a <Plug>(EasyAlign)
@@ -835,14 +828,6 @@ nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
 nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
 nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
 nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>:nohlsearch<CR>
-
-" }}}
-" splitjoin {{{
-
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-nmap <Leader>J :SplitjoinJoin<cr>
-nmap <Leader>S :SplitjoinSplit<cr>
 
 " }}}
 " Abolish {{{
@@ -930,13 +915,6 @@ let g:airline#extensions#tabline#show_splits = 0
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-
-" }}}
-" previm"{{{
-
-let g:previm_open_cmd = 'firefox'
-let g:previm_show_header = 0
-let g:previm_custom_css_path = '/home/kero/git/PrivateRepo/work/github.sp.css'
 
 " }}}
 " vim-auto-save {{{
