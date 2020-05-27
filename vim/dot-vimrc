@@ -372,6 +372,23 @@ function! ChangeGruvboxContrast(val)
     colorscheme gruvbox
 endfunction
 
+function! OpenRC(prog)
+    if a:prog ==# 'vim'
+        let path = '~/git/dotfiles/vim/dot-vimrc'
+    elseif a:prog ==# 'bash'
+        let path =  '~/git/dotfiles/bash/dot-bashrc'
+    elseif a:prog ==# 'tmux'
+        let path =  '~/git/dotfiles/tmux/dot-tmux.conf'
+    elseif a:prog ==# 'xres'
+        let path =  '~/git/dotfiles/X/dot-Xresources'
+    else
+        let path = '~/git/dotfiles/vim/dot-vimrc'
+    endif
+    silent! execute '$tabnew'
+    silent! execute 'lcd ~/git/dotfiles'
+    silent! execute 'e ' . path
+endfunction
+
 " vimcasts.org - show highlight group for the cword
 function! <SID>SynStack()
     if !exists("*synstack")
@@ -441,8 +458,9 @@ let surroundings = ['<Bar>', '<Bslash>', ':', ',', '.', '/', ';', '_']
 for s in surroundings
     execute printf("vnoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
     execute printf("onoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
-    execute printf("vnoremap a%s :<C-U>execute 'normal! F%svf%s'<CR>", s, s, s)
-    execute printf("onoremap a%s :<C-U>execute 'normal! F%svf%s'<CR>", s, s, s)
+    " treat char more like delimiter than surrounding
+    execute printf("vnoremap a%s :<C-U>execute 'normal! F%svt%s'<CR>", s, s, s)
+    execute printf("onoremap a%s :<C-U>execute 'normal! F%svt%s'<CR>", s, s, s)
 endfor
 
 " }}}
@@ -450,9 +468,14 @@ endfor
 
 nnoremap <C-W>N :$tabnew<CR>
 nnoremap <C-W>% :$tabnew %<CR>
-nnoremap <C-W>V :$tabnew $MYVIMRC<CR>
-nnoremap <C-W>P :$tabnew $HOME/.bashrc<CR>
 nnoremap <C-W>C :tabclose<CR>
+nnoremap <C-W>V :call OpenRC('vim')<CR>
+nnoremap <C-W>P :call OpenRC('bash')<CR>
+nnoremap <C-W>R :call OpenRC('')<LEFT><LEFT>
+
+" I don't miss default g0/g$ behavior
+nnoremap g0 :1tabnext<CR>
+nnoremap g$ :$tabnext<CR>
 
 " }}}
 " Using Search {{{
@@ -473,10 +496,8 @@ nnoremap <Leader>/V :DeleteMatchedLines<SPACE>1<SPACE>^
 vnoremap <Leader>/v :v//d<LEFT><LEFT>
 vnoremap <Leader>/V :v/^/d<LEFT><LEFT>
 
+" to jump from one URL to another
 nnoremap <Leader>/u /\v\chttps?:\/\/[^\s/$.?#].\s*[a-z0-9.~:/?#[\]@!$&'()*+,;=`._%-]+/<CR>
-" nnoremap <Leader>/l :silent! execute 'vimgrep /' . @/ . '/gj %' <CR>:copen<CR>
-nnoremap <Leader>/l :cexpr []<CR>:silent! execute 'bufdo vimgrepadd /' . @/ . '/gj %' <CR>:copen<CR>
-nnoremap <Leader>/L :cexpr []<CR>:silent! execute 'argdo vimgrepadd /' . @/ . '/gj %' <CR>:copen<CR>
 
 " }}}
 " Editing (Not Operator) {{{
@@ -517,11 +538,6 @@ nnoremap <silent> <Leader>'r :-1read $VIMRUNTIME/skelton/html5_React.txt<CR>/tit
 nnoremap <silent> <Leader>'R :-1read $VIMRUNTIME/skelton/html5_React_Babel.txt<CR>/title<CR>:nohlsearch<CR>cit
 nnoremap <silent> <Leader>'x :-1read $VIMRUNTIME/skelton/xhtml.txt<CR>/title<CR>:nohlsearch<CR>cit
 nnoremap <silent> <Leader>'l :-1read $VIMRUNTIME/skelton/lorem.txt<CR>
-
-" tmp
-nnoremap <silent> <Leader>'p :-1read $VIMRUNTIME/skelton/TMP_GetPPCode.txt<CR>
-nnoremap <silent> <Leader>'v :-1read $VIMRUNTIME/skelton/TMP_UPV_Constructor.txt<CR>
-nnoremap <silent> <Leader>'m :-1read $VIMRUNTIME/skelton/TMP_TS_IMPORT.txt<CR>/{<CR>:nohlsearch<CR>la
 
 " }}}
 " Window {{{
@@ -589,6 +605,7 @@ inoremap <C-G>i <ESC>:set iminsert=2<CR>a
 
 " misc
 inoremap <C-C> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
+inoremap <C-D> <C-R>=strftime("%Y-%m-%d")<CR>
 
 " }}}
 " Command-Line Mode {{{
@@ -1080,17 +1097,13 @@ if has('win32')
         let g:airline_symbols = {}
     endif
     let g:airline_symbols.crypt = '🔒'
-    " let g:airline_symbols.linenr = '¶'
-    " let g:airline_symbols.maxlinenr = '㏑'
     let g:airline_symbols.paste = 'ρ'
     let g:airline_symbols.paste = 'Þ'
     let g:airline_symbols.paste = '∥'
-    let g:airline_symbols.spell = 'Ꞩ'
     let g:airline_symbols.notexists = '∄'
     let g:airline_symbols.whitespace = 'Ξ'
     let g:airline_symbols.branch = ''
     let g:airline_symbols.readonly = ''
-    " let g:airline_symbols.maxlinenr = ''
     let g:airline_left_sep = ''
     let g:airline_left_alt_sep = ''
     let g:airline_right_sep = ''
@@ -1161,11 +1174,7 @@ if has('win32')
         nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
         imap <F11> <ESC>:call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>a
         nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
-        nmap <C-W>N :$tabnew<CR><F11><F11>
-        nmap <C-W>% :$tabnew %<CR><F11><F11>
-        nmap <C-W>V :$tabnew $MYVIMRC<CR><F11><F11>
         nmap <C-W>P :$tabnew $HOME/Documents/WindowsPowerShell/profile.ps1<CR><F11><F11>
-        nmap <C-W>C :tabclose<CR><F11><F11>
         nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
         nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
 
@@ -1279,6 +1288,11 @@ if has('multi_byte_ime')
     " highlight Cursor guifg=NONE guibg=Green
     highlight link CursorIM Error
 endif
+
+" tmp
+nnoremap <silent> <Leader>'p :-1read $VIMRUNTIME/skelton/TMP_GetPPCode.txt<CR>
+nnoremap <silent> <Leader>'v :-1read $VIMRUNTIME/skelton/TMP_UPV_Constructor.txt<CR>
+nnoremap <silent> <Leader>'m :-1read $VIMRUNTIME/skelton/TMP_TS_IMPORT.txt<CR>/{<CR>:nohlsearch<CR>la
 
 " http://vim.wikia.com/wiki/Improved_hex_editing
 " augroup Binary
