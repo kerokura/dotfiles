@@ -1,71 +1,62 @@
-" Vundle {{{
+" Vim-Plug {{{
 
-set nocompatible  " be iMproved, required
-filetype off      " required
-
-" set the runtime path to include Vundle and initialize
 if has('win32')
-    let &rtp .= "," . expand($USERPROFILE) . "/vimfiles/bundle/Vundle.vim/"
-    let g:vundle#bundle_dir = "$USERPROFILE/vimfiles/bundle/"
-    call vundle#begin("$USERPROFILE/vimfiles/bundle/")
+    call plug#begin('~/vimfiles/plugged')
 else
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
+    call plug#begin('~/.vim/plugged')
 endif
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Make sure you use single quotes
 
 " text object {{{
 
-Plugin 'kana/vim-textobj-user'      " kana's objs depend on it
-Plugin 'kana/vim-textobj-entire'    " ie
-Plugin 'kana/vim-textobj-indent'    " ii
-Plugin 'kana/vim-textobj-line'      " il
+Plug 'kana/vim-textobj-user'      " kana's objs depend on it
+Plug 'kana/vim-textobj-entire'    " ie
+Plug 'kana/vim-textobj-indent'    " ii
+Plug 'kana/vim-textobj-line'      " il
 
 " }}}
 " text editing {{{
 
-Plugin 'junegunn/vim-easy-align'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-repeat'
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
 
 " }}}
 " aesthetic {{{
 
-Plugin 'ap/vim-css-color'
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'ap/vim-css-color'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'morhetz/gruvbox'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " }}}
 " IDE like {{{
 
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive'
 
 " }}}
 " misc {{{
 
-Plugin 'vim-scripts/vim-auto-save'
-Plugin 'deton/jasentence.vim'
-Plugin 'vimwiki/vimwiki'
-Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+Plug 'vim-scripts/vim-auto-save'
+Plug 'deton/jasentence.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
  
 " }}}
 
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()
 
 " }}}
 
@@ -837,8 +828,8 @@ nnoremap <Leader>N :NERDTreeToggle<CR>
 
 let g:ctrlp_map = '<F1>'
 let g:ctrlp_match_window = 'min:10,max:30'
-let g:ctrlp_working_path_mode = 'c'
-nnoremap <Leader><C-P> :CtrlPLine<CR>
+let g:ctrlp_working_path_mode = 'rw'
+nnoremap <Leader><C-P> :CtrlPCurWD<CR>
 
 " }}}
 " fzf.vim {{{
