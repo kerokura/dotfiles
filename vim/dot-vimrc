@@ -40,6 +40,8 @@ Plug 'vim-airline/vim-airline-themes'
 " }}}
 " IDE like {{{
 
+Plug 'dyng/ctrlsf.vim'
+Plug 'mhinz/vim-grepper'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -90,6 +92,8 @@ augroup END
 " search
 set hlsearch
 set incsearch
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
 
 " soft wrapping
 set wrap
@@ -260,24 +264,6 @@ function! MarkListItems(type) range
     let @@ = reg_save
 endfunction
 
-function! DeleteMatchedLines(invert, pattern)
-    let lnum = line('.')
-
-    if a:invert
-        execute 'v/' . a:pattern . '/d'
-    else
-        execute 'g/' . a:pattern . '/d'
-    endif
-
-    let last_line = line('$')
-
-    if lnum > last_line
-        let lnum = last_line
-    endif
-
-    silent! execute lnum
-endfunction
-
 function! SetHorizontalRule(lnum, level, len)
     let hr_chars  = [ '', '=', '-' ]
 
@@ -380,7 +366,6 @@ endfunc
 
 command! -nargs=1 -complete=file Rename file <args> | write | call delete(expand('#'))
 command! -nargs=0 Cd lcd $HOME/Desktop
-command! -nargs=+ -complete=command DeleteMatchedLines call DeleteMatchedLines(<f-args>)
 
 " }}}
 
@@ -455,26 +440,44 @@ nnoremap g0 :1tabnext<CR>
 nnoremap g$ :$tabnext<CR>
 
 " }}}
-" Using Search {{{
+" Search {{{
 
+nnoremap / /\v
 nnoremap <Leader>h :nohlsearch<CR>
 
 " substitution
 nnoremap <Leader>/s :%s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/S :%s/\v^//g<LEFT><LEFT><LEFT>
+nnoremap <Leader>/r :argdo %s/\v//g<LEFT><LEFT><LEFT>
+nnoremap <Leader>/R :argdo %s/\v//g <BAR> update
+
+function! ArgReplace(pattern, substitute)
+    cexpr []
+    execute 'args `ag -l ' . a:pattern . '`'
+    silent! execute 'argdo %s/\v' . a:pattern . '/'. a:substitute . '/g'
+    silent! execute 'argdo vimgrepadd! /' . a:substitute  . '/gj %'
+    copen
+endfunction
+nnoremap <C-J> :silent! cnext<CR>
+nnoremap <C-K> :silent! cprevious<CR>
+
+" ag grep
+nnoremap <C-G> :execute 'silent grep! ' <BAR> copen<C-LEFT><C-LEFT><C-LEFT>
 
 " delete matched lines
-nnoremap <Leader>/d :DeleteMatchedLines<SPACE>0<SPACE>
-nnoremap <Leader>/D :DeleteMatchedLines<SPACE>0<SPACE>^
-vnoremap <Leader>/d :g//d<LEFT><LEFT>
-vnoremap <Leader>/D :g/^/d<LEFT><LEFT>
-nnoremap <Leader>/v :DeleteMatchedLines<SPACE>1<SPACE>
-nnoremap <Leader>/V :DeleteMatchedLines<SPACE>1<SPACE>^
-vnoremap <Leader>/v :v//d<LEFT><LEFT>
-vnoremap <Leader>/V :v/^/d<LEFT><LEFT>
+nnoremap <Leader>/d :g/\v/d<LEFT><LEFT>
+nnoremap <Leader>/D :g/\v^/d<LEFT><LEFT>
+nnoremap <Leader>/v :v/\v/d<LEFT><LEFT>
+nnoremap <Leader>/V :v/\v^/d<LEFT><LEFT>
+vnoremap <Leader>/d :g/\v/d<LEFT><LEFT>
+vnoremap <Leader>/D :g/\v^/d<LEFT><LEFT>
+vnoremap <Leader>/v :v/\v/d<LEFT><LEFT>
+vnoremap <Leader>/V :v/\v^/d<LEFT><LEFT>
 
-" to jump from one URL to another
+" to jump from one URL/Email/Guid to another
 nnoremap <Leader>/u /\v\chttps?:\/\/[^\s/$.?#].\s*[a-z0-9.~:/?#[\]@!$&'()*+,;=`._%-]+/<CR>
+nnoremap <Leader>/U /\v<[a-zA-Z0-9.-]+\@[a-zA-Z0-9.-]+\.\w{2,3}>/<CR>
+nnoremap <Leader>/g /\v<\c[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}><CR> 
 
 " }}}
 " Editing (Not Operator) {{{
@@ -824,23 +827,6 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v : count)
 nnoremap <Leader>N :NERDTreeToggle<CR>
 
 " }}}
-" CtrlP {{{
-
-let g:ctrlp_map = '<F1>'
-let g:ctrlp_match_window = 'min:10,max:30'
-let g:ctrlp_working_path_mode = 'rw'
-nnoremap <Leader><C-P> :CtrlPCurWD<CR>
-
-" }}}
-" fzf.vim {{{
-
-nnoremap <Leader><C-F> :Files<CR>
-nnoremap <Leader><C-L> :Lines<CR>
-nnoremap <Leader><C-B> :Buffers<CR>
-nnoremap <Leader><C-A> :Ag<CR>
-nnoremap <Leader><C-H> :History<CR>
-
-" }}}
 " Limelight {{{
 
 let g:limelight_default_coefficient = 0.8
@@ -883,11 +869,13 @@ nnoremap <Esc>G :call ToggleGoyo()<CR>
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#whitespace#mixed_indent_algo = 1
-let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+let g:airline#extensions#ctrlp#color_template = 'visual'
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -896,7 +884,7 @@ endif
 " }}}
 " vim-auto-save {{{
 
-let g:auto_save = 1                " enable AutoSave on Vim startup
+let g:auto_save = 0                " enable AutoSave on Vim startup
 let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
 
 " }}}
@@ -927,6 +915,60 @@ runtime macros/matchit.vim
 
 let g:ft_man_open_mode = 'tab'
 let g:ft_man_folding_enable = 1
+
+" }}}
+" CtrlP {{{
+
+let g:ctrlp_match_window = 'bottom,ttb,min:10,max:10,results:30'
+let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_tabpage_position = 'al'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_regexp = 1
+
+nnoremap <C-P> :CtrlPCurWD<CR>
+
+" }}}
+" fzf.vim {{{
+
+nnoremap <Leader><C-F> :Files<CR>
+nnoremap <Leader><C-L> :Lines<CR>
+nnoremap <Leader><C-B> :Buffers<CR>
+nnoremap <Leader><C-A> :Ag<CR>
+nnoremap <Leader><C-H> :History<CR>
+
+" }}}
+" grepper {{{
+
+let g:grepper = {}
+let g:grepper.tools = ['ag', 'git', 'grep']
+let g:grepper.open = 1
+let g:grepper.jump = 0
+let g:grepper.prompt_mapping_tool = '<leader>g'
+let g:grepper.stop = 5000
+
+cnoremap <c-n> <down>
+cnoremap <c-p> <up>
+
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+
+" Don't need vim's default <C-G> (:f)
+nnoremap <Leader><C-G> :Grepper -tool ag -side<cr>
+nnoremap <Leader><C-S> :Grepper -tool ag -cword -side -noprompt<cr>
+nnoremap <leader>gg :Grepper -tool git<cr>
+
+" }}}
+" CtrlSF {{{
+
+let g:ctrlsf_position = 'right'
+let g:ctrlsf_regex_pattern = 1
+let g:ctrlsf_mapping = {
+    \ "open"  : ["<CR>", "O"],
+    \ "openb" : { "key": "o", "suffix": "<C-w>p" },
+    \ "next"  : "n",
+    \ "prev"  : "N",
+    \ }
+" nnoremap <C-S-F> :CtrlSF<Space>
 
 " }}}
 
@@ -1110,6 +1152,11 @@ if has('win32')
     endfunction
 
     if has('gui_running')
+        let cwd = getcwd()
+        if cwd ==# 'C:\Windows\System32'
+            cd ~/Desktop
+        endif
+
         set mouse=
         set guioptions-=a
         set guioptions-=i

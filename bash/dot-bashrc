@@ -148,7 +148,7 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 # gruvbox
-source ~/.vim/bundle/gruvbox/gruvbox_256palette.sh
+source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
 
 # tmux
 if [ $TERM != 'screen' ]
