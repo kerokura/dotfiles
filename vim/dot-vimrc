@@ -37,7 +37,6 @@ Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " }}}
-
 " Settings {{{
 
 " EasyAlign {{{
@@ -73,6 +72,7 @@ nnoremap <Esc>G :Goyo<CR>
 " }}}
 " vim-airline {{{
 
+let g:airline_extensions = ['branch', 'tabline', 'ctrlp']
 let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
@@ -80,12 +80,25 @@ let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#whitespace#mixed_indent_algo = 1
+let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#ctrlp#color_template = 'visual'
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 let g:airline_symbols.linenr = ''
 let g:airline_symbols.maxlinenr = ''
 
@@ -116,13 +129,14 @@ let g:instant_markdown_port = 8890
 " }}}
 " CtrlP {{{
 
+let g:ctrlp_map = '<F1>'
 let g:ctrlp_match_window = 'bottom,ttb,min:10,max:10,results:30'
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_tabpage_position = 'al'
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_regexp = 1
 
-nnoremap <Leader><C-P> :CtrlPCurWD<CR>
+nnoremap <Leader><C-F> :CtrlPCurWD<CR>
 
 " }}}
 " Misc {{{
@@ -216,6 +230,12 @@ set background=dark
 let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
 let g:gruvbox_underline = 0
+
+" NOTE:
+" replace 1st line with 2nd
+" let s:N1 = airline#themes#get_highlight2(['Normal', 'bg'], ['StatusLineNC', 'bg'])
+" let s:N1 = airline#themes#get_highlight2(['GruvboxFg2', 'fg'], ['GruvboxFg2', 'bg'])
+" ~/.vim/plugged/gruvbox/autoload/airline/themes/gruvbox.vim
 
 " }}}
 
@@ -527,7 +547,7 @@ nnoremap <Leader>/r :argdo %s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/R :argdo %s/\v//g <BAR> update
 
 " grep
-nnoremap <C-G> :execute 'silent grep! '<BAR>:redraw!<BAR>copen<C-LEFT>
+nnoremap <C-G> :execute 'silent grep! ""'<BAR>:redraw!<BAR>copen<C-LEFT>
 nnoremap <Leader><C-G> :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
@@ -687,8 +707,8 @@ nnoremap <Leader>. @:
 nnoremap <Leader>v :execute 'vertical ' . @:<CR>
 
 " quickfix
-nnoremap <C-N> :silent! cnext<CR>
-nnoremap <C-P> :silent! cprevious<CR>
+nnoremap <C-N> :silent! cnext<CR>zz
+nnoremap <C-P> :silent! cprevious<CR>zz
 nnoremap <Leader>co :copen<CR>
 nnoremap <Leader>cc :cclose<CR>
 
@@ -944,22 +964,6 @@ if has('win32')
     command! SwitchToCmd call SetWinShell('cmd')
     command! SwitchToPosh call SetWinShell('posh')
     command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
-
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
-    endif
-    let g:airline_symbols.crypt = '🔒'
-    let g:airline_symbols.paste = 'ρ'
-    let g:airline_symbols.paste = 'Þ'
-    let g:airline_symbols.paste = '∥'
-    let g:airline_symbols.notexists = '∄'
-    let g:airline_symbols.whitespace = 'Ξ'
-    let g:airline_symbols.branch = ''
-    let g:airline_symbols.readonly = ''
-    let g:airline_left_sep = ''
-    let g:airline_left_alt_sep = ''
-    let g:airline_right_sep = ''
-    let g:airline_right_alt_sep = ''
 
     " functions
     function! ListMyPSModules(A, L, P)
