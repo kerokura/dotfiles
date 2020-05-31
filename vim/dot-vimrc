@@ -1,4 +1,6 @@
-" Vim-Plug {{{
+" PLUGIN {{{
+
+" vim-plug {{{
 
 if has('win32')
     call plug#begin('~/vimfiles/plugged')
@@ -6,65 +8,138 @@ else
     call plug#begin('~/.vim/plugged')
 endif
 
-" Make sure you use single quotes
-
-" text object {{{
-
 Plug 'kana/vim-textobj-user'      " kana's objs depend on it
 Plug 'kana/vim-textobj-entire'    " ie
 Plug 'kana/vim-textobj-indent'    " ii
 Plug 'kana/vim-textobj-line'      " il
-
-" }}}
-" text editing {{{
-
 Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
-
-" }}}
-" aesthetic {{{
-
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'morhetz/gruvbox'
-Plug 'ryanoasis/vim-devicons'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" }}}
-" IDE like {{{
-
-Plug 'dyng/ctrlsf.vim'
-Plug 'mhinz/vim-grepper'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive'
-
-" }}}
-" misc {{{
-
 Plug 'vim-scripts/vim-auto-save'
 Plug 'deton/jasentence.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
- 
-" }}}
+Plug 'junegunn/vim-peekaboo'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
+
+" }}}
+
+" Settings {{{
+
+" EasyAlign {{{
+
+xmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
+nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
+nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
+nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>
+
+" }}}
+" Abolish {{{
+
+nnoremap <Leader>/a :%Subvert/{}/{}/g<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
+nnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
+vnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
+
+" }}}
+" Limelight {{{
+
+let g:limelight_default_coefficient = 0.8
+let g:limelight_conceal_ctermfg = 239
+let g:limelight_conceal_guifg = '#504945'
+
+nnoremap <Esc>L :Limelight!!<CR>
+
+" }}}
+" Goyo {{{
+
+nnoremap <Esc>G :Goyo<CR>
+
+" }}}
+" vim-airline {{{
+
+let g:airline_powerline_fonts = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+let g:airline#extensions#ctrlp#color_template = 'visual'
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.linenr = ''
+let g:airline_symbols.maxlinenr = ''
+
+" }}}
+" vim-auto-save {{{
+
+let g:auto_save = 0                " enable AutoSave on Vim startup
+let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
+
+" }}}
+" vimwiki {{{
+
+let g:vimwiki_list = [{'path': '~/vimwiki/vim', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_ext2syntax = {'.md': 'markdown'}
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_url_maxsave=0
+
+" NOTE:
+" comment out al/il lines in favor of textobj-line
+" bundle/vimwiki/ftplugin/vimwiki.vim
+
+" }}}
+" instant-markdown {{{
+
+let g:instant_markdown_autostart = 0
+let g:instant_markdown_port = 8890
+
+" }}}
+" CtrlP {{{
+
+let g:ctrlp_match_window = 'bottom,ttb,min:10,max:10,results:30'
+let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_tabpage_position = 'al'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_regexp = 1
+
+nnoremap <Leader><C-P> :CtrlPCurWD<CR>
+
+" }}}
+" Misc {{{
+ 
+runtime macros/matchit.vim
+
+" }}}
+
+" }}} 
 
 " }}}
 
 " VARIABLE {{{
 
 let g:my_ftmode = 'default'
+let g:ft_man_open_mode = 'tab'
+let g:ft_man_folding_enable = 1
 
 " }}}
 
@@ -123,9 +198,7 @@ set wildmenu
 set wildmode=full
 set clipboard=unnamedplus
 set backspace=indent,eol,start
-set autowrite
 set nrformats=
-set pastetoggle=<C-V>v
 set laststatus=2
 set noswapfile
 
@@ -352,6 +425,22 @@ function! OpenRC(prog)
     silent! execute 'e ' . path
 endfunction
 
+function! ArgReplace(pattern, substitute)
+    cexpr []
+    execute 'args `ag -l ' . a:pattern . '`'
+    silent! execute 'argdo %s/\v' . a:pattern . '/'. a:substitute . '/g'
+    silent! execute 'argdo vimgrepadd! /' . a:substitute  . '/gj %'
+    copen
+endfunction
+
+function BufDoVim(pattern)
+    cexpr []
+    normal mA
+    silent! execute 'bufdo vimgrepadd /\v' . a:pattern . '/gj %'
+    normal 'A
+    copen
+endfunction
+
 " vimcasts.org - show highlight group for the cword
 function! <SID>SynStack()
     if !exists("*synstack")
@@ -373,9 +462,9 @@ command! -nargs=0 Cd lcd $HOME/Desktop
 
 " Basic {{{
 
+nnoremap <Del> <nop>
 nnoremap <Space> <nop>
 let mapleader = "\<Space>"
-nnoremap <Del> <nop>
 
 " }}}
 " Operator {{{
@@ -426,20 +515,6 @@ for s in surroundings
 endfor
 
 " }}}
-" Tab {{{
-
-nnoremap <C-W>N :$tabnew<CR>
-nnoremap <C-W>% :$tabnew %<CR>
-nnoremap <C-W>C :tabclose<CR>
-nnoremap <C-W>V :call OpenRC('vim')<CR>
-nnoremap <C-W>P :call OpenRC('bash')<CR>
-nnoremap <C-W>R :call OpenRC('')<LEFT><LEFT>
-
-" I don't miss default g0/g$ behavior
-nnoremap g0 :1tabnext<CR>
-nnoremap g$ :$tabnext<CR>
-
-" }}}
 " Search {{{
 
 nnoremap / /\v
@@ -451,18 +526,9 @@ nnoremap <Leader>/S :%s/\v^//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/r :argdo %s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/R :argdo %s/\v//g <BAR> update
 
-function! ArgReplace(pattern, substitute)
-    cexpr []
-    execute 'args `ag -l ' . a:pattern . '`'
-    silent! execute 'argdo %s/\v' . a:pattern . '/'. a:substitute . '/g'
-    silent! execute 'argdo vimgrepadd! /' . a:substitute  . '/gj %'
-    copen
-endfunction
-nnoremap <C-J> :silent! cnext<CR>
-nnoremap <C-K> :silent! cprevious<CR>
-
-" ag grep
-nnoremap <C-G> :execute 'silent grep! ' <BAR> copen<C-LEFT><C-LEFT><C-LEFT>
+" grep
+nnoremap <C-G> :execute 'silent grep! '<BAR>:redraw!<BAR>copen<C-LEFT>
+nnoremap <Leader><C-G> :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
 nnoremap <Leader>/d :g/\v/d<LEFT><LEFT>
@@ -505,26 +571,6 @@ nmap <Leader>,, <Plug>(JoinLines)ip,
 nmap <Leader>,' <Plug>(JoinLines)ip',
 nmap <Leader>," <Plug>(JoinLines)ip",
 
-" calculation
-nmap <Leader>+ A<Space>=<Space><C-R>=eval(substitute(substitute(getline('.'), '\v\D+', '+', 'g'), '\v(^\++<BAR>\++$)', '', 'g'))<CR><ESC>
-
-" my snippets
-nnoremap <silent> <Leader>'c :-1read $VIMRUNTIME/skelton/React_Component.txt<CR>/class<CR>:nohlsearch<CR>ela
-nnoremap <silent> <Leader>'C :-1read $VIMRUNTIME/skelton/React_Component_State.txt<CR>/class<CR>:nohlsearch<CR>ela
-nnoremap <silent> <Leader>'n :-1read $VIMRUNTIME/skelton/React_Component_Constructor.txt<CR>/state<CR>:nohlsearch<CR>o
-nnoremap <silent> <Leader>'i :-1read $VIMRUNTIME/skelton/TS_Interface.txt<CR>/{<CR>:nohlsearch<CR>hi
-nnoremap <silent> <Leader>'h :-1read $VIMRUNTIME/skelton/html5.txt<CR>/title<CR>:nohlsearch<CR>cit
-nnoremap <silent> <Leader>'r :-1read $VIMRUNTIME/skelton/html5_React.txt<CR>/title<CR>:nohlsearch<CR>cit
-nnoremap <silent> <Leader>'R :-1read $VIMRUNTIME/skelton/html5_React_Babel.txt<CR>/title<CR>:nohlsearch<CR>cit
-nnoremap <silent> <Leader>'x :-1read $VIMRUNTIME/skelton/xhtml.txt<CR>/title<CR>:nohlsearch<CR>cit
-nnoremap <silent> <Leader>'l :-1read $VIMRUNTIME/skelton/lorem.txt<CR>
-
-" }}}
-" Window {{{
-
-nnoremap <C-W>, :vnew<CR>
-nnoremap <C-W>Q :cclose<CR>
-
 " }}}
 " Fold {{{
 
@@ -538,9 +584,30 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :wq<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :q!<CR>
-nnoremap <Leader><C-Q> :qa!<CR>
-nnoremap <Leader><C-X> :qa!<CR>
 nnoremap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR>
+
+" }}}
+" Window {{{
+
+nnoremap <C-W>, :vnew<CR>
+nnoremap <LEFT> <C-W><
+nnoremap <RIGHT> <C-W>>
+nnoremap <UP> <C-W>+
+nnoremap <DOWN> <C-W>-
+
+" }}}
+" Tab Page {{{
+
+nnoremap <C-W>N :$tabnew<CR>
+nnoremap <C-W>% :$tabnew %<CR>
+nnoremap <C-W>C :tabclose<CR>
+nnoremap <C-W>V :call OpenRC('vim')<CR>
+nnoremap <C-W>P :call OpenRC('bash')<CR>
+nnoremap <C-W>R :call OpenRC('')<LEFT><LEFT>
+
+" I don't miss default g0/g$ behavior
+nnoremap g0 :1tabnext<CR>
+nnoremap g$ :$tabnext<CR>
 
 " }}}
 " Toggle/Change Options and Stuff {{{
@@ -556,12 +623,6 @@ nnoremap <Esc>D :windo diffoff<CR>
 nnoremap <Esc>gs :call ChangeGruvboxContrast('soft')<CR>
 nnoremap <Esc>gm :call ChangeGruvboxContrast('medium')<CR>
 nnoremap <Esc>gh :call ChangeGruvboxContrast('hard')<CR>
-
-" }}}
-" repeat command {{{
-
-nnoremap <Leader>. @:
-nnoremap <Leader>v :execute 'vertical ' . @:<CR>
 
 " }}}
 " Insert Mode {{{
@@ -590,7 +651,9 @@ inoremap <C-D> <C-R>=strftime("%Y-%m-%d")<CR>
 " }}}
 " Command-Line Mode {{{
 
-" make command-line mode more like bash default binding
+nnoremap <Leader>; q:
+
+" make command-line mode more like readline
 cnoremap <C-A> <HOME>
 cnoremap <C-B> <LEFT>
 cnoremap <C-F> <RIGHT>
@@ -601,7 +664,33 @@ cnoremap <ESC><C-F> <C-F>
 cnoremap <ESC><C-D> <C-D>
 
 " }}}
+" Snippets {{{
+
+nnoremap <silent> <Leader>'c :-1read $VIMRUNTIME/skelton/React_Component.txt<CR>/class<CR>:nohlsearch<CR>ela
+nnoremap <silent> <Leader>'C :-1read $VIMRUNTIME/skelton/React_Component_State.txt<CR>/class<CR>:nohlsearch<CR>ela
+nnoremap <silent> <Leader>'n :-1read $VIMRUNTIME/skelton/React_Component_Constructor.txt<CR>/state<CR>:nohlsearch<CR>o
+nnoremap <silent> <Leader>'i :-1read $VIMRUNTIME/skelton/TS_Interface.txt<CR>/{<CR>:nohlsearch<CR>hi
+nnoremap <silent> <Leader>'h :-1read $VIMRUNTIME/skelton/html5.txt<CR>/title<CR>:nohlsearch<CR>cit
+nnoremap <silent> <Leader>'r :-1read $VIMRUNTIME/skelton/html5_React.txt<CR>/title<CR>:nohlsearch<CR>cit
+nnoremap <silent> <Leader>'R :-1read $VIMRUNTIME/skelton/html5_React_Babel.txt<CR>/title<CR>:nohlsearch<CR>cit
+nnoremap <silent> <Leader>'x :-1read $VIMRUNTIME/skelton/xhtml.txt<CR>/title<CR>:nohlsearch<CR>cit
+nnoremap <silent> <Leader>'l :-1read $VIMRUNTIME/skelton/lorem.txt<CR>
+
+" }}}
 " Misc {{{
+
+" help
+nnoremap <Leader>H :vertical help<Space>
+
+" repeat command
+nnoremap <Leader>. @:
+nnoremap <Leader>v :execute 'vertical ' . @:<CR>
+
+" quickfix
+nnoremap <C-N> :silent! cnext<CR>
+nnoremap <C-P> :silent! cprevious<CR>
+nnoremap <Leader>co :copen<CR>
+nnoremap <Leader>cc :cclose<CR>
 
 " dict
 nnoremap K :call ShowWordDef(0)<CR>
@@ -609,12 +698,15 @@ nnoremap K :call ShowWordDef(0)<CR>
 " replay macro
 nnoremap Q @q
 
-" check highlight group of current word
-nnoremap <Leader>ch :call <SID>SynStack()<CR>
-
 " IME
 nnoremap <ESC>i :set iminsert=0<CR>
 cnoremap <ESC>i :set iminsert=0<CR>
+
+" check highlight group of current word
+nnoremap <Leader>ch :call <SID>SynStack()<CR>
+
+" list mappings
+nnoremap <Leader>cm :vnew<BAR>put=execute('map')<BAR>setf vim<BAR>sort<BAR>normal ggdip<CR>
 
 " }}}
 
@@ -734,245 +826,8 @@ function! PoshHelpFolds()
 endfunction
 
 " }}}
-" Python {{{
-
-augroup ft_py
-    autocmd FileType ps1 let maplocalleader = "\<Space>"
-    autocmd!
-augroup END
 
 " }}}
-
-" }}}
-
-" DIGRAPH {{{
-
-" hiragana
-digraph aa 12354
-digraph ii 12356
-digraph uu 12358
-digraph ee 12360
-digraph oo 12362
-digraph nn 12435
-digraph ji 12376
-
-" katakana
-digraph Aa 12450 
-digraph Ii 12452 
-digraph Uu 12454 
-digraph Ee 12456
-digraph Oo 12458
-digraph Nn 12531
-digraph Ji 12472
-
-" kigou
-digraph .. 12290
-digraph ,, 12289
-digraph [[ 12300
-digraph ]] 12301
-digraph (( 65288
-digraph )) 65289
-
-" hiragana - stegana for you-on
-digraph aA 12353  
-digraph iI 12355  
-digraph uU 12357  
-digraph eE 12359  
-digraph oO 12361  
-digraph fu 12405  
-
-" katakana - stegana for you-on
-digraph AA 12449
-digraph II 12451
-digraph UU 12453
-digraph EE 12455
-digraph OO 12457
-
-" }}}
-
-" ABBREVIATION {{{
-
-iabbrev qbf The quick brown fox jumps over the lazy dog
-cabbrev aga silent! argdo vimgrepadd /\v/ %<LEFT><LEFT><LEFT>
-cabbrev bga silent! bufdo vimgrepadd
-
-" }}}
-
-" PLUGIN {{{
-
-" EasyAlign {{{
-
-xmap <Leader>a <Plug>(EasyAlign)
-nmap <Leader>a <Plug>(EasyAlign)
-nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
-nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
-nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
-nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>:nohlsearch<CR>
-
-" }}}
-" Abolish {{{
-
-nnoremap <Leader>/a :%Subvert/{}/{}/g<LEFT><LEFT><LEFT><LEFT><LEFT><LEFT>
-nnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
-vnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
-
-" }}}
-" repeat.vim"{{{
-
-silent! call repeat#set("\<Plug>MyWonderfulMap", v : count)
-
-" }}}
-" NERDTree {{{
-
-nnoremap <Leader>N :NERDTreeToggle<CR>
-
-" }}}
-" Limelight {{{
-
-let g:limelight_default_coefficient = 0.8
-let g:limelight_conceal_ctermfg = 239
-let g:limelight_conceal_guifg = '#504945'
-nnoremap <Esc>L :Limelight!!<CR>
-
-" }}}
-" Goyo {{{
-
-let g:goyo_active = 0
-
-function! s:goyo_enter()
-    let g:goyo_active = 1
-    set showmode
-    set showcmd
-    " set number
-    " set relativenumber
-    " set cursorline
-endfunction
-
-function! s:goyo_leave()
-    let g:goyo_active = 0
-endfunction
-
-function! ToggleGoyo()
-    if g:goyo_active
-        execute "normal :Goyo!\<CR>"
-    else
-        execute "normal :Goyo\<CR>"
-    endif
-endfunction
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-nnoremap <Esc>G :call ToggleGoyo()<CR>
-
-" }}}
-" vim-airline"{{{
-
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#tabs_label = ''
-let g:airline#extensions#tabline#show_tab_count = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#whitespace#mixed_indent_algo = 1
-let g:airline#extensions#ctrlp#color_template = 'visual'
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-" }}}
-" vim-auto-save {{{
-
-let g:auto_save = 0                " enable AutoSave on Vim startup
-let g:auto_save_in_insert_mode = 0 " do not save while in insert mode
-
-" }}}
-" vimwiki {{{
-
-let g:vimwiki_list = [{'path': '~/vimwiki/vim', 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_ext2syntax = {'.md': 'markdown'}
-let g:vimwiki_folding = 'expr'
-let g:vimwiki_url_maxsave=0
-
-" NOTE:
-" comment out al/il lines in favor of textobj-line
-" bundle/vimwiki/ftplugin/vimwiki.vim
-
-" }}}
-" instant-markdown {{{
-
-let g:instant_markdown_autostart = 0
-let g:instant_markdown_port = 8890
-
-" }}}
-" matchit {{{
-
-runtime macros/matchit.vim
-
-" }}}
-" MAN {{{
-
-let g:ft_man_open_mode = 'tab'
-let g:ft_man_folding_enable = 1
-
-" }}}
-" CtrlP {{{
-
-let g:ctrlp_match_window = 'bottom,ttb,min:10,max:10,results:30'
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_tabpage_position = 'al'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_regexp = 1
-
-nnoremap <C-P> :CtrlPCurWD<CR>
-
-" }}}
-" fzf.vim {{{
-
-nnoremap <Leader><C-F> :Files<CR>
-nnoremap <Leader><C-L> :Lines<CR>
-nnoremap <Leader><C-B> :Buffers<CR>
-nnoremap <Leader><C-A> :Ag<CR>
-nnoremap <Leader><C-H> :History<CR>
-
-" }}}
-" grepper {{{
-
-let g:grepper = {}
-let g:grepper.tools = ['ag', 'git', 'grep']
-let g:grepper.open = 1
-let g:grepper.jump = 0
-let g:grepper.prompt_mapping_tool = '<leader>g'
-let g:grepper.stop = 5000
-
-cnoremap <c-n> <down>
-cnoremap <c-p> <up>
-
-nmap gs <plug>(GrepperOperator)
-xmap gs <plug>(GrepperOperator)
-
-" Don't need vim's default <C-G> (:f)
-nnoremap <Leader><C-G> :Grepper -tool ag -side<cr>
-nnoremap <Leader><C-S> :Grepper -tool ag -cword -side -noprompt<cr>
-nnoremap <leader>gg :Grepper -tool git<cr>
-
-" }}}
-" CtrlSF {{{
-
-let g:ctrlsf_position = 'right'
-let g:ctrlsf_regex_pattern = 1
-let g:ctrlsf_mapping = {
-    \ "open"  : ["<CR>", "O"],
-    \ "openb" : { "key": "o", "suffix": "<C-w>p" },
-    \ "next"  : "n",
-    \ "prev"  : "N",
-    \ }
-" nnoremap <C-S-F> :CtrlSF<Space>
-
-" }}}
-
-" }}} 
 
 " DICTIONARY {{{
 
@@ -1137,18 +992,7 @@ if has('win32')
             silent! execute 'argadd ' . p
         endfor
         silent! execute 'lcd ' . dir
-        silent! execute '!ctags -R'
         silent! execute 'e ' . a:ps_module . '.psd1'
-    endfunction
-
-    function! SetWinShell(shell)
-        if a:shell ==# 'posh'
-            set shell=powershell
-            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
-        elseif a:shell ==# 'cmd'
-            set shell=C:\\WINDOWS\\system32\\cmd.exe
-            set shellcmdflag=/c
-        endif
     endfunction
 
     if has('gui_running')
@@ -1184,26 +1028,6 @@ if has('win32')
         set guifont=Consolas\ NF:h13
         set guifontwide=mplus\ NF:h12
 
-        function! SwitchGUIFont()
-            let parts    = split(&guifont, ':')
-            let facename = parts[0]
-            let fontsize = substitute(parts[1], 'h', '', '')
-
-            if facename ==# 'Consolas NF' 
-                let guifont = 'Inconsolata NF:h14'
-                let guifontwide = 'mplus NF:h13'
-                let linespace = -2
-            else
-                let guifont = 'Consolas NF:h13'
-                let guifontwide = 'mplus NF:h13'
-                let linespace = 2
-            endif
-
-            let &guifont = guifont
-            let &guifontwide = guifontwide
-            let &linespace = linespace
-        endfunction
-
         function! ChangeGUIFontSize(decrease)
             let parts    = split(&guifont, ':')
             let facename = parts[0]
@@ -1234,45 +1058,6 @@ endif
 
 " TESTING {{{
 
-" status line
-" set statusline+=%h   "Help buffer flag, text is [help]
-" set statusline+=%q   "[Quickfix List], [Location List] or empty. 
-" set statusline+=\ 
-" set statusline=%<    "Where to truncate line if too long.  Default is at the start.
-" set statusline+=%f   "Path to the file in the buffer, as typed or relative to current
-" set statusline+=\ 
-" set statusline+=%m   "Modified flag, text is [+]; [-] if 'modifiable' is off.
-" set statusline+=\ 
-" set statusline+=%w   "Preview window flag, text is [Preview].
-" set statusline+=\ 
-" set statusline+=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}
-" set statusline+=%r   "Readonly flag, text is [RO].
-" set statusline+=%y   "Type of file in the buffer, e.g., [vim].  See 'filetype'.
-" set statusline+=%{(g:my_ftmode==#'kana'?'[FT-KANA]':'')}
-" set statusline+=%=
-" set statusline+=\ C\ 
-" set statusline+=%v   "Virtual column number.
-" set statusline+=\ \ L\ 
-" set statusline+=%l   "Line number.
-" set statusline+=\ /\ 
-" set statusline+=%L   "Number of lines in buffer.
-" set statusline+=%6P  "Percentage through file of displayed window.
-" set statusline+=\ \ 
-
-" set undodir=~/.vim/tmp/undo//
-" set backupdir=~/.vim/tmp/backup//
-" set directory=~/.vim/tmp/swap//
-" set backup
-
-" nmap <Plug>TransposeCharacters xp:call repeat#set("\<Plug>TransposeCharacters")<CR>
-" nmap cp <Plug>TransposeCharacters
-
-" vimcasts.org
-" nnoremap <Leader>ew :e <C-R>=expand("%:p:h")."/"<CR>
-" nnoremap <Leader>es :sp <C-R>=expand("%:p:h")."/"<CR>
-" nnoremap <Leader>ev :vs <C-R>=expand("%:p:h")."/"<CR>
-" nnoremap <Leader>et :tabe <C-R>=expand("%:p:h")."/"<CR>
-
 " highlight
 nnoremap <Leader>/0 :call clearmatches()<CR>
 nnoremap <Leader>/1 :match DiffAdd /\v/<LEFT>
@@ -1287,7 +1072,6 @@ vnoremap <C-J> :m '>+1<CR>gv=gv
 vnoremap <C-K> :m '<-2<CR>gv=gv
 
 if has('multi_byte_ime')
-    " highlight Cursor guifg=NONE guibg=Green
     highlight link CursorIM Error
 endif
 
@@ -1295,17 +1079,5 @@ endif
 nnoremap <silent> <Leader>'p :-1read $VIMRUNTIME/skelton/TMP_GetPPCode.txt<CR>
 nnoremap <silent> <Leader>'v :-1read $VIMRUNTIME/skelton/TMP_UPV_Constructor.txt<CR>
 nnoremap <silent> <Leader>'m :-1read $VIMRUNTIME/skelton/TMP_TS_IMPORT.txt<CR>/{<CR>:nohlsearch<CR>la
-
-" http://vim.wikia.com/wiki/Improved_hex_editing
-" augroup Binary
-"   au!
-"   au BufReadPre  *.bin let &bin=1
-"   au BufReadPost *.bin if &bin | %!xxd
-"   au BufReadPost *.bin set ft=xxd | endif
-"   au BufWritePre *.bin if &bin | %!xxd -r
-"   au BufWritePre *.bin endif
-"   au BufWritePost *.bin if &bin | %!xxd
-"   au BufWritePost *.bin set nomod | endif
-" augroup END
 
 " }}}

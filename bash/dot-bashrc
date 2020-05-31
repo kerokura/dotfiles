@@ -153,10 +153,11 @@ source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
 # tmux
 if [ $TERM != 'screen' ]
 then
-    tmux -2 new-session -s main
+    tmux
 fi
 
-if [ $TERM == 'screen' ] && [ `which wmctrl` ]
+# make urxvt fullscreen on launch
+if [ $COLORTERM == 'rxvt-xpm' ] && [ `which wmctrl` ]
 then
     wmctrl -r :ACTIVE: -b add,fullscreen
 fi
