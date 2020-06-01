@@ -64,12 +64,12 @@ let g:limelight_default_coefficient = 0.8
 let g:limelight_conceal_ctermfg = 239
 let g:limelight_conceal_guifg = '#504945'
 
-nnoremap <Esc>L :Limelight!!<CR>
+nnoremap <ESC>L :Limelight!!<CR>
 
 " }}}
 " Goyo {{{
 
-nnoremap <Esc>G :Goyo<CR>
+nnoremap <ESC>G :Goyo<CR>
 
 " }}}
 " vim-airline {{{
@@ -511,9 +511,9 @@ nmap <silent> <Leader>j <Plug>(JoinLines)
 vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
 
 " mark lines as list
-nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 nmap <silent> <Leader>L :set operatorfunc=MarkListItems<CR>g@
 vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
+nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 
 " }}}
 " Motion {{{
@@ -571,8 +571,8 @@ nnoremap <Leader>/g /\v<\c[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
 " Editing (Not Operator) {{{
 
 " to avoid entering insert mode
-nnoremap <Leader><CR> mzi<CR><Esc>`z
-nnoremap <Leader><Space> i<Space><Esc>
+nnoremap <Leader><CR> mzi<CR><ESC>`z
+nnoremap <Leader><Space> i<Space><ESC>
 
 " repeatable spell correction
 nmap <Plug>CorrectNextSpellError ]s1z=:call repeat#set("\<Plug>CorrectNextSpellError")<CR>
@@ -585,8 +585,15 @@ nnoremap <silent> <Leader>e :silent! execute "%s/\u00a0//g"<CR>:silent! execute 
 nnoremap <silent> <Leader>E :silent! execute "%s/\u00a0//g"<CR>:silent! execute "normal! :g/^\\s*$/d\r:nohlsearch\r"<CR>
 
 " decorating
-nnoremap <Leader>1 :call SetHorizontalRule(0, 1, 0)<CR>
-nnoremap <Leader>2 :call SetHorizontalRule(0, 2, 0)<CR>
+nnoremap <Leader>0 :s/\v^#+\s*//<CR>
+nnoremap <Leader>1 :s/\v^#*\s*//<CR>I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
+nnoremap <Leader>2 :s/\v^#*\s*//<CR>2I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
+nnoremap <Leader>3 :s/\v^#*\s*//<CR>3I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
+nnoremap <Leader>4 :s/\v^#*\s*//<CR>4I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
+nnoremap <Leader>5 :s/\v^#*\s*//<CR>5I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
+nnoremap <Leader>6 :s/\v^#*\s*//<CR>6I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
+nnoremap <Leader>8 :call SetHorizontalRule(0, 1, 0)<CR>
+nnoremap <Leader>9 :call SetHorizontalRule(0, 2, 0)<CR>
 
 " quick join
 nmap <Leader>,, <Plug>(JoinLines)ip,
@@ -631,16 +638,16 @@ nnoremap <C-W>R :call OpenRC('')<LEFT><LEFT>
 " }}}
 " Toggle/Change Options and Stuff {{{
 
-nnoremap <Esc>b :call ToggleBackground()<CR>
-nnoremap <Esc>c :call ToggleColorColumn()<CR>
-nnoremap <Esc>l :set list!<CR>
-nnoremap <Esc>r :set relativenumber!<CR>
-nnoremap <Esc>s :set spell!<CR>
-nnoremap <Esc>d :windo diffthis<CR>
-nnoremap <Esc>D :windo diffoff<CR>
-nnoremap <Esc>gs :call ChangeGruvboxContrast('soft')<CR>
-nnoremap <Esc>gm :call ChangeGruvboxContrast('medium')<CR>
-nnoremap <Esc>gh :call ChangeGruvboxContrast('hard')<CR>
+nnoremap <ESC>b :call ToggleBackground()<CR>
+nnoremap <ESC>c :call ToggleColorColumn()<CR>
+nnoremap <ESC>l :set list!<CR>
+nnoremap <ESC>r :set relativenumber!<CR>
+nnoremap <ESC>s :set spell!<CR>
+nnoremap <ESC>d :windo diffthis<CR>
+nnoremap <ESC>D :windo diffoff<CR>
+nnoremap <ESC>gs :call ChangeGruvboxContrast('soft')<CR>
+nnoremap <ESC>gm :call ChangeGruvboxContrast('medium')<CR>
+nnoremap <ESC>gh :call ChangeGruvboxContrast('hard')<CR>
 
 " }}}
 " Insert Mode {{{
@@ -849,19 +856,10 @@ augroup ft_markdown
     autocmd!
     autocmd FileType markdown,vimwiki let maplocalleader = "\<Space>"
     autocmd FileType markdown,vimwiki highlight def VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
-    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>0 :s/\v^#+\s*//<CR>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>1 I# <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>2 I## <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>3 I### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>4 I#### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>5 I##### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>6 I###### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bv {o```vim<C-[>}O```<C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <ESC>A --><ESC>
+    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <ESC>gv:normal! A --><ESC>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>b cip```<CR>```<ESC>P
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>B cip```<CR>```<ESC>PkA<Space>
 augroup END
 
 " }}}
@@ -952,6 +950,16 @@ if has('win32')
     set clipboard=unnamed
 
     " functions
+    function! SetWinShell(shell)
+        if a:shell ==# 'posh'
+            set shell=powershell
+            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
+        elseif a:shell ==# 'cmd'
+            set shell=C:\\WINDOWS\\system32\\cmd.exe
+            set shellcmdflag=/c
+        endif
+    endfunction
+
     function! ListMyPSModules(A, L, P)
         let my_ps_mod_dir = "$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules"
         let prefix = a:A . '*'
@@ -965,16 +973,6 @@ if has('win32')
         return mod_names
     endfunction
 
-    function! SetWinShell(shell)
-        if a:shell ==# 'posh'
-            set shell=powershell
-            set shellcmdflag=-ExecutionPolicy\ RemoteSigned
-        elseif a:shell ==# 'cmd'
-            set shell=C:\\WINDOWS\\system32\\cmd.exe
-            set shellcmdflag=/c
-        endif
-    endfunction
-
     function! OpenPSModule(ps_module)
         let dir = '$USERPROFILE\\Documents\\WindowsPowerShell\\MyModules\\' . a:ps_module
         let ps1s = split(globpath(dir, '**/*.ps1'), '\n')
@@ -985,14 +983,7 @@ if has('win32')
         silent! execute 'e ' . a:ps_module . '.psd1'
     endfunction
 
-    " commands
-    command! SwitchToCmd call SetWinShell('cmd')
-    command! SwitchToPosh call SetWinShell('posh')
     command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
-
-    " mappings
-    nnoremap <Leader>cm :SwitchToCmd<CR>
-    nnoremap <Leader>ps :SwitchToPosh<CR>
     nnoremap <Leader>pm :OpenPSMod<Space>
 
     if has('gui_running')

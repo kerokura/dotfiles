@@ -102,6 +102,7 @@ then
     source "$lib"
 fi
 
+# variables
 PATH=$PATH:~/bin:~/bin/bash:~/bin/powershell:~/bin/perl:~/bin/python:~/.local/bin
 export G_NUM=0
 export HTTP_HOME='http://www.google.com/ncr'
@@ -112,30 +113,17 @@ export VISUAL=$EDITOR
 export HISTSIZE=10000
 export TRASH=~/.local/share/Trash/files
 export HISTCONTROL=ignoredups:erasedups:ignorespace
+
+# alias
 alias mv='mv -i'
 alias cp='cp -i'
-fehcmd='feh -q ' 
-fehcmd+='-S filename --info "echo info:\ \ \ \ \ \ \ %t, %w x %h, %p pixels, %S" '
-fehcmd+='-A ";cp %F cp_%N && echo %F has been copied to cp_%N" ' 
-fehcmd+='--action1 ";gimp %F" '
-fehcmd+='--action5 ";animate %F" '
-fehcmd+='--action8 ";feh -Fy %F" '
-fehcmd+='--action9 "xterm -e \"img_mv %F\"" '
-alias feh=$fehcmd
 alias la='ls -la'
-alias cps='cp $(ls feh_* | sed -n "s/^feh_......_......_//p")'
-alias mvs='mv $(ls feh_* | sed -n "s/^feh_......_......_//p")'
-alias rf='rm feh_*'
 alias x='xclip && xclip -o'
 alias mplayer='mplayer -vf screenshot'
 alias mp='mplayer -vf screenshot -fs -screen 0'
-alias mp1='mplayer -vf screenshot -fs -screen 1'
 alias mpn='mplayer -vf screenshot -fs -nosound -screen 0'
-alias mpn1='mplayer -vf screenshot -fs -nosound -screen 1'
 alias Mp='mplayer -loop 0 -vf screenshot -fs -screen 0'
-alias Mp1='mplayer -loop 0 -vf screenshot -fs -screen 1'
 alias Mpn='mplayer -loop 0 -vf screenshot -fs -nosound -screen 0'
-alias Mpn1='mplayer -loop 0 -vf screenshot -fs -nosound -screen 1'
 alias xml='xmlstarlet'
 
 # coloring man page
@@ -151,7 +139,8 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 source ~/.vim/plugged/gruvbox/gruvbox_256palette.sh
 
 # tmux
-if [ $TERM != 'screen' ]
+tmux has-session -t 'main' 2>/dev/null
+if [ $? -gt 0 ] && [ $TERM != 'screen' ]
 then
     tmux
 fi
@@ -173,3 +162,16 @@ if [ -r ~/.dircolors ]
 then
     eval "$(dircolors ~/.dircolors)"
 fi
+
+# feh
+fehcmd='feh -q ' 
+fehcmd+='-S filename --info "echo info:\ \ \ \ \ \ \ %t, %w x %h, %p pixels, %S" '
+fehcmd+='-A ";cp %F cp_%N && echo %F has been copied to cp_%N" ' 
+fehcmd+='--action1 ";gimp %F" '
+fehcmd+='--action5 ";animate %F" '
+fehcmd+='--action8 ";feh -Fy %F" '
+alias feh=$fehcmd
+alias cps='cp $(ls feh_* | sed -n "s/^feh_......_......_//p")'
+alias mvs='mv $(ls feh_* | sed -n "s/^feh_......_......_//p")'
+alias rf='rm feh_*'
+
