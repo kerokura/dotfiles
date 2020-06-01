@@ -19,25 +19,22 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'deton/jasentence.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'morhetz/gruvbox'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-scripts/vim-auto-save'
-Plug 'deton/jasentence.vim'
-Plug 'vimwiki/vimwiki'
-Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
-Plug 'junegunn/vim-peekaboo'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -132,6 +129,17 @@ let g:vimwiki_url_maxsave=0
 let g:instant_markdown_autostart = 0
 let g:instant_markdown_port = 8890
 
+" NOTE:
+" modify instant-markdown-d's css, as default font size is a bit large
+" .markdown-body {
+" ... omit ...
+"   /* font-size: 16px; */
+"   font-size: 14px;
+" ... omit ...
+" }
+" /usr/local/lib/node_modules/instant-markdown-d/css/github-markdown.css
+" %APPDATA%\npm\node_modules\instant-markdown-d\css\github-markdown.css
+
 " }}}
 " CtrlP {{{
 
@@ -167,7 +175,6 @@ runtime macros/matchit.vim
 
 " VARIABLE {{{
 
-let g:my_ftmode = 'default'
 let g:ft_man_open_mode = 'tab'
 let g:ft_man_folding_enable = 1
 
@@ -252,6 +259,7 @@ let g:gruvbox_underline = 0
 " let s:N1 = airline#themes#get_highlight2(['Normal', 'bg'], ['StatusLineNC', 'bg'])
 " let s:N1 = airline#themes#get_highlight2(['GruvboxFg2', 'fg'], ['GruvboxFg2', 'bg'])
 " ~/.vim/plugged/gruvbox/autoload/airline/themes/gruvbox.vim
+" ~\vimfiles\plugged\gruvbox\autoload\airline\themes\gruvbox.vim
 
 " }}}
 
@@ -420,24 +428,6 @@ function! ToggleColorColumn()
     endif
 endfunction
 
-function! ToggleFTMode()
-    if g:my_ftmode ==# 'kana'
-        map f f
-        map F F
-        map t t
-        map T T
-        let g:my_ftmode = 'default'
-        highlight! link CursorLine CursorColumn
-    else
-        noremap f f<C-K>
-        noremap F F<C-K>
-        noremap t t<C-K>
-        noremap T T<C-K>
-        let g:my_ftmode = 'kana'
-        highlight! link CursorLine Error
-    endif
-endfunction
-
 function! ChangeGruvboxContrast(val)
     let g:gruvbox_contrast_dark = a:val
     let g:gruvbox_contrast_light = a:val
@@ -532,9 +522,6 @@ vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" for motion repeat with <Leader>.
-nnoremap <Leader>m :normal<Space>
-
 " }}}
 " Text Object {{{
 
@@ -619,6 +606,7 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :wq<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>Q :q!<CR>
+nnoremap <C-W>Q :qa!<CR>
 nnoremap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR>
 
 " }}}
@@ -640,10 +628,6 @@ nnoremap <C-W>V :call OpenRC('vim')<CR>
 nnoremap <C-W>P :call OpenRC('bash')<CR>
 nnoremap <C-W>R :call OpenRC('')<LEFT><LEFT>
 
-" I don't miss default g0/g$ behavior
-nnoremap g0 :1tabnext<CR>
-nnoremap g$ :$tabnext<CR>
-
 " }}}
 " Toggle/Change Options and Stuff {{{
 
@@ -652,7 +636,6 @@ nnoremap <Esc>c :call ToggleColorColumn()<CR>
 nnoremap <Esc>l :set list!<CR>
 nnoremap <Esc>r :set relativenumber!<CR>
 nnoremap <Esc>s :set spell!<CR>
-nnoremap <Esc>f :call ToggleFTMode()<CR>
 nnoremap <Esc>d :windo diffthis<CR>
 nnoremap <Esc>D :windo diffoff<CR>
 nnoremap <Esc>gs :call ChangeGruvboxContrast('soft')<CR>
@@ -755,7 +738,6 @@ augroup all_type
     autocmd!
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
     autocmd VimResized * execute "normal! \<C-W>="
-    " autocmd BufWritePost .vimrc source $MYVIMRC
 augroup END
 
 " }}}
@@ -861,6 +843,28 @@ function! PoshHelpFolds()
 endfunction
 
 " }}}
+" Markdown {{{
+
+augroup ft_markdown
+    autocmd!
+    autocmd FileType markdown,vimwiki let maplocalleader = "\<Space>"
+    autocmd FileType markdown,vimwiki highlight def VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
+    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>0 :s/\v^#+\s*//<CR>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>1 I# <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>2 I## <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>3 I### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>4 I#### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>5 I##### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>6 I###### <C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bv {o```vim<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
+    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
+augroup END
+
+" }}}
 
 " }}}
 
@@ -935,29 +939,6 @@ source $VIMRUNTIME/ftplugin/man.vim
 
 " }}}
 
-" Markdown {{{
-
-augroup ft_markdown
-    autocmd!
-    autocmd FileType markdown,vimwiki let maplocalleader = "\<Space>"
-    autocmd FileType markdown,vimwiki highlight def VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <Esc>A --><Esc>
-    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <Esc>gv:normal! A --><Esc>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>0 :s/\v^#+\s*//<CR>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>1 I# <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>2 I## <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>3 I### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>4 I#### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>5 I##### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>6 I###### <C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bb {o```<C-[>}O```<C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bv {o```vim<C-[>}O```<C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bp {o```powershell<C-[>}O```<C-[>
-    autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>bP {o```python<C-[>}O```<C-[>
-augroup END
-
-" }}}
-
 " MS WINDOWS {{{
 
 if has('win32')
@@ -965,20 +946,10 @@ if has('win32')
     set fileformat=unix
     set fileformats=unix,dos
     set fencs=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
-    set encoding=utf-8  " The encoding displayed.
+    set encoding=utf-8      " The encoding displayed.
     set fileencoding=utf-8  " The encoding written to file.
     set ambiwidth=double
     set clipboard=unnamed
-
-    " mappings
-    nnoremap <Leader>cm :SwitchToCmd<CR>
-    nnoremap <Leader>ps :SwitchToPosh<CR>
-    nnoremap <Leader>pm :OpenPSMod<Space>
-
-    " commands
-    command! SwitchToCmd call SetWinShell('cmd')
-    command! SwitchToPosh call SetWinShell('posh')
-    command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
 
     " functions
     function! ListMyPSModules(A, L, P)
@@ -1014,6 +985,16 @@ if has('win32')
         silent! execute 'e ' . a:ps_module . '.psd1'
     endfunction
 
+    " commands
+    command! SwitchToCmd call SetWinShell('cmd')
+    command! SwitchToPosh call SetWinShell('posh')
+    command! -nargs=1 -complete=customlist,ListMyPSModules OpenPSMod call OpenPSModule(<q-args>)
+
+    " mappings
+    nnoremap <Leader>cm :SwitchToCmd<CR>
+    nnoremap <Leader>ps :SwitchToPosh<CR>
+    nnoremap <Leader>pm :OpenPSMod<Space>
+
     if has('gui_running')
         let cwd = getcwd()
         if cwd ==# 'C:\Windows\System32'
@@ -1036,16 +1017,15 @@ if has('win32')
         set guioptions-=p
         set guioptions-=F
         set guioptions-=e    " don't show gui tabline!
+        set linespace=2
+        set guifont=Consolas\ NF:h13
+        set guifontwide=mplus\ NF:h12
+
         nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
-        imap <F11> <ESC>:call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>a
         nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
         nmap <C-W>P :$tabnew $HOME/Documents/WindowsPowerShell/profile.ps1<CR><F11><F11>
         nmap <C-Up> :call ChangeGUIFontSize(0)<CR><F11><F11>
         nmap <C-Down> :call ChangeGUIFontSize(1)<CR><F11><F11>
-
-        set linespace=2
-        set guifont=Consolas\ NF:h13
-        set guifontwide=mplus\ NF:h12
 
         function! ChangeGUIFontSize(decrease)
             let parts    = split(&guifont, ':')
