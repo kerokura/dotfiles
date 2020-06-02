@@ -11,16 +11,13 @@ else
     call plug#begin('~/.vim/plugged')
 endif
 
-Plug 'kana/vim-textobj-user'      " kana's objs depend on it
-Plug 'kana/vim-textobj-entire'    " ie
-Plug 'kana/vim-textobj-indent'    " ii
-Plug 'kana/vim-textobj-line'      " il
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
 Plug 'deton/jasentence.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
@@ -120,7 +117,7 @@ let g:vimwiki_folding = 'expr'
 let g:vimwiki_url_maxsave=0
 
 " NOTE:
-" comment out al/il lines in favor of textobj-line
+" comment out al/il lines
 " bundle/vimwiki/ftplugin/vimwiki.vim
 
 " }}}
@@ -503,7 +500,6 @@ vnoremap <Leader>< :left<CR>
 " yank to another buffer in the right
 nnoremap <Leader>y :set operatorfunc=YankToMemo<CR>g@
 vnoremap <Leader>y :call YankToMemo(visualmode(), 1)<CR>
-nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 
 " join lines with delimiters
 nmap <silent> <Plug>(JoinLines) :set operatorfunc=JoinLines<CR>g@
@@ -513,7 +509,6 @@ vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
 " mark lines as list
 nmap <silent> <Leader>L :set operatorfunc=MarkListItems<CR>g@
 vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
-nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 
 " }}}
 " Motion {{{
@@ -534,6 +529,11 @@ for s in surroundings
     execute printf("vnoremap a%s :<C-U>execute 'normal! F%svt%s'<CR>", s, s, s)
     execute printf("onoremap a%s :<C-U>execute 'normal! F%svt%s'<CR>", s, s, s)
 endfor
+
+" inner line, entire buffer
+onoremap il :normal! ^vg_<CR>
+onoremap ae :normal! ggVG<CR>
+xnoremap ae :normal! ggVG<CR>
 
 " }}}
 " Search {{{
@@ -571,18 +571,13 @@ nnoremap <Leader>/g /\v<\c[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
 " Editing (Not Operator) {{{
 
 " to avoid entering insert mode
+nnoremap <CR> o<ESC>k
 nnoremap <Leader><CR> mzi<CR><ESC>`z
 nnoremap <Leader><Space> i<Space><ESC>
 
-" repeatable spell correction
-nmap <Plug>CorrectNextSpellError ]s1z=:call repeat#set("\<Plug>CorrectNextSpellError")<CR>
-nmap <Leader>s <Plug>CorrectNextSpellError
-nmap <Plug>CorrectPrevSpellError [s1z=:call repeat#set("\<Plug>CorrectPrevSpellError")<CR>
-nmap <Leader>S <Plug>CorrectPrevSpellError
-
 " remove empty lines
-nnoremap <silent> <Leader>e :silent! execute "%s/\u00a0//g"<CR>:silent! execute "normal! zR\r:g/^\\s*$/,/./-j\r:nohlsearch\r"<CR>
-nnoremap <silent> <Leader>E :silent! execute "%s/\u00a0//g"<CR>:silent! execute "normal! :g/^\\s*$/d\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\\s\|\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^$/,/./-j\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\\s\|\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^$/d\r:nohlsearch\r"<CR>
 
 " decorating
 nnoremap <Leader>0 :s/\v^#+\s*//<CR>
@@ -592,11 +587,21 @@ nnoremap <Leader>3 :s/\v^#*\s*//<CR>3I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>4 :s/\v^#*\s*//<CR>4I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>8 :call SetHorizontalRule(0, 1, 0)<CR>
 nnoremap <Leader>9 :call SetHorizontalRule(0, 2, 0)<CR>
+nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 
 " quick join
 nmap <Leader>,, <Plug>(JoinLines)ip,
 nmap <Leader>,' <Plug>(JoinLines)ip',
 nmap <Leader>," <Plug>(JoinLines)ip",
+
+" repeatable spell correction
+nmap <Plug>CorrectNextSpellError ]s1z=:call repeat#set("\<Plug>CorrectNextSpellError")<CR>
+nmap <Leader>s <Plug>CorrectNextSpellError
+nmap <Plug>CorrectPrevSpellError [s1z=:call repeat#set("\<Plug>CorrectPrevSpellError")<CR>
+nmap <Leader>S <Plug>CorrectPrevSpellError
+
+" copy the current line to the right buffer
+nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 
 " }}}
 " Fold {{{
@@ -886,9 +891,11 @@ function! ShowWordDef(vertical)
 
     setlocal filetype=wdef
     setlocal buftype=nofile
+
+    let reg = getreg('@')
+
     normal ggdG
     silent! execute '-1read !' . dict_cmd . ' ' . cword
-
     execute "normal ggdapdiWVpI#\ "
     silent! %s/\v^\s*//
     silent! %s/\v\s+/ /g
@@ -899,6 +906,8 @@ function! ShowWordDef(vertical)
     silent! %s/\v^(\d+\..*\s*)$/\r\1\r/
     silent! %s/\v^([A-Z].*:\s*)$/\r\1\r/
     normal gg
+
+    call setreg('@', reg)
 endfunction
 
 augroup ft_wdef
