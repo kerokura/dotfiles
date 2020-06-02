@@ -869,9 +869,9 @@ augroup END
 " DICTIONARY {{{
 
 function! ShowWordDef(vertical)
-    let cword       = expand('<cword>')
-    let back_to_cmd = 0
-    let dict_cmd    = 'sdcv'
+    let cword     = expand('<cword>')
+    let dict_cmd  = 'sdcv'
+    let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
 
     let winnr = bufwinnr('__WordDef__')
     if winnr > 0
@@ -886,48 +886,27 @@ function! ShowWordDef(vertical)
 
     setlocal filetype=wdef
     setlocal buftype=nofile
-
-    normal! ggdG
+    normal ggdG
     silent! execute '-1read !' . dict_cmd . ' ' . cword
 
-    let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
-    " see also + more at: prefix with >, put line breaks before & after
-    silent! execute '%s/\v^(see\salso\s.*|more\sat\s.*)$/\r  > \1\r/'
-    " split examples, that start with star
-    silent! execute '%s/\v\s\*\s/\r/g'
-    "example lines: prefix with -, indent
-    silent! execute '%s/\v^([a-zA-Z0-9[(].*[^:])\s*$/  - \1'
-    " word class: prefix with =, separate definition part, put line breaks before & after
-    silent! execute '%s/\v\c^\s{4}(' . wordclass . ')\s*(.*)$/\r[\U\1]\E\r\r\2\r/'
-    " category line: prefix with #, put line breaks before & after
-    silent! execute '%s/\v^\s{2}([a-zA-Z].*[^:])\s*$/\r# \1\r/'
-    " definition line: decorate number in the beginning
-    silent! execute '%s/\v^\s*(\d+)\s*(.*\s+.*:)\s*$/\1. \2/'
-    " definition line: putline breaks before & after, clear indent
-    silent! execute '%s/\v^\s*(.*\s+.*:)\s*$/\r\1\r/'
-    " sub section heading: enclose with bar, put line breaks before & after, clear indent
-    silent! execute '%s/\v^\s{1}([A-Z].*[A-Z])\s*$/\r|\1|\r/'
-    " remove unwanted beginning lines
-    silent! execute '1,5d'
-    " join multiple blank lines into one
-    silent! execute 'normal! :g/\v^\s*$/,/\S/-j' . "\r" . ':nohlsearch' . "\r"
-
-    normal! gg
-
+    execute "normal ggdapdiWVpI#\ "
+    silent! %s/\v^\s*//
+    silent! %s/\v\s+/ /g
+    silent! execute '%s/\v(' . wordclass . ')/\r\1/g'
+    silent! %s/\v\s*BrE/\r\rBrE/
+    silent! %s/\v\s*NAmE/\rNAmE/
+    silent! %s/\v^•\s*/  - /
+    silent! %s/\v^(\d+\..*\s*)$/\r\1\r/
+    silent! %s/\v^([A-Z].*:\s*)$/\r\1\r/
+    normal gg
 endfunction
 
 augroup ft_wdef
     autocmd!
-    autocmd FileType wdef syntax match WDefGroup '\v^#\s.*'
-    autocmd FileType wdef highlight link WDefGroup Title
-    autocmd FileType wdef syntax match WDefDef '\v^.*:\s*$'
-    autocmd FileType wdef highlight link WDefDef MoreMsg
-    autocmd FileType wdef syntax match WDefSubsect '\v^\|.*$'
-    autocmd FileType wdef highlight link WDefSubsect Conceal
-    autocmd FileType wdef syntax match WDefClass '\v^\[.*\s*$'
-    autocmd FileType wdef highlight link WDefClass Macro
-    autocmd FileType wdef syntax match WDefAdditional '\v^\s*\>.*$'
-    autocmd FileType wdef highlight link WDefAdditional Comment
+    autocmd FileType wdef syntax match WDefWord '\v^#.*\s*$'
+    autocmd FileType wdef highlight link WDefWord vimFuncName
+    autocmd FileType wdef syntax match WDefDef '\v^\d+\..*\s*$'
+    autocmd FileType wdef highlight link WDefDef HelpOption
 augroup END
 
 " man
@@ -1054,20 +1033,5 @@ nnoremap <Leader>/1 :match DiffAdd /\v/<LEFT>
 nnoremap <Leader>/2 :2match Error /\v/<LEFT>
 nnoremap <Leader>/3 :3match PmenuSel /\v/<LEFT>
 nnoremap <Leader>/4 :call matchadd('DiffAdd', '\v')<LEFT><LEFT>
-nnoremap <Leader>/w :call matchadd('DiffAdd', expand('<cword>'))<CR>
-nnoremap <Leader>/W :call matchadd('DiffAdd', expand('<cWORD>'))<CR>
-
-" moving visual block up/down
-vnoremap <C-J> :m '>+1<CR>gv=gv
-vnoremap <C-K> :m '<-2<CR>gv=gv
-
-if has('multi_byte_ime')
-    highlight link CursorIM Error
-endif
-
-" tmp
-nnoremap <silent> <Leader>'p :-1read $VIMRUNTIME/skelton/TMP_GetPPCode.txt<CR>
-nnoremap <silent> <Leader>'v :-1read $VIMRUNTIME/skelton/TMP_UPV_Constructor.txt<CR>
-nnoremap <silent> <Leader>'m :-1read $VIMRUNTIME/skelton/TMP_TS_IMPORT.txt<CR>/{<CR>:nohlsearch<CR>la
 
 " }}}
