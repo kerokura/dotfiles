@@ -590,8 +590,6 @@ nnoremap <Leader>1 :s/\v^#*\s*//<CR>I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>2 :s/\v^#*\s*//<CR>2I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>3 :s/\v^#*\s*//<CR>3I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>4 :s/\v^#*\s*//<CR>4I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
-nnoremap <Leader>5 :s/\v^#*\s*//<CR>5I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
-nnoremap <Leader>6 :s/\v^#*\s*//<CR>6I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>8 :call SetHorizontalRule(0, 1, 0)<CR>
 nnoremap <Leader>9 :call SetHorizontalRule(0, 2, 0)<CR>
 
@@ -860,6 +858,8 @@ augroup ft_markdown
     autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <ESC>gv:normal! A --><ESC>
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>b cip```<CR>```<ESC>P
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>B cip```<CR>```<ESC>PkA<Space>
+    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>b <ESC>'<O```<ESC>'>o```<ESC>'<
+    autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>B <ESC>'<O```<ESC>'>o```<ESC>'<kA<Space>
 augroup END
 
 " }}}
