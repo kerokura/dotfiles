@@ -532,8 +532,8 @@ endfor
 
 " inner line, entire buffer
 onoremap il :normal! ^vg_<CR>
-onoremap ae :normal! ggVG<CR>
-xnoremap ae :normal! ggVG<CR>
+onoremap ie :normal! ggVG<CR>
+xnoremap ie :normal! ggVG<CR>
 
 " }}}
 " Search {{{
