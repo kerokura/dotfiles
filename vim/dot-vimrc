@@ -550,7 +550,7 @@ nnoremap <Leader>/R :argdo %s/\v//g <BAR> update
 
 " grep
 nnoremap <C-G> :execute 'silent grep! ""'<BAR>:redraw!<BAR>copen<C-LEFT><RIGHT>
-nnoremap <Leader><C-B> :call BufDoVim('')<LEFT><LEFT>
+nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
 nnoremap <Leader>/d :g/\v/d<LEFT><LEFT>
@@ -564,18 +564,20 @@ vnoremap <Leader>/V :v/\v^/d<LEFT><LEFT>
 
 " to jump from one URL/Email/Guid to another
 nnoremap <Leader>/u /\v\chttps?:\/\/[^\s/$.?#].\s*[a-z0-9.~:/?#[\]@!$&'()*+,;=`._%-]+/<CR>
-nnoremap <Leader>/U /\v<[a-zA-Z0-9.-]+\@[a-zA-Z0-9.-]+\.\w{2,3}>/<CR>
-nnoremap <Leader>/g /\v<\c[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}><CR> 
+nnoremap <Leader>/U /\v\c<[0-9a-z.-]+\@[0-9a-z.-]+\.\w{2,3}>/<CR>
+nnoremap <Leader>/g /\v\c<[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}><CR> 
+nnoremap <Leader>/j /\v\c"\zs(https?:\/)?\/[^"]+\.(js<BAR>css)\ze"/<CR>
 
 " }}}
 " Editing (Not Operator) {{{
 
 " to avoid entering insert mode
-nnoremap <CR> o<ESC>k
+nnoremap [<Space> O<ESC>j
+nnoremap ]<Space> o<ESC>k
 nnoremap <Leader><CR> mzi<CR><ESC>`z
 nnoremap <Leader><Space> i<Space><ESC>
 
-" remove empty lines
+" remove empty/space-only lines
 nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\\s\|\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^$/,/./-j\r:nohlsearch\r"<CR>
 nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\\s\|\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^$/d\r:nohlsearch\r"<CR>
 
