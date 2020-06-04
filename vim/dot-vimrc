@@ -241,6 +241,9 @@ set statusline+=\ :\
 set statusline+=%c
 set statusline+=\ \ 
 
+" tab line
+" set tabline=%t
+
 " misc
 set display=lastline " When not included, a last line that doesn't fit is replaced with "@" lines.
 set history=1000
@@ -268,6 +271,16 @@ if !has('gui_running') && !has('win32')
 endif
 set t_Co=256
 
+function! TweakGruvBox() abort
+    highlight StatusLine cterm=NONE ctermfg=228 ctermbg=234 gui=NONE guifg=#f2e5bc guibg=#1d2021
+    " highlight StatusLineNC   xxx term=reverse cterm=reverse ctermfg=237 ctermbg=246 gui=reverse guifg=#3c3836 guibg=#a89984
+    " highlight StatusLineTerm xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=121 gui=bold guifg=bg guibg=LightGreen
+    " highlight StatusLineTermNC xxx term=reverse ctermfg=0 ctermbg=121 guifg=bg guibg=LightGreen
+    " highlight TabLine        xxx term=underline cterm=underline ctermfg=15 ctermbg=242 gui=underline guibg=DarkGrey
+    highlight TabLineSel cterm=bold ctermfg=228 ctermbg=100 guifg=#f2e5bc guibg=#79740e
+    " highlight TabLineFill    xxx term=reverse ctermfg=243 ctermbg=237 guifg=#7c6f64 guibg=#3c3836
+endfunction
+
 augroup TweakGB
     autocmd!
     autocmd ColorScheme * call TweakGruvBox()
@@ -282,16 +295,6 @@ let g:gruvbox_underline = 0
 " }}}
 
 " FUNCTION {{{
-
-function! TweakGruvBox() abort
-    highlight StatusLine cterm=NONE ctermbg=234  ctermfg=228  gui=NONE guibg=#1d2021 guifg=#f2e5bc
-    " highlight StatusLineNC   xxx term=reverse cterm=reverse ctermfg=237 ctermbg=246 gui=reverse guifg=#3c3836 guibg=#a89984
-    " highlight StatusLineTerm xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=121 gui=bold guifg=bg guibg=LightGreen
-    " highlight StatusLineTermNC xxx term=reverse ctermfg=0 ctermbg=121 guifg=bg guibg=LightGreen
-    " highlight TabLine        xxx term=underline cterm=underline ctermfg=15 ctermbg=242 gui=underline guibg=DarkGrey
-    " highlight TabLineSel     xxx term=bold ctermfg=142 ctermbg=237 guifg=#b8bb26 guibg=#3c3836
-    " highlight TabLineFill    xxx term=reverse ctermfg=243 ctermbg=237 guifg=#7c6f64 guibg=#3c3836
-endfunction
 
 function! ClearIndent(type)
     silent execute "normal! '[V']:left\r"
