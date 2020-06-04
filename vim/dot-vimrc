@@ -190,26 +190,18 @@ set softtabstop=4
 set shiftwidth=4
 set autoindent
 
-" format options for multi-byte chars
-set formatoptions+=B
-set formatoptions+=j
-augroup myft
-    autocmd!
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
-augroup END
-
-" search
-set hlsearch
-set incsearch
-set grepprg=ag\ --vimgrep\ $*
-set grepformat=%f:%l:%c:%m
-
 " soft wrapping
 set wrap
 set linebreak
 set nolist  " list disables linebreak
 set textwidth=0
 set wrapmargin=0
+
+" search
+set hlsearch
+set incsearch
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
 
 " split
 set diffopt+=vertical
@@ -218,6 +210,14 @@ set splitbelow
 
 " fold
 set foldmethod=marker
+
+" format options for multi-byte chars
+set formatoptions+=B
+set formatoptions+=j
+augroup myft
+    autocmd!
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
+augroup END
 
 " misc
 set display=lastline " When not included, a last line that doesn't fit is replaced with "@" lines.
@@ -235,6 +235,7 @@ set backspace=indent,eol,start
 set nrformats=
 set laststatus=2
 set noswapfile
+set hidden
 
 " }}}
 
