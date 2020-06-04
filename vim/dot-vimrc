@@ -25,13 +25,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" Plug 'ryanoasis/vim-devicons'
-" Plug 'junegunn/limelight.vim'
-" Plug 'junegunn/fzf'
-" Plug 'junegunn/fzf.vim'
-" Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
@@ -55,15 +50,6 @@ nnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<
 vnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<CR>
 
 " }}}
-" Limelight {{{
-
-let g:limelight_default_coefficient = 0.8
-let g:limelight_conceal_ctermfg = 239
-let g:limelight_conceal_guifg = '#504945'
-
-nnoremap <ESC>L :Limelight!!<CR>
-
-" }}}
 " Goyo {{{
 
 nnoremap <ESC>G :Goyo<CR>
@@ -71,7 +57,7 @@ nnoremap <ESC>G :Goyo<CR>
 " }}}
 " vim-airline {{{
 
-let g:airline_extensions = ['branch', 'tabline', 'ctrlp', 'quickfix']
+let g:airline_extensions = ['branch', 'tabline', 'quickfix']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
@@ -136,23 +122,6 @@ let g:instant_markdown_port = 8890
 " }
 " /usr/local/lib/node_modules/instant-markdown-d/css/github-markdown.css
 " %APPDATA%\npm\node_modules\instant-markdown-d\css\github-markdown.css
-
-" }}}
-" CtrlP {{{
-
-let g:ctrlp_map = '<F1>'
-let g:ctrlp_match_window = 'bottom,ttb,min:10,max:10,results:30'
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_tabpage_position = 'al'
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_regexp = 1
-
-nnoremap <Leader><C-P> :CtrlPCurWD<CR>
-
-" }}}
-" fzf.vim {{{
-
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'xoffset': 0.5, 'yoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp', }}
 
 " }}}
 " Misc {{{
@@ -277,8 +246,10 @@ function! TweakGruvBox() abort
     " highlight StatusLineTerm xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=121 gui=bold guifg=bg guibg=LightGreen
     " highlight StatusLineTermNC xxx term=reverse ctermfg=0 ctermbg=121 guifg=bg guibg=LightGreen
     " highlight TabLine        xxx term=underline cterm=underline ctermfg=15 ctermbg=242 gui=underline guibg=DarkGrey
-    highlight TabLineSel cterm=bold ctermfg=228 ctermbg=100 guifg=#f2e5bc guibg=#79740e
+    highlight TabLineSel cterm=NONE ctermfg=228 ctermbg=234 gui=NONE guifg=#f2e5bc guibg=#1d2021
+    " highlight TabLineSel cterm=bold ctermfg=228 ctermbg=100 guifg=#f2e5bc guibg=#79740e
     " highlight TabLineFill    xxx term=reverse ctermfg=243 ctermbg=237 guifg=#7c6f64 guibg=#3c3836
+    highlight VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
 endfunction
 
 augroup TweakGB
@@ -895,7 +866,6 @@ endfunction
 augroup ft_markdown
     autocmd!
     autocmd FileType markdown,vimwiki let maplocalleader = "\<Space>"
-    autocmd FileType markdown,vimwiki highlight def VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>gc I<!-- <ESC>A --><ESC>
     autocmd FileType markdown,vimwiki vnoremap <buffer> <LocalLeader>gc :normal! I<--! <ESC>gv:normal! A --><ESC>
     autocmd FileType markdown,vimwiki nnoremap <buffer> <LocalLeader>b cip```<CR>```<ESC>P
