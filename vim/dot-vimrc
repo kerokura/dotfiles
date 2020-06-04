@@ -1043,11 +1043,4 @@ endif
 
 " TESTING {{{
 
-" highlight
-nnoremap <Leader>/0 :call clearmatches()<CR>
-nnoremap <Leader>/1 :match DiffAdd /\v/<LEFT>
-nnoremap <Leader>/2 :2match Error /\v/<LEFT>
-nnoremap <Leader>/3 :3match PmenuSel /\v/<LEFT>
-nnoremap <Leader>/4 :call matchadd('DiffAdd', '\v')<LEFT><LEFT>
-
 " }}}
