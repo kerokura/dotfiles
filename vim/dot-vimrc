@@ -483,7 +483,7 @@ vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 " }}}
 " Motion {{{
 
-" map <Tab> %
+nnoremap <Tab> %
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
@@ -685,7 +685,6 @@ nnoremap <Leader>H :vertical help<Space>
 
 " repeat command
 nnoremap <Leader>. @:
-nnoremap <Leader>v :execute 'vertical ' . @:<CR>
 
 " quickfix
 nnoremap <C-N> :silent! cnext<CR>zz
@@ -696,7 +695,7 @@ nnoremap <Leader>cc :cclose<CR>
 " dict
 nnoremap K :call ShowWordDef(0)<CR>
 
-" replay macro
+" replay a macro recorded with qq
 nnoremap Q @q
 
 " IME
