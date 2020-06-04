@@ -29,8 +29,8 @@ Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -154,11 +154,6 @@ nnoremap <Leader><C-P> :CtrlPCurWD<CR>
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'xoffset': 0.5, 'yoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp', }}
 
-nnoremap <Leader><C-F> :Files<CR>
-nnoremap <Leader><C-L> :Lines<CR>
-nnoremap <Leader><C-A> :Ag<CR>
-nnoremap <Leader><C-G> :Commits<CR>
-
 " }}}
 " Misc {{{
  
@@ -202,6 +197,7 @@ set hlsearch
 set incsearch
 set grepprg=ag\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
+set errorformat+=%f
 
 " split
 set diffopt+=vertical
@@ -219,6 +215,32 @@ augroup myft
     autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
 augroup END
 
+" status line
+set statusline+=%h
+set statusline+=%q
+set statusline+=\ 
+set statusline=%<
+set statusline+=%f
+set statusline+=\ 
+set statusline+=%m
+set statusline+=\ 
+set statusline+=%w
+set statusline+=\ 
+set statusline+=%r
+set statusline+=%=
+set statusline+=%y
+set statusline+=\ 
+set statusline+=%{(&fenc!=''?&fenc:&enc)}
+set statusline+=\ 
+set statusline+=%{&ff}
+set statusline+=\ 
+set statusline+=%l
+set statusline+=\ /\ 
+set statusline+=%L
+set statusline+=\ :\  
+set statusline+=%c
+set statusline+=\ \ 
+
 " misc
 set display=lastline " When not included, a last line that doesn't fit is replaced with "@" lines.
 set history=1000
@@ -227,7 +249,7 @@ set number
 set relativenumber
 set cursorline
 set showcmd
-set path+=**
+set path=.,,**
 set wildmenu
 set wildmode=full
 set clipboard=unnamedplus
@@ -246,22 +268,30 @@ if !has('gui_running') && !has('win32')
 endif
 set t_Co=256
 
+augroup TweakGB
+    autocmd!
+    autocmd ColorScheme * call TweakGruvBox()
+augroup END
+
 colorscheme gruvbox
 set background=dark
 let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
 let g:gruvbox_underline = 0
 
-" NOTE:
-" replace 1st line with 2nd
-" let s:N1 = airline#themes#get_highlight2(['Normal', 'bg'], ['StatusLineNC', 'bg'])
-" let s:N1 = airline#themes#get_highlight2(['GruvboxFg2', 'fg'], ['GruvboxFg2', 'bg'])
-" ~/.vim/plugged/gruvbox/autoload/airline/themes/gruvbox.vim
-" ~\vimfiles\plugged\gruvbox\autoload\airline\themes\gruvbox.vim
-
 " }}}
 
 " FUNCTION {{{
+
+function! TweakGruvBox() abort
+    highlight StatusLine cterm=NONE ctermbg=234  ctermfg=228  gui=NONE guibg=#1d2021 guifg=#f2e5bc
+    " highlight StatusLineNC   xxx term=reverse cterm=reverse ctermfg=237 ctermbg=246 gui=reverse guifg=#3c3836 guibg=#a89984
+    " highlight StatusLineTerm xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=121 gui=bold guifg=bg guibg=LightGreen
+    " highlight StatusLineTermNC xxx term=reverse ctermfg=0 ctermbg=121 guifg=bg guibg=LightGreen
+    " highlight TabLine        xxx term=underline cterm=underline ctermfg=15 ctermbg=242 gui=underline guibg=DarkGrey
+    " highlight TabLineSel     xxx term=bold ctermfg=142 ctermbg=237 guifg=#b8bb26 guibg=#3c3836
+    " highlight TabLineFill    xxx term=reverse ctermfg=243 ctermbg=237 guifg=#7c6f64 guibg=#3c3836
+endfunction
 
 function! ClearIndent(type)
     silent execute "normal! '[V']:left\r"
@@ -550,7 +580,8 @@ nnoremap <Leader>/r :argdo %s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/R :argdo %s/\v//g <BAR> update
 
 " grep
-nnoremap <C-G> :execute 'silent grep! ""'<BAR>:redraw!<BAR>copen<C-LEFT><RIGHT>
+nnoremap <Leader><C-G> :execute "silent grep! ''"<BAR>copen<C-LEFT><RIGHT>
+nnoremap <Leader><C-F> mZ:cexpr system("ag -g ''")<BAR>copen<C-LEFT><RIGHT>
 nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
