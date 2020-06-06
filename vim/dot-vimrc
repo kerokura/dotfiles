@@ -576,6 +576,15 @@ nmap <Leader>S <Plug>CorrectPrevSpellError
 " copy the current line to the right buffer
 nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 
+" format/filter js, html, xml, json
+nnoremap <Leader>js :%!js-beautify<CR>
+nnoremap <Leader>xh :silent! %!xmlstarlet fo -o -R -s 4 -H -D<CR>
+nnoremap <Leader>xf :silent! %!xmlstarlet fo -o -R -s 4<CR>
+nnoremap <Leader>xs :%!xmlstarlet sel -t -m '' -c '.' -n<C-LEFT><C-LEFT><C-LEFT><LEFT><LEFT>
+nnoremap <Leader>xv :%!xmlstarlet sel -t -v '//*/@' -n<C-LEFT><LEFT><LEFT>
+nnoremap <Leader>jf :%!jq --indent 4 '.'<CR>
+nnoremap <Leader>jq :%!jq --indent 4 '.'<LEFT>
+
 " }}}
 " Fold {{{
 
