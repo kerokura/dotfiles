@@ -160,10 +160,7 @@ set laststatus=2
 set noswapfile
 set hidden
  
-" status/tab line
-set statusline=%(\ %h%w%q%)\ %f%4(%r%m%*%)\ \ %{GetBranchName()}\ %=
-set statusline+=\ \ %y\ %{(&fenc!=''?&fenc:&enc)}\ %{&ff}\ 
-set statusline+=\ \ \ \ %l/%L\ %3c\ 
+" tabline
 set tabline=%!MyTabLine()
 
 " }}}
@@ -197,6 +194,8 @@ set background=dark
 
 " FUNCTION {{{
 
+" Status/Tab line {{{
+
 function! GetBranchName()
     let fugitiveStr = FugitiveStatusline()
     let name = substitute(fugitiveStr, '\v\[Git\((\w+)\)\]', '\1', '')
@@ -204,6 +203,19 @@ function! GetBranchName()
         let name = ' ' . name
     endif
     return name
+endfunction
+
+function SetMyStatusLine(active)
+    if a:active ==# 1
+        setlocal statusline=%#Normal#%(\ %h%w%q%)\ %f%4(%r%m%*%)\ \ %*
+        setlocal statusline+=%#FoldColumn#%{GetBranchName()}\ %*%=
+        setlocal statusline+=%#BufTabLineActive#\ \ %y
+        setlocal statusline+=\ %{(&fenc!=''?&fenc:&enc)}\ %{&ff}
+        setlocal statusline+=\ %#StatusLine#\ \ \ \ %l/%L\ %3c
+        setlocal statusline+=\ 
+    else
+        setlocal statusline=%#StatusLineNC#%f
+    endif
 endfunction
 
 function! MyTabLine()
@@ -232,6 +244,9 @@ function! MyTabLabel(n)
 
     return bname->split('\/')[-1]
 endfunction
+
+" }}}
+" Operator Func {{{
 
 function! ClearIndent(type)
     silent execute "normal! '[V']:left\r"
@@ -349,6 +364,9 @@ function! MarkListItems(type) range
     let @@ = reg_save
 endfunction
 
+" }}}
+" Change Modes {{{
+
 function! ToggleBackground()
     if &background ==# 'dark'
         set background=light
@@ -370,6 +388,9 @@ function! ChangeGruvboxContrast(val)
     let g:gruvbox_contrast_light = a:val
     colorscheme gruvbox
 endfunction
+
+" }}}
+" Misc {{{
 
 function! OpenRC(prog)
     if a:prog ==# 'vim'
@@ -411,6 +432,8 @@ function! <SID>SynStack()
     endif
     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+
+" }}}
 
 " }}}
 
@@ -460,7 +483,7 @@ nnoremap N Nzzzv
 " Text Object {{{
 
 " custom pairs
-let surroundings = ['<Bar>', '<Bslash>', ':', ',', '.', '/', ';', '_']
+let surroundings = ['<Bar>', '<Bslash>', ':', ',', '.', '/', ';', '_', '#']
 for s in surroundings
     execute printf("vnoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
     execute printf("onoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
@@ -471,8 +494,9 @@ endfor
 
 " inner line, entire buffer
 onoremap il :normal! ^vg_<CR>
+vnoremap il :<C-U>normal! ^vg_<CR>
 onoremap ie :normal! ggVG<CR>
-xnoremap ie :normal! ggVG<CR>
+vnoremap ie :<C-U>normal! ggVG<CR>
 
 " }}}
 " Search {{{
@@ -693,10 +717,16 @@ nnoremap <Leader>cm :vnew<BAR>put=execute('map')<BAR>setf vim<BAR>sort<BAR>norma
 
 " All Types {{{
 
-augroup all_type
+augroup KeepCursorPos
     autocmd!
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
     autocmd VimResized * execute "normal! \<C-W>="
+augroup END
+
+augroup MyStatusLine
+    autocmd!
+    autocmd WinEnter,BufWinEnter * call SetMyStatusLine(1)
+    autocmd WinLeave * call SetMyStatusLine(0)
 augroup END
 
 " }}}
