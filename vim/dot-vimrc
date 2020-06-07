@@ -11,6 +11,7 @@ else
     call plug#begin('~/.vim/plugged')
 endif
 
+Plug 'deton/jasentence.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-indent'
 Plug 'junegunn/vim-easy-align'
@@ -18,15 +19,12 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'deton/jasentence.vim'
+Plug 'tpope/vim-fugitive'
 Plug 'vimwiki/vimwiki'
 Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
-Plug 'tpope/vim-fugitive'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
@@ -53,40 +51,6 @@ vnoremap <silent> <Leader>n :Subvert/{true,false}/{false,true}/g<CR>:nohlsearch<
 " Goyo {{{
 
 nnoremap <ESC>G :Goyo<CR>
-
-" }}}
-" vim-airline {{{
-
-let g:airline_extensions = ['branch', 'tabline', 'quickfix']
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#tabs_label = ''
-let g:airline#extensions#tabline#show_tab_count = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#ctrlp#color_template = 'visual'
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.notexists = '∄'
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.dirty='⚡'
-let g:airline_symbols.spell = 'Ꞩ'
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.linenr = ''
-let g:airline_symbols.maxlinenr = ''
 
 " }}}
 " vimwiki {{{
@@ -130,7 +94,7 @@ runtime macros/matchit.vim
 
 " VARIABLE {{{
 
-let g:ft_man_open_mode = 'tab'
+let g:ft_man_open_mode = 'vert'
 let g:ft_man_folding_enable = 1
 
 " }}}
@@ -145,13 +109,13 @@ endif
 set expandtab
 set tabstop=4
 set softtabstop=4
-set shiftwidth=4
 set autoindent
+set shiftwidth=4
 
 " soft wrapping
 set wrap
 set linebreak
-set nolist  " list disables linebreak
+set nolist
 set textwidth=0
 set wrapmargin=0
 
@@ -179,7 +143,7 @@ augroup myft
 augroup END
 
 " misc
-set display=lastline " When not included, a last line that doesn't fit is replaced with "@" lines.
+set display=lastline
 set history=1000
 set complete+=k
 set number
@@ -195,6 +159,12 @@ set nrformats=
 set laststatus=2
 set noswapfile
 set hidden
+ 
+" status/tab line
+set statusline=%(\ %h%w%q%)\ %f%4(%r%m%*%)\ \ %{GetBranchName()}\ %=
+set statusline+=\ \ %y\ %{(&fenc!=''?&fenc:&enc)}\ %{&ff}\ 
+set statusline+=\ \ \ \ %l/%L\ %3c\ 
+set tabline=%!MyTabLine()
 
 " }}}
 
@@ -205,32 +175,63 @@ if !has('gui_running') && !has('win32')
 endif
 set t_Co=256
 
-function! TweakGruvBox() abort
-    highlight StatusLine cterm=NONE ctermfg=228 ctermbg=234 gui=NONE guifg=#f2e5bc guibg=#1d2021
-    " highlight StatusLineNC   xxx term=reverse cterm=reverse ctermfg=237 ctermbg=246 gui=reverse guifg=#3c3836 guibg=#a89984
-    " highlight StatusLineTerm xxx term=bold,reverse cterm=bold ctermfg=0 ctermbg=121 gui=bold guifg=bg guibg=LightGreen
-    " highlight StatusLineTermNC xxx term=reverse ctermfg=0 ctermbg=121 guifg=bg guibg=LightGreen
-    " highlight TabLine        xxx term=underline cterm=underline ctermfg=15 ctermbg=242 gui=underline guibg=DarkGrey
-    highlight TabLineSel cterm=NONE ctermfg=228 ctermbg=234 gui=NONE guifg=#f2e5bc guibg=#1d2021
-    " highlight TabLineSel cterm=bold ctermfg=228 ctermbg=100 guifg=#f2e5bc guibg=#79740e
-    " highlight TabLineFill    xxx term=reverse ctermfg=243 ctermbg=237 guifg=#7c6f64 guibg=#3c3836
-    highlight VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
+function! TweakHighlight() abort
+    highlight! link StatusLine SignColumn
+    highlight! link StatusLineNC VertSplit
+    highlight! link TabLineSel Normal
+    highlight! VimwikiHeaderChar guibg=bg guifg=#fe8019 gui=bold ctermbg=bg ctermfg=208 term=bold
 endfunction
 
-augroup TweakGB
+augroup TweakHighlight
     autocmd!
-    autocmd ColorScheme * call TweakGruvBox()
+    autocmd ColorScheme * call TweakHighlight()
 augroup END
 
-colorscheme gruvbox
-set background=dark
 let g:gruvbox_bold      = 1
 let g:gruvbox_italic    = 0
 let g:gruvbox_underline = 0
+colorscheme gruvbox
+set background=dark
 
 " }}}
 
 " FUNCTION {{{
+
+function! GetBranchName()
+    let fugitiveStr = FugitiveStatusline()
+    let name = substitute(fugitiveStr, '\v\[Git\((\w+)\)\]', '\1', '')
+    if strlen(name) >=# 1
+        let name = ' ' . name
+    endif
+    return name
+endfunction
+
+function! MyTabLine()
+    let s = ''
+    for i in range(tabpagenr('$'))
+        if i + 1 == tabpagenr()
+            let s .= '%#TabLineSel#'
+        else
+            let s .= '%#TabLine#'
+        endif
+
+	    let s .= ' %{MyTabLabel(' . (i + 1) . ')} '
+    endfor
+    let s .= '%#TabLineFill#%T'
+    return s
+endfunction
+
+function! MyTabLabel(n)
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let bname = bufname(buflist[winnr - 1])
+
+    if bname ==# ''
+        let bname = '[no name]'
+    endif
+
+    return bname->split('\/')[-1]
+endfunction
 
 function! ClearIndent(type)
     silent execute "normal! '[V']:left\r"
@@ -348,37 +349,6 @@ function! MarkListItems(type) range
     let @@ = reg_save
 endfunction
 
-function! SetHorizontalRule(lnum, level, len)
-    let hr_chars  = [ '', '=', '-' ]
-
-    if a:level < 1 || a:level > 2
-        echoerr 'level must be a number between 1 and 2' 
-        return
-    endif
-
-    if a:lnum > 0
-        let hd_lnum = a:lnum
-    else
-        let hd_lnum = line('.')
-    endif
-
-    if a:len
-        let hr_len  = a:len
-    else
-        let hd_line = getline(hd_lnum)
-        let hr_len  = strwidth(hd_line)
-    endif
-
-    let hrule     = repeat(hr_chars[a:level], hr_len)
-    let next_line = getline(hd_lnum + 1)
-
-    if match(next_line, '\v^[-=]+$') >= 0
-        call setline(hd_lnum + 1, hrule)
-    else
-        call append(hd_lnum, hrule)
-    endif
-endfunction
-
 function! ToggleBackground()
     if &background ==# 'dark'
         set background=light
@@ -483,7 +453,6 @@ vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 " }}}
 " Motion {{{
 
-nnoremap <Tab> %
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
@@ -519,7 +488,7 @@ nnoremap <Leader>/r :argdo %s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/R :argdo %s/\v//g <BAR> update
 
 " grep
-nnoremap <Leader><C-G> :execute "silent grep! ''"<BAR>copen<C-LEFT><RIGHT>
+nnoremap <Leader><C-G> :silent grep! ''<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
 nnoremap <Leader><C-F> mZ:cexpr system("ag -g ''")<BAR>copen<C-LEFT><RIGHT>
 nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
@@ -558,8 +527,8 @@ nnoremap <Leader>1 :s/\v^#*\s*//<CR>I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>2 :s/\v^#*\s*//<CR>2I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>3 :s/\v^#*\s*//<CR>3I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
 nnoremap <Leader>4 :s/\v^#*\s*//<CR>4I#<ESC>a<SPACE><ESC>:nohlsearch<CR>
-nnoremap <Leader>8 :call SetHorizontalRule(0, 1, 0)<CR>
-nnoremap <Leader>9 :call SetHorizontalRule(0, 2, 0)<CR>
+nnoremap <Leader>-= yypVr=k
+nnoremap <Leader>-- yypVr-k
 nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 
 " quick join
@@ -642,7 +611,6 @@ inoremap <C-B> <LEFT>
 inoremap <C-F> <RIGHT>
 
 " completion
-inoremap <Tab> <C-X><C-O>
 inoremap <C-L> <C-X><C-L>
 
 " break undo
@@ -1015,5 +983,6 @@ endif
 " }}}
 
 " TESTING {{{
+
 
 " }}}
