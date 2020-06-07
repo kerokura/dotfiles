@@ -566,7 +566,7 @@ nmap <Leader>s <Plug>CorrectNextSpellError
 nmap <Plug>CorrectPrevSpellError [s1z=:call repeat#set("\<Plug>CorrectPrevSpellError")<CR>
 nmap <Leader>S <Plug>CorrectPrevSpellError
 
-" copy the current line to the right buffer
+" copy the current line to a buffer in the right window
 nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 
 " format/filter js, html, xml, json
@@ -620,7 +620,7 @@ nnoremap <ESC>b :call ToggleBackground()<CR>
 nnoremap <ESC>c :call ToggleColorColumn()<CR>
 nnoremap <ESC>l :set list!<CR>
 nnoremap <ESC>r :set relativenumber!<CR>
-nnoremap <ESC>s :set spell!<CR>
+nnoremap <ESC>s :set spell! spelllang=en_us<CR>
 nnoremap <ESC>d :windo diffthis<CR>
 nnoremap <ESC>D :windo diffoff<CR>
 nnoremap <ESC>gs :call ChangeGruvboxContrast('soft')<CR>
