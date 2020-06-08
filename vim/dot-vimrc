@@ -60,6 +60,17 @@ let g:vimwiki_ext2syntax = {'.md': 'markdown'}
 let g:vimwiki_folding = 'expr'
 let g:vimwiki_url_maxsave=0
 
+" those mappings get in the way
+nmap  <Leader>v<Space>i   <Plug>VimwikiDiaryGenerateLinks
+nmap  <Leader>v<Space>m   <Plug>VimwikiMakeTomorrowDiaryNote
+nmap  <Leader>v<Space>t   <Plug>VimwikiTabMakeDiaryNote
+nmap  <Leader>v<Space>w   <Plug>VimwikiMakeDiaryNote
+nmap  <Leader>v<Space>y   <Plug>VimwikiMakeYesterdayDiaryNote
+nmap  <Leader>vi     <Plug>VimwikiDiaryIndex
+nmap  <Leader>vs     <Plug>VimwikiUISelect
+nmap  <Leader>vt     <Plug>VimwikiTabIndex
+nmap  <Leader>vw     <Plug>VimwikiIndex
+
 " NOTE:
 " comment out al/il lines
 " bundle/vimwiki/ftplugin/vimwiki.vim
@@ -134,13 +145,8 @@ set splitbelow
 " fold
 set foldmethod=marker
 
-" format options for multi-byte chars
-set formatoptions+=B
-set formatoptions+=j
-augroup myft
-    autocmd!
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
-augroup END
+" format
+set formatoptions=qlBj
 
 " misc
 set display=lastline
@@ -162,6 +168,9 @@ set hidden
  
 " tabline
 set tabline=%!MyTabLine()
+
+" K
+set keywordprg=:vert\ help
 
 " }}}
 
@@ -542,8 +551,8 @@ nnoremap <Leader><CR> mzi<CR><ESC>`z
 nnoremap <Leader><Space> i<Space><ESC>
 
 " remove empty/space-only lines
-nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\\s\|\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^$/,/./-j\r:nohlsearch\r"<CR>
-nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\\s\|\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^$/d\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^\s*$/,/./-j\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^\s*$/d\r:nohlsearch\r"<CR>
 
 " decorating
 nnoremap <Leader>0 :s/\v^#+\s*//<CR>
@@ -569,13 +578,10 @@ nmap <Leader>S <Plug>CorrectPrevSpellError
 " copy the current line to a buffer in the right window
 nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 
-" format/filter js, html, xml, json
-nnoremap <Leader>js :%!js-beautify<CR>
+" manipulate js, html, xml, json
 nnoremap <Leader>xh :silent! %!xmlstarlet fo -o -R -s 4 -H -D<CR>
-nnoremap <Leader>xf :silent! %!xmlstarlet fo -o -R -s 4<CR>
 nnoremap <Leader>xs :%!xmlstarlet sel -t -m '' -c '.' -n<C-LEFT><C-LEFT><C-LEFT><LEFT><LEFT>
 nnoremap <Leader>xv :%!xmlstarlet sel -t -v '//*/@' -n<C-LEFT><LEFT><LEFT>
-nnoremap <Leader>jf :%!jq --indent 4 '.'<CR>
 nnoremap <Leader>jq :%!jq --indent 4 '.'<LEFT>
 
 " }}}
@@ -694,7 +700,7 @@ nnoremap <Leader>co :copen<CR>
 nnoremap <Leader>cc :cclose<CR>
 
 " dict
-nnoremap <Leader>K :call ShowWordDef(0)<CR>
+nnoremap <Leader><C-K> :call ShowWordDef(0)<CR>
 
 " replay a macro recorded with qq
 nnoremap Q @q
@@ -830,6 +836,24 @@ function! PoshHelpFolds()
         return '='
     endif
 endfunction
+
+" }}}
+" Other File Types {{{
+
+augroup ft_json
+    autocmd!
+    autocmd FileType json setlocal formatprg=jq
+augroup END
+
+augroup ft_javascript
+    autocmd!
+    autocmd FileType javascript setlocal formatprg=js-beautify
+augroup END
+
+augroup ft_xml
+    autocmd!
+    autocmd FileType xml setlocal formatprg=xmlstarlet\ fo\ -o\ -R\ -s\ 4
+augroup END
 
 " }}}
 " Markdown {{{
