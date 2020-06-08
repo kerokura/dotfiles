@@ -694,7 +694,7 @@ nnoremap <Leader>co :copen<CR>
 nnoremap <Leader>cc :cclose<CR>
 
 " dict
-nnoremap K :call ShowWordDef(0)<CR>
+nnoremap <Leader>K :call ShowWordDef(0)<CR>
 
 " replay a macro recorded with qq
 nnoremap Q @q
