@@ -556,8 +556,8 @@ nnoremap <Leader>/s :%s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/S :%s/\v^//g<LEFT><LEFT><LEFT>
 
 " grep
-nnoremap <Leader><C-G> :silent grep! <BAR>copen<BAR>redraw!<C-LEFT>
-nnoremap <Leader><C-F> mZ:cexpr system("ag -g ")<BAR>copen<C-LEFT>
+nnoremap <Leader><C-G> :silent grep! ""<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
+nnoremap <Leader><C-F> mZ:cexpr system('ag -g ""')<BAR>copen<C-LEFT><RIGHT>
 nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
