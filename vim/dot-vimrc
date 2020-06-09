@@ -457,14 +457,6 @@ function! OpenRC(prog)
     silent! execute 'e ' . path
 endfunction
 
-function! ArgReplace(pattern, substitute)
-    cexpr []
-    execute 'args `ag -l ' . a:pattern . '`'
-    silent! execute 'argdo %s/\v' . a:pattern . '/'. a:substitute . '/g'
-    silent! execute 'argdo vimgrepadd! /' . a:substitute  . '/gj %'
-    copen
-endfunction
-
 function BufDoVim(pattern)
     cexpr []
     normal mA
@@ -564,8 +556,8 @@ nnoremap <Leader>/s :%s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/S :%s/\v^//g<LEFT><LEFT><LEFT>
 
 " grep
-nnoremap <Leader><C-G> :silent grep! ''<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
-nnoremap <Leader><C-F> mZ:cexpr system("ag -g ''")<BAR>copen<C-LEFT><RIGHT>
+nnoremap <Leader><C-G> :silent grep! <BAR>copen<BAR>redraw!<C-LEFT>
+nnoremap <Leader><C-F> mZ:cexpr system("ag -g ")<BAR>copen<C-LEFT>
 nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
@@ -594,8 +586,8 @@ nnoremap <Leader><CR> mzi<CR><ESC>`z
 nnoremap <Leader><Space> i<Space><ESC>
 
 " remove empty/space-only lines
-nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^\s*$/,/./-j\r:nohlsearch\r"<CR>
-nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^\s*$/d\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^\\v\\s*$/,/./j\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^\\v\\s*$/d\r:nohlsearch\r"<CR>
 
 " decorating
 nnoremap <Leader>0 :s/\v^#+\s*//<CR>
@@ -771,15 +763,6 @@ augroup MyStatusLine
     autocmd!
     autocmd WinEnter,BufWinEnter * call SetMyStatusLine(1)
     autocmd WinLeave * call SetMyStatusLine(0)
-augroup END
-
-" }}}
-" Bash {{{
-
-augroup ft_sh
-    autocmd!
-    autocmd FileType sh let maplocalleader = "\<Space>"
-    autocmd FileType sh nnoremap <buffer> <LocalLeader>,s :-1read $HOME/.vim/skelton/bash_script.txt<CR>G3
 augroup END
 
 " }}}
