@@ -260,21 +260,36 @@ function! ClearIndent(type) abort
     silent execute "normal! '[V']:left\r"
 endfunction
 
-function! EncodeStuff(type)
-    let cmd   = ''
-    let char1 = nr2char(getchar())
-
-    if char1 ==# 'e'
-        let cmd = 'python3 -c "import urllib.parse; print (urllib.parse.quote(input()))"'
-    elseif char1 ==# 'd'
-        let cmd = 'python3 -c "import urllib.parse; print (urllib.parse.unquote(input()))"'
-    endif
+function! EncoderOp(type, ...)
+    let sel_save = &selection
+    let &selection = 'inclusive'
 
     if a:type =~# '[vV]'
-        silent execute "normal! gv:'<'>!" . cmd . "\r"
+        silent execute "normal! gvy"
+    elseif a:type ==# 'line'
+        silent execute "normal! '[V']y"
     else
-        silent execute "normal! `[V`]:!" . cmd . "\r"
+        silent execute "normal! `[v`]y"
     endif
+
+    let reg_save = @@
+    let lines    = split(@@, '\n')
+    let cmd      = "python3 -c '"
+    let lib      = "import urllib.parse; "
+    let prt_tmpl = "print (urllib.parse.unquote(\"%s\"), end=\"\")'"
+
+    let resList  = []
+    for l in lines
+        let prt = printf(prt_tmpl, l)
+        let res = system(join([cmd, lib, prt], ''))
+        call add(resList, res)
+    endfor
+
+    let @@ = join(resList, "\n")
+    normal gv"0P
+
+    let &selection = sel_save
+    let @@         = reg_save
 endfunction
 
 function! FormatterOp(type)
@@ -516,8 +531,8 @@ nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 nmap <silent> <Leader>f :set operatorfunc=FormatterOp<CR>g@
 vmap <silent> <Leader>f :<C-U> call FormatterOp(visualmode())<CR>
 
-nmap <silent> <Leader>] :set operatorfunc=EncodeStuff<CR>g@
-vmap <silent> <Leader>] :<C-U> call EncodeStuff(visualmode())<CR>
+nmap <silent> <Leader>] :set operatorfunc=EncoderOp<CR>g@
+vmap <silent> <Leader>] :<C-U> call EncoderOp(visualmode())<CR>
 
 " }}}
 " Motion {{{
