@@ -445,14 +445,6 @@ function! ToggleBackground()
     endif
 endfunction
 
-function! ToggleColorColumn()
-    if &colorcolumn == 80
-        set colorcolumn=
-    else
-        set colorcolumn=80
-    endif
-endfunction
-
 function! ChangeGruvboxContrast(val)
     let g:gruvbox_contrast_dark = a:val
     let g:gruvbox_contrast_light = a:val
