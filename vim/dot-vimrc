@@ -260,7 +260,7 @@ function! ClearIndent(type) abort
     silent execute "normal! '[V']:left\r"
 endfunction
 
-function! EncoderOp(type)
+function! DecoderOp(type)
     let sel_save = &selection
     let &selection = 'inclusive'
 
@@ -275,8 +275,15 @@ function! EncoderOp(type)
     let reg_save = @@
     let lines    = split(@@, '\n')
     let cmd      = "python3 -c '"
-    let lib      = "import urllib.parse; "
-    let prt_tmpl = "print (urllib.parse.unquote(\"%s\"), end=\"\")'"
+
+    let char1    = nr2char(getchar())
+    if char1 ==# 'u'
+        let lib      = "import urllib.parse; "
+        let prt_tmpl = "print (urllib.parse.unquote(\"%s\"), end=\"\")'"
+    elseif char1 ==# 'b'
+        let lib      = "import base64; "
+        let prt_tmpl = "print (base64.b64decode(\"%s\").decode(\"UTF-8\"), end=\"\")'"
+    endif
 
     let resList  = []
     for l in lines
@@ -503,9 +510,6 @@ command! -nargs=0 Cd lcd $HOME/Desktop
 
 " Operator {{{
 
-" delete into the blackhole register
-nnoremap <Leader>d "_d
-
 " clear indentation
 nnoremap <Leader>< :set operatorfunc=ClearIndent<CR>g@
 vnoremap <Leader>< :left<CR>
@@ -518,8 +522,6 @@ nnoremap <Leader>yy 0:set operatorfunc=YankToMemo<CR>g@$
 " join lines with delimiters
 nmap <silent> <Plug>(JoinLines) :set operatorfunc=JoinLines<CR>g@
 nmap <silent> <Leader>j <Plug>(JoinLines)
-
-" does not work properly - need investigation
 vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
 
 " mark lines as list
@@ -531,8 +533,8 @@ nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 nmap <silent> <Leader>f :set operatorfunc=FormatterOp<CR>g@
 vmap <silent> <Leader>f :<C-U> call FormatterOp(visualmode())<CR>
 
-nmap <silent> <Leader>] :set operatorfunc=EncoderOp<CR>g@
-vmap <silent> <Leader>] :<C-U> call EncoderOp(visualmode())<CR>
+nmap <silent> <Leader>d :set operatorfunc=DecoderOp<CR>g@
+vmap <silent> <Leader>d :<C-U> call DecoderOp(visualmode())<CR>
 
 " }}}
 " Motion {{{
