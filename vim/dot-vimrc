@@ -260,7 +260,7 @@ function! ClearIndent(type) abort
     silent execute "normal! '[V']:left\r"
 endfunction
 
-function! EncoderOp(type, ...)
+function! EncoderOp(type)
     let sel_save = &selection
     let &selection = 'inclusive'
 
