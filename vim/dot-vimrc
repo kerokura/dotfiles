@@ -525,7 +525,6 @@ nmap <silent> <Leader>j <Plug>(JoinLines)
 vnoremap <silent> <Leader>j :call JoinLines(visualmode())<CR>
 
 " mark lines as list
-nmap <silent> <Leader>L :set operatorfunc=MarkListItems<CR>g@
 vmap <silent> <Leader>l :call MarkListItems(visualmode())<CR>
 nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 
@@ -670,9 +669,7 @@ nnoremap <C-W>R :call OpenRC('')<LEFT><LEFT>
 " Toggle/Change Options and Stuff {{{
 
 nnoremap <ESC>b :call ToggleBackground()<CR>
-nnoremap <ESC>c :call ToggleColorColumn()<CR>
 nnoremap <ESC>l :set list!<CR>
-nnoremap <ESC>r :set relativenumber!<CR>
 nnoremap <ESC>s :set spell! spelllang=en_us<CR>
 nnoremap <ESC>d :windo diffthis<CR>
 nnoremap <ESC>D :windo diffoff<CR>
@@ -758,9 +755,6 @@ cnoremap <ESC>i :set iminsert=0<CR>
 
 " check highlight group of current word
 nnoremap <Leader>ch :call <SID>SynStack()<CR>
-
-" list mappings
-nnoremap <Leader>cm :vnew<BAR>put=execute('map')<BAR>setf vim<BAR>sort<BAR>normal ggdip<CR>
 
 " }}}
 
