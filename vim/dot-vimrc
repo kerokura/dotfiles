@@ -260,45 +260,6 @@ function! ClearIndent(type) abort
     silent execute "normal! '[V']:left\r"
 endfunction
 
-function! DecoderOp(type)
-    let sel_save = &selection
-    let &selection = 'inclusive'
-
-    if a:type =~# '[vV]'
-        silent execute "normal! gvy"
-    elseif a:type ==# 'line'
-        silent execute "normal! '[V']y"
-    else
-        silent execute "normal! `[v`]y"
-    endif
-
-    let reg_save = @@
-    let lines    = split(@@, '\n')
-    let cmd      = "python3 -c '"
-
-    let char1    = nr2char(getchar())
-    if char1 ==# 'u'
-        let lib      = "import urllib.parse; "
-        let prt_tmpl = "print (urllib.parse.unquote(\"%s\"), end=\"\")'"
-    elseif char1 ==# 'b'
-        let lib      = "import base64; "
-        let prt_tmpl = "print (base64.b64decode(\"%s\").decode(\"UTF-8\"), end=\"\")'"
-    endif
-
-    let resList  = []
-    for l in lines
-        let prt = printf(prt_tmpl, l)
-        let res = system(join([cmd, lib, prt], ''))
-        call add(resList, res)
-    endfor
-
-    let @@ = join(resList, "\n")
-    normal gv"0P
-
-    let &selection = sel_save
-    let @@         = reg_save
-endfunction
-
 function! FormatterOp(type)
     let cmd   = ''
     let char1 = nr2char(getchar())
@@ -523,9 +484,6 @@ nmap <silent> <Leader>l :set operatorfunc=MarkListItems<CR>g@ii
 " formatter (need them to be opfunc to deal with embedded json/xml etc...)
 nmap <silent> <Leader>f :set operatorfunc=FormatterOp<CR>g@
 vmap <silent> <Leader>f :<C-U> call FormatterOp(visualmode())<CR>
-
-nmap <silent> <Leader>d :set operatorfunc=DecoderOp<CR>g@
-vmap <silent> <Leader>d :<C-U> call DecoderOp(visualmode())<CR>
 
 " }}}
 " Motion {{{
