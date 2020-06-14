@@ -552,8 +552,8 @@ nnoremap <Leader><CR> mzi<CR><ESC>`z
 nnoremap <Leader><Space> i<Space><ESC>
 
 " remove empty/space-only lines
-nnoremap <silent> <Leader>e :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! zR\r:g/^\\v\\s*$/,/./j\r:nohlsearch\r"<CR>
-nnoremap <silent> <Leader>E :silent! execute "%s/\\v(\u00a0\|\u3000)//g"<CR>:silent! execute "normal! :g/^\\v\\s*$/d\r:nohlsearch\r"<CR>
+nnoremap <silent> <Leader>e :silent! execute '%s/\v(%u00a0<BAR>%u3000<BAR>\s)*//g'<CR>:silent! execute 'g/^\s*$/,/\S/-j'<CR>:nohlsearch<CR>
+nnoremap <silent> <Leader>E :silent! execute 'g/^\v(%u00a0<BAR>%u3000<BAR>\s)*$/d'<CR>:nohlsearch<CR>
 
 " decorating
 nnoremap <Leader>0 :s/\v^#+\s*//<CR>
@@ -659,7 +659,6 @@ nnoremap <Leader>; q:
 cnoremap <C-A> <HOME>
 cnoremap <C-B> <LEFT>
 cnoremap <C-F> <RIGHT>
-cnoremap <C-D> <DEL>
 cnoremap <C-H> <BS>
 cnoremap <C-Y> <C-R>"
 cnoremap <ESC><C-F> <C-F>
