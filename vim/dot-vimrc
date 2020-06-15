@@ -495,7 +495,7 @@ nnoremap N Nzzzv
 " Text Object {{{
 
 " custom pairs
-let surroundings = ['<Bar>', '<Bslash>', ':', ',', '.', '/', ';', '_', '#', '%', '&']
+let surroundings = ['<Bar>', '<Bslash>', ':', ',', '.', '/', ';', '_', '#', '&']
 for s in surroundings
     execute printf("vnoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
     execute printf("onoremap i%s :<C-U>execute 'normal! T%svt%s'<CR>", s, s, s)
@@ -520,6 +520,8 @@ nnoremap <Leader>h :nohlsearch<CR>
 " substitution
 nnoremap <Leader>/s :%s/\v//g<LEFT><LEFT><LEFT>
 nnoremap <Leader>/S :%s/\v^//g<LEFT><LEFT><LEFT>
+vnoremap <Leader>/s :s/\v//g<LEFT><LEFT><LEFT>
+vnoremap <Leader>/S :s/\v^//g<LEFT><LEFT><LEFT>
 
 " grep
 nnoremap <Leader><C-G> :silent grep! ""<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
@@ -632,14 +634,14 @@ nnoremap <ESC>gh :call ChangeGruvboxContrast('hard')<CR>
 
 " emacs-like
 inoremap <C-B> <LEFT>
-inoremap <C-F> <RIGHT>
-
-" completion
-inoremap <C-L> <C-X><C-L>
 
 " break undo
 inoremap <C-W> <C-G>u<C-W>
 inoremap <CR> <C-]><C-G>u<CR>
+
+" completion
+inoremap <C-L> <C-X><C-L>
+inoremap <C-F> <C-X><C-F>
 
 " IME
 inoremap <ESC> <ESC>:set iminsert=0<CR>
