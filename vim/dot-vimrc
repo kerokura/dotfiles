@@ -37,7 +37,7 @@ xmap <Leader>a <Plug>(EasyAlign)
 nmap <Leader>a <Plug>(EasyAlign)
 nmap <Leader>= <Plug>(EasyAlign)ii*=<CR>
 nmap <Leader>: <Plug>(EasyAlign)ii<RIGHT>:<CR>
-nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/^/<BAR><CR>gv:s/$/<BAR><CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
+nmap <Leader>t vip:s/\v\s\s+/<BAR>/g<CR>gv:s/\v^(.*)$/<BAR>\1<BAR>/<CR><Plug>(EasyAlign)ii*<BAR>'<yyp:s/\v[^ <BAR>]/-/g<CR>:nohlsearch<CR>
 nmap <Leader>T <Plug>(EasyAlign)ii*<Bar><CR>
 
 " }}}
@@ -554,7 +554,7 @@ nnoremap <Leader><CR> mzi<CR><ESC>`z
 nnoremap <Leader><Space> i<Space><ESC>
 
 " remove empty/space-only lines
-nnoremap <silent> <Leader>e :silent! execute '%s/\v^(%u00a0<BAR>%u3000<BAR>\s)*//g'<CR>:silent! execute 'g/^\s*$/,/\S/-j'<CR>:nohlsearch<CR>
+nnoremap <silent> <Leader>e :silent! execute '%s/\v(%u00a0<BAR>%u3000<BAR>^\s)+//g'<CR>:silent! execute 'g/^$/,/\S/-j'<CR>:nohlsearch<CR>
 nnoremap <silent> <Leader>E :silent! execute 'g/\v^(%u00a0<BAR>%u3000<BAR>\s)*$/d'<CR>:nohlsearch<CR>
 
 " decorating
