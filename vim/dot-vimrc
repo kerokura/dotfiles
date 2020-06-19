@@ -580,7 +580,7 @@ nmap <Leader>S <Plug>CorrectPrevSpellError
 " manipulate js, html, xml, json
 nnoremap <Leader>xs :%!xmlstarlet sel -t -m '' -c '.' -n<C-LEFT><C-LEFT><C-LEFT><LEFT><LEFT>
 nnoremap <Leader>xv :%!xmlstarlet sel -t -v '//*/@' -n<C-LEFT><LEFT><LEFT>
-nnoremap <Leader>jq :%!jq --indent 4 '.'<LEFT>
+nnoremap <Leader>jq :%!jq --indent 4 'map(select(.))'<LEFT><LEFT>
 
 " }}}
 " Fold {{{
