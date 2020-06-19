@@ -661,6 +661,7 @@ nnoremap <Leader>; q:
 cnoremap <C-A> <HOME>
 cnoremap <C-B> <LEFT>
 cnoremap <C-F> <RIGHT>
+cnoremap <C-D> <DEL>
 cnoremap <C-H> <BS>
 cnoremap <C-Y> <C-R>"
 cnoremap <ESC><C-F> <C-F>
