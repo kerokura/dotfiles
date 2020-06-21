@@ -463,6 +463,9 @@ command! -nargs=0 Cd lcd $HOME/Desktop
 
 " Operator {{{
 
+" replace without yank
+vnoremap <Leader>p "_dp
+
 " clear indentation
 nnoremap <Leader>< :set operatorfunc=ClearIndent<CR>g@
 vnoremap <Leader>< :left<CR>
@@ -524,8 +527,8 @@ vnoremap <Leader>/s :s/\v//g<LEFT><LEFT><LEFT>
 vnoremap <Leader>/S :s/\v^//g<LEFT><LEFT><LEFT>
 
 " grep
-nnoremap <Leader><C-G> :silent grep! ""<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
-nnoremap <Leader><C-F> mZ:cexpr system('ag -g ""')<BAR>copen<C-LEFT><RIGHT>
+nnoremap <Leader><C-G> mZ:silent grep! ""<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
+nnoremap <Leader><C-F> mZ:cgetexpr system('ag -g ""')<BAR>copen<C-LEFT><RIGHT>
 nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
@@ -842,13 +845,14 @@ augroup END
 " DICTIONARY {{{
 
 function! ShowWordDef(vertical)
-    let cword     = expand('<cword>')
-    let dict_cmd  = 'sdcv'
-    let wordclass = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
+    let winnr_back = winnr()
+    let cword      = expand('<cword>')
+    let dict_cmd   = 'sdcv'
+    let wordclass  = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
 
-    let winnr = bufwinnr('__WordDef__')
-    if winnr > 0
-        execute winnr . 'wincmd w'
+    let winnr_wd = bufwinnr('__WordDef__')
+    if winnr_wd > 0
+        execute winnr_wd . 'wincmd w'
     else
         if a:vertical
             vsplit __WordDef__
@@ -875,6 +879,9 @@ function! ShowWordDef(vertical)
     silent! %s/\v^([A-Z].*:\s*)$/\r\1\r/
     normal gg
 
+    set previewwindow
+
+    execute winnr_back . 'wincmd w'
     call setreg('@', reg)
 endfunction
 
