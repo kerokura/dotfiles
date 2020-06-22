@@ -848,8 +848,8 @@ function! ShowWordDef(vertical)
     let cword      = expand('<cword>')
     let dict_cmd   = 'sdcv'
     let wordclass  = 'noun|pronoun|adjective|verb|adverb|preposition|conjunction|interjection'
-
     let winnr_wd = bufwinnr('__WordDef__')
+
     if winnr_wd > 0
         execute winnr_wd . 'wincmd w'
     else
