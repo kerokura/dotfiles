@@ -79,7 +79,6 @@ nmap  <Leader>vw     <Plug>VimwikiIndex
 " instant-markdown {{{
 
 let g:instant_markdown_autostart = 0
-let g:instant_markdown_port = 8890
 
 " NOTE:
 " modify instant-markdown-d's css, as default font size is a bit large
