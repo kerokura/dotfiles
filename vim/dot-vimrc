@@ -132,7 +132,7 @@ set wrapmargin=0
 " search
 set hlsearch
 set incsearch
-set grepprg=ag\ --vimgrep\ $*
+set grepprg=rg\ -i\ --vimgrep
 set grepformat=%f:%l:%c:%m
 set errorformat+=%f
 
@@ -528,7 +528,7 @@ vnoremap <Leader>/S :s/\v^//g<LEFT><LEFT><LEFT>
 
 " grep
 nnoremap <Leader><C-G> mZ:silent grep! ""<BAR>copen<BAR>redraw!<C-LEFT><RIGHT>
-nnoremap <Leader><C-F> mZ:cgetexpr system('ag -g ""')<BAR>copen<C-LEFT><RIGHT>
+nnoremap <Leader><C-F> mZ:cgetexpr system('rg --files --iglob "**"')<BAR>copen<C-LEFT><RIGHT><RIGHT>
 nnoremap <Leader>/b :call BufDoVim('')<LEFT><LEFT>
 
 " delete matched lines
