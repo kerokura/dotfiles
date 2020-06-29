@@ -592,7 +592,6 @@ nnoremap <Leader>z zMzvzz
 " }}}
 " Save, Close & Load {{{
 
-inoremap <C-S> <C-O>:w<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :wq<CR>
 nnoremap <Leader>q :q<CR>
@@ -644,15 +643,6 @@ inoremap <CR> <C-]><C-G>u<CR>
 " completion
 inoremap <C-L> <C-X><C-L>
 inoremap <C-F> <C-X><C-F>
-
-" IME
-inoremap <ESC> <ESC>:set iminsert=0<CR>
-inoremap <C-[> <ESC>:set iminsert=0<CR>
-inoremap <C-G>i <ESC>:set iminsert=2<CR>a
-
-" misc
-inoremap <C-C> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
-inoremap <C-D> <C-R>=strftime("%Y-%m-%d")<CR>
 
 " }}}
 " Command-Line Mode {{{
@@ -711,6 +701,14 @@ cnoremap <ESC>i :set iminsert=0<CR>
 nnoremap <Leader>ch :call <SID>SynStack()<CR>
 
 " }}}
+
+" }}}
+
+" ABBREV {{{
+
+" date time
+iabbrev ,,n <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
+iabbrev ,,d <C-R>=strftime("%Y-%m-%d")<CR>
 
 " }}}
 
