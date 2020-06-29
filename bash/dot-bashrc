@@ -146,11 +146,13 @@ then
 fi
 
 # make urxvt fullscreen on launch
-if [ $COLORTERM == 'rxvt-xpm' ] && [ `which wmctrl` ]
+if [ ! -n $COLORTERM ]
 then
-    wmctrl -r :ACTIVE: -b add,fullscreen
+    if [ $COLORTERM == 'rxvt-xpm' ] && [ `which wmctrl` ]
+    then
+        wmctrl -r :ACTIVE: -b add,fullscreen
+    fi
 fi
-
 # fzf
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
