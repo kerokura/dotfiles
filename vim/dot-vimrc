@@ -94,7 +94,7 @@ let g:instant_markdown_autostart = 0
 " }}}
 " misc {{{
  
-runtime macros/matchit.vim
+packadd! matchit
 
 " }}}
 
