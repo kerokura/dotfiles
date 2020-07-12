@@ -146,7 +146,7 @@ then
 fi
 
 # make urxvt fullscreen on launch
-if [ ! -n $COLORTERM ]
+if [ -n "$COLORTERM" ]
 then
     if [ $COLORTERM == 'rxvt-xpm' ] && [ `which wmctrl` ]
     then
