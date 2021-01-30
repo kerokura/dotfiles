@@ -25,6 +25,7 @@ Plug 'suan/vim-instant-markdown', {'rtp': 'after'}
 Plug 'ap/vim-css-color'
 Plug 'junegunn/goyo.vim'
 Plug 'morhetz/gruvbox'
+Plug 'PProvost/vim-ps1'
 
 call plug#end()
 
@@ -542,7 +543,7 @@ vnoremap <Leader>/V :v/\v^/d<LEFT><LEFT>
 
 " to jump from one URL/Email/Guid to another
 nnoremap <Leader>/u /\v\chttps?:\/\/[^\s/$.?#].\s*[a-z0-9.~:/?#[\]@!$&'()*+,;=`._%-]+/<CR>
-nnoremap <Leader>/U /\v\c<[0-9a-z.-]+\@[0-9a-z.-]+\.\w{2,3}>/<CR>
+nnoremap <Leader>/U /\v\c<[0-9a-z._-]+\@[0-9a-z._-]+\.[a-z]{2,3}>/<CR>
 nnoremap <Leader>/g /\v\c<[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}><CR> 
 nnoremap <Leader>/j /\v\c"\zs(https?:\/)?\/[^"]+\.(js<BAR>css)\ze"/<CR>
 
@@ -969,8 +970,10 @@ if has('win32')
         set guioptions-=F
         set guioptions-=e    " don't show gui tabline!
         set linespace=2
-        set guifont=Consolas\ NF:h13
-        set guifontwide=mplus\ NF:h12
+        " set guifont=Consolas\ NF:h13
+        " set guifontwide=mplus\ NF:h12
+        set guifont=Consolas:h11
+        set guifontwide=Migu\ 1M:h11
 
         nmap <F11> :call libcallnr('gvimfullscreen.dll', 'ToggleFullScreen', 0)<CR>
         nmap <silent> <Leader>r :silent! source %<CR>:nohlsearch<CR><F11><F11>
