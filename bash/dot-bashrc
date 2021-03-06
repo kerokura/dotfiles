@@ -58,7 +58,7 @@ esac
 #fi
 # enable color support of ls and also add handy aliases
 if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
-    eval "`dircolors -b`"
+    # eval "`dircolors -b`"
     alias ls='ls --color=auto'
     #alias dir='ls --color=auto --format=vertical'
     #alias vdir='ls --color=auto --format=long'
@@ -113,6 +113,8 @@ export VISUAL=$EDITOR
 export HISTSIZE=10000
 export TRASH=~/.local/share/Trash/files
 export HISTCONTROL=ignoredups:erasedups:ignorespace
+export DENO_INSTALL="/home/kero/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
 
 # alias
 alias mv='mv -i'
@@ -166,10 +168,14 @@ then
 fi
 
 # feh
+# key association: ~/.config/feh/keys
 fehcmd='feh -q ' 
 fehcmd+='-S filename --info "echo info:\ \ \ \ \ \ \ %t, %w x %h, %p pixels, %S" '
 fehcmd+='-A ";cp %F cp_%N && echo %F has been copied to cp_%N" ' 
 fehcmd+='--action1 ";gimp %F" '
+fehcmd+='--action2 ";cp %F s/" '
+fehcmd+='--action3 ";cp %F c/" '
+fehcmd+='--action4 ";cp %F tmp/" '
 fehcmd+='--action5 ";animate %F" '
 fehcmd+='--action8 ";feh -Fy %F" '
 alias feh=$fehcmd

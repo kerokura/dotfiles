@@ -50,7 +50,8 @@ XTerm*boldFont           : fixed
 XTerm*boldMode           : false
 XTerm*xftAntialias       : true
 XTerm*cjkWidth           : true
-XTerm*faceName           : Consolas NF
+! XTerm*faceName           : Consolas NF
+XTerm*faceName           : M+ 1m
 XTerm*faceSize           : 12
 XTerm*faceNameDoublesize : M+ 1m:pixelsize=14
 XTerm*scaleHeight        : 1
